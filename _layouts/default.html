@@ -13,6 +13,7 @@
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
 
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+    <link rel="stylesheet" href="/assets/css/style.css">
   </head>
 
   <body>
@@ -34,9 +35,26 @@
       </div>
     </div>
 
-    <div id="main" role="main" class="container">
+
+    <div class="container">
+      <aside class="sidebar">
+          <h2>블로그 목록</h2>
+          <ul>
+              {% for post in site.posts %}
+                  <li>
+                      <a href="{{ post.url }}">{{ post.title }}</a>
+                  </li>
+              {% endfor %}
+          </ul>
+      </aside>
+      <main class="content">
+          {{ content }}
+      </main>
+  </div>
+
+    <!-- <div id="main" role="main" class="container">
       {{ content }}
-    </div>
+    </div> -->
 
     <div class="wrapper-footer">
       <div class="container">
