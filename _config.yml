@@ -3,13 +3,15 @@
 #
 
 # Name of your site (displayed in the header)
-name: chime
+name: 곽선생 테크 블로그 
 
 # Short bio or description (displayed in the header)
-description: Web Developer from Somewhere
+# description: Web Developer from Somewhere
+description: 쟝르에 상관없이 소소한 테크 정보를 모아 놓은 공간입니다.    
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/jekyll-logo.png
+avatar: /images/nchime_avatar.jpg
 
 #
 # Flags below are optional
@@ -19,9 +21,9 @@ avatar: https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/je
 footer-links:
   dribbble:
   email: nchime@gmail.com
-  facebook:
+  facebook: neochime
   flickr:
-  github: barryclark/jekyll-now
+  github: nchime
   instagram:
   linkedin:
   pinterest:
