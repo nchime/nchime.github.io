@@ -1,27 +1,33 @@
-.container {
+.content-wrapper {
     display: flex;
 }
-.sidebar {
-    width: 20%;
-    padding: 10px;
-    background-color: #f4f4f4;
-    border-right: 1px solid #ddd;
+
+main {
+    flex: 3;
+    padding: 1em;
 }
-.content {
-    width: 80%;
-    padding: 10px;
+
+aside {
+    flex: 1;
+    padding: 1em;
+    background-color: #f7f7f7;
+    border-left: 1px solid #ddd;
 }
-.sidebar ul {
+
+aside ul {
     list-style: none;
     padding: 0;
 }
-.sidebar ul li {
-    margin-bottom: 10px;
+
+aside ul li {
+    margin-bottom: 0.5em;
 }
-.sidebar ul li a {
+
+aside ul li a {
     text-decoration: none;
-    color: #333;
+    color: #007acc;
 }
-.sidebar ul li a:hover {
+
+aside ul li a:hover {
     text-decoration: underline;
 }
