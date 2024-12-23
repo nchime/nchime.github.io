@@ -1,0 +1,42 @@
+current directory: /Users/emart/develop/github_nchime/nchime.github.io/vendor/bundle/ruby/3.2.0/gems/io-event-1.5.1/ext
+/Users/emart/.rbenv/versions/3.2.2/bin/ruby extconf.rb
+checking for rb_ext_ractor_safe()... yes
+checking for &rb_fiber_transfer()... yes
+checking for -luring... no
+checking for sys/epoll.h... no
+checking for sys/event.h... yes
+checking for sys/eventfd.h... no
+checking for rb_io_descriptor()... yes
+checking for &rb_process_status_wait()... no
+checking for rb_fiber_current()... yes
+checking for &rb_fiber_raise()... yes
+checking for epoll_pwait2()... no
+checking for ruby/io/buffer.h... yes
+creating extconf.h
+creating Makefile
+
+current directory: /Users/emart/develop/github_nchime/nchime.github.io/vendor/bundle/ruby/3.2.0/gems/io-event-1.5.1/ext
+make DESTDIR\= sitearchdir\=./.gem.20241223-45280-stviw9 sitelibdir\=./.gem.20241223-45280-stviw9 clean
+
+current directory: /Users/emart/develop/github_nchime/nchime.github.io/vendor/bundle/ruby/3.2.0/gems/io-event-1.5.1/ext
+make DESTDIR\= sitearchdir\=./.gem.20241223-45280-stviw9 sitelibdir\=./.gem.20241223-45280-stviw9
+compiling ./io/event/event.c
+compiling ./io/event/selector/selector.c
+compiling ./io/event/selector/kqueue.c
+./io/event/selector/kqueue.c:374:2: warning: incompatible pointer types assigning to 'struct IO_Event_Selector_KQueue *' from 'struct IO_Event_Selector_EPoll *' [-Wincompatible-pointer-types]
+        TypedData_Get_Struct(self, struct IO_Event_Selector_EPoll, &IO_Event_Selector_KQueue_Type, selector);
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/emart/.rbenv/versions/3.2.2/include/ruby-3.2.0/ruby/internal/core/rtypeddata.h:508:13: note: expanded from macro 'TypedData_Get_Struct'
+    ((sval) = RBIMPL_CAST((type *)rb_check_typeddata((obj), (data_type))))
+            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning generated.
+compiling ./io/event/interrupt.c
+linking shared-object IO_Event.bundle
+ld: warning: ignoring duplicate libraries: '-lruby.3.2'
+
+current directory: /Users/emart/develop/github_nchime/nchime.github.io/vendor/bundle/ruby/3.2.0/gems/io-event-1.5.1/ext
+make DESTDIR\= sitearchdir\=./.gem.20241223-45280-stviw9 sitelibdir\=./.gem.20241223-45280-stviw9 install
+/usr/bin/install -c -m 0755 IO_Event.bundle ./.gem.20241223-45280-stviw9
+
+current directory: /Users/emart/develop/github_nchime/nchime.github.io/vendor/bundle/ruby/3.2.0/gems/io-event-1.5.1/ext
+make DESTDIR\= sitearchdir\=./.gem.20241223-45280-stviw9 sitelibdir\=./.gem.20241223-45280-stviw9 clean
