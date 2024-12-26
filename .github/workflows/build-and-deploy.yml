@@ -1,44 +1,55 @@
-name: Deploy to GitHub Pages
+# Inspired from https://github.com/actions/starter-workflows/blob/main/pages/nextjs.yml
+name: GitHub Pages
 
 on:
   push:
-    branches:
-      - gh_branch # main 브랜치에 푸시할 때 실행
-  workflow_dispatch: # 수동으로 실행 가능
+    branches: main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    # 1. 리포지토리 클론
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: yarn
+      - id: configurepages
+        uses: actions/configure-pages@v5
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
+      - run: yarn
+      - run: yarn build
+        env:
+          EXPORT: 1
+          UNOPTIMIZED: 1
+          BASE_PATH: ${{ steps.configurepages.outputs.base_path }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
 
-    # 2. Node.js 설정
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18 # 사용 중인 Node.js 버전
-        cache: npm
-
-    # 3. 프로젝트 의존성 설치
-    - name: Install Dependencies
-      run: npm install
-
-    # 4. 프로젝트 빌드
-    - name: Build Project
-      run: npm run build
-
-    - name: Install and Build 🔧
-      run: |
-        touch out/.nojekyll
-        npm run build
-
-
-    # 5. `out` 디렉토리를 GitHub Pages에 배포
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./out
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
