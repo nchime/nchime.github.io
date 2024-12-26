@@ -1,34 +1,37 @@
-name: Node.js CI
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [gh-pages]
+    branches:
+      - gh_branch # main 브랜치에 푸시할 때 실행
+  workflow_dispatch: # 수동으로 실행 가능
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v3
+    # 1. 리포지토리 클론
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
-      - name: Use Node.js 20
-        uses: actions/setup-node@v3
-        with:
-          # update the Node version to meet your needs
-          node-version: 20
-          cache: npm
+    # 2. Node.js 설정
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18 # 사용 중인 Node.js 버전
 
-      - name: Install and Build 🔧
-        run: |
-          npm ci
-          npm run build
-          npm run export
-          touch out/.nojekyll
-      - name:
-          Deploy 🚀
-          # https://github.com/JamesIves/github-pages-deploy-action
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: out
+    # 3. 프로젝트 의존성 설치
+    - name: Install Dependencies
+      run: npm install
+
+    # 4. 프로젝트 빌드
+    - name: Build Project
+      run: npm run build
+
+    # 5. `out` 디렉토리를 GitHub Pages에 배포
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./out
