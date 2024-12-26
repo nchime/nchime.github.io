@@ -20,6 +20,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18 # 사용 중인 Node.js 버전
+        cache: npm
 
     # 3. 프로젝트 의존성 설치
     - name: Install Dependencies
@@ -28,6 +29,13 @@ jobs:
     # 4. 프로젝트 빌드
     - name: Build Project
       run: npm run build
+
+    - name: Install and Build 🔧
+      run: |
+        npm ci
+        npm run build
+        touch out/.nojekyll
+
 
     # 5. `out` 디렉토리를 GitHub Pages에 배포
     - name: Deploy to GitHub Pages
