@@ -18,7 +18,7 @@ const Header = () => {
     <header className={headerClass}>
       <Link href="/" aria-label={siteMetadata.headerTitle}>
         <div className="flex items-center justify-between">
-          <div className="mr-3 animate__animated animate__heartBeat">
+          <div className="animate__animated animate__heartBeat mr-3">
             {/* <Logo /> */}
             <Image
               src="/static/images/cartoon-satellite.png"
