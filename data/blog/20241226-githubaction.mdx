@@ -1,0 +1,76 @@
+---
+title: Github Action
+date: '2024-12-24'
+tags: ['git', 'script', 'github']
+draft: false
+summary: github action 사용법 정리
+---
+
+# GitHub Actions 사용법: 단계별 가이드
+
+GitHub Actions는 소프트웨어 개발 워크플로우를 자동화하는 강력한 도구입니다. 이 글에서는 GitHub Actions의 기본 개념과 사용 방법을 항목별로 설명합니다.
+
+---
+
+## 1. GitHub Actions이란?
+
+GitHub Actions는 GitHub에서 제공하는 CI/CD(Continuous Integration/Continuous Deployment) 서비스입니다. 코드를 빌드하고, 테스트하고, 배포하는 작업을 자동화할 수 있습니다.
+
+### 주요 특징
+- **자동화된 워크플로우**: 특정 이벤트(예: 코드 푸시, PR 생성 등)를 트리거로 실행됩니다.
+- **YAML 기반 구성**: 워크플로우는 `.github/workflows` 디렉토리 아래의 YAML 파일로 정의됩니다.
+- **확장성**: Marketplace에서 다양한 액션(Action)을 가져와 사용할 수 있습니다.
+
+---
+
+## 2. GitHub Actions 기본 용어
+
+- **Workflow**: 자동화된 프로세스의 정의. 하나의 YAML 파일로 작성됩니다.
+- **Event**: 워크플로우를 트리거하는 이벤트(예: `push`, `pull_request`).
+- **Job**: 워크플로우 내에서 실행되는 작업의 단위. 여러 개의 Job으로 구성될 수 있습니다.
+- **Step**: Job 내에서 실행되는 개별 명령어 또는 Action.
+- **Runner**: Job을 실행하는 환경(예: Ubuntu, macOS, Windows).
+
+---
+
+## 3. GitHub Actions 사용 방법
+
+### 3.1 GitHub Actions 활성화
+1. **Repository 생성**: GitHub에서 새로운 저장소를 생성합니다.
+2. **Actions 탭으로 이동**: 저장소의 `Actions` 탭으로 이동합니다.
+3. **템플릿 선택**: GitHub에서 제공하는 템플릿을 사용하거나 직접 작성할 수 있습니다.
+
+---
+
+### 3.2 워크플로우 작성
+
+워크플로우는 `.github/workflows` 디렉토리에 YAML 파일로 저장됩니다. 예를 들어, 간단한 CI 파이프라인을 작성해 보겠습니다.
+
+**`ci.yml` 예제:**
+
+```yaml
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test

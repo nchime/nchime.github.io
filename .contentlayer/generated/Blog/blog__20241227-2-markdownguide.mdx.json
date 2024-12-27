@@ -1,0 +1,65 @@
+{
+  "title": "자주 사용되는 markdown",
+  "date": "2024-12-26T00:00:00.000Z",
+  "tags": [
+    "markdown",
+    "code",
+    "blog"
+  ],
+  "draft": false,
+  "summary": "자주 사용되는 markdown 사용법 소개",
+  "body": {
+    "raw": "\n# Markdown 사용법: \n\nMarkdown은 간단하면서도 강력한 마크업 언어입니다. 이 글에서는 Markdown을 처음 사용하는 분들도 쉽게 배울 수 있도록 한글 예제와 함께 블로그 형식으로 Markdown 문법을 정리해 보았습니다.\n\n---\n\n## Markdown이란?\n\nMarkdown은 단순한 텍스트 기반의 마크업 언어로, 문서를 작성하는 데 매우 유용합니다. **GitHub, 블로그, 노션, 위키** 등 다양한 플랫폼에서 널리 사용됩니다.\n\n---\n\n## 목차\n\n1. [제목(Headers)](#1-제목headers)  \n2. [텍스트 서식](#2-텍스트-서식text-formatting)  \n3. [목록](#3-목록lists)  \n4. [링크와 이미지](#4-링크와-이미지links--images)  \n5. [코드 블록](#5-코드-블록code-blocks)  \n6. [인용구](#6-인용구blockquotes)  \n7. [테이블](#7-테이블tables)  \n8. [수평선](#8-수평선horizontal-rules)  \n9. [체크리스트](#9-체크리스트task-lists)  \n10. [이모지](#10-이모지emojis)\n\n---\n\n## 1. 제목(Headers)\n\n`#` 기호를 사용하여 제목의 수준을 설정합니다.  \n제목의 크기는 `#`의 개수에 따라 줄어듭니다.\n\n```markdown\n# 제목 1\n## 제목 2\n### 제목 3\n#### 제목 4\n##### 제목 5\n###### 제목 6\n\n\n**굵은 텍스트**\n",
+    "code": "var Component=(()=>{var m=Object.create;var c=Object.defineProperty;var p=Object.getOwnPropertyDescriptor;var k=Object.getOwnPropertyNames;var w=Object.getPrototypeOf,N=Object.prototype.hasOwnProperty;var u=(a,e)=>()=>(e||a((e={exports:{}}).exports,e),e.exports),E=(a,e)=>{for(var l in e)c(a,l,{get:e[l],enumerable:!0})},s=(a,e,l,i)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let r of k(e))!N.call(a,r)&&r!==l&&c(a,r,{get:()=>e[r],enumerable:!(i=p(e,r))||i.enumerable});return a};var A=(a,e,l)=>(l=a!=null?m(w(a)):{},s(e||!a||!a.__esModule?c(l,\"default\",{value:a,enumerable:!0}):l,a)),C=a=>s(c({},\"__esModule\",{value:!0}),a);var d=u((x,t)=>{t.exports=_jsx_runtime});var B={};E(B,{default:()=>o,frontmatter:()=>g});var n=A(d()),g={title:\"\\uC790\\uC8FC \\uC0AC\\uC6A9\\uB418\\uB294 markdown\",date:\"2024-12-26\",tags:[\"markdown\",\"code\",\"blog\"],draft:!1,summary:\"\\uC790\\uC8FC \\uC0AC\\uC6A9\\uB418\\uB294 markdown \\uC0AC\\uC6A9\\uBC95 \\uC18C\\uAC1C\"};function h(a){let e={a:\"a\",br:\"br\",code:\"code\",h1:\"h1\",h2:\"h2\",hr:\"hr\",li:\"li\",ol:\"ol\",p:\"p\",path:\"path\",pre:\"pre\",span:\"span\",strong:\"strong\",svg:\"svg\",...a.components};return(0,n.jsxs)(n.Fragment,{children:[(0,n.jsxs)(e.h1,{className:\"content-header\",id:\"markdown-\\uC0AC\\uC6A9\\uBC95\",children:[(0,n.jsx)(e.a,{href:\"#markdown-\\uC0AC\\uC6A9\\uBC95\",\"aria-hidden\":\"true\",tabIndex:\"-1\",children:(0,n.jsx)(n.Fragment,{children:(0,n.jsx)(e.span,{className:\"content-header-link\",children:(0,n.jsxs)(e.svg,{className:\"h-5 linkicon w-5\",fill:\"currentColor\",viewBox:\"0 0 20 20\",xmlns:\"http://www.w3.org/2000/svg\",children:[(0,n.jsx)(e.path,{d:\"M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z\"}),(0,n.jsx)(e.path,{d:\"M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z\"})]})})})}),\"Markdown \\uC0AC\\uC6A9\\uBC95:\"]}),(0,n.jsx)(e.p,{children:\"Markdown\\uC740 \\uAC04\\uB2E8\\uD558\\uBA74\\uC11C\\uB3C4 \\uAC15\\uB825\\uD55C \\uB9C8\\uD06C\\uC5C5 \\uC5B8\\uC5B4\\uC785\\uB2C8\\uB2E4. \\uC774 \\uAE00\\uC5D0\\uC11C\\uB294 Markdown\\uC744 \\uCC98\\uC74C \\uC0AC\\uC6A9\\uD558\\uB294 \\uBD84\\uB4E4\\uB3C4 \\uC27D\\uAC8C \\uBC30\\uC6B8 \\uC218 \\uC788\\uB3C4\\uB85D \\uD55C\\uAE00 \\uC608\\uC81C\\uC640 \\uD568\\uAED8 \\uBE14\\uB85C\\uADF8 \\uD615\\uC2DD\\uC73C\\uB85C Markdown \\uBB38\\uBC95\\uC744 \\uC815\\uB9AC\\uD574 \\uBCF4\\uC558\\uC2B5\\uB2C8\\uB2E4.\"}),(0,n.jsx)(e.hr,{}),(0,n.jsxs)(e.h2,{className:\"content-header\",id:\"markdown\\uC774\\uB780\",children:[(0,n.jsx)(e.a,{href:\"#markdown\\uC774\\uB780\",\"aria-hidden\":\"true\",tabIndex:\"-1\",children:(0,n.jsx)(n.Fragment,{children:(0,n.jsx)(e.span,{className:\"content-header-link\",children:(0,n.jsxs)(e.svg,{className:\"h-5 linkicon w-5\",fill:\"currentColor\",viewBox:\"0 0 20 20\",xmlns:\"http://www.w3.org/2000/svg\",children:[(0,n.jsx)(e.path,{d:\"M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z\"}),(0,n.jsx)(e.path,{d:\"M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z\"})]})})})}),\"Markdown\\uC774\\uB780?\"]}),(0,n.jsxs)(e.p,{children:[\"Markdown\\uC740 \\uB2E8\\uC21C\\uD55C \\uD14D\\uC2A4\\uD2B8 \\uAE30\\uBC18\\uC758 \\uB9C8\\uD06C\\uC5C5 \\uC5B8\\uC5B4\\uB85C, \\uBB38\\uC11C\\uB97C \\uC791\\uC131\\uD558\\uB294 \\uB370 \\uB9E4\\uC6B0 \\uC720\\uC6A9\\uD569\\uB2C8\\uB2E4. \",(0,n.jsx)(e.strong,{children:\"GitHub, \\uBE14\\uB85C\\uADF8, \\uB178\\uC158, \\uC704\\uD0A4\"}),\" \\uB4F1 \\uB2E4\\uC591\\uD55C \\uD50C\\uB7AB\\uD3FC\\uC5D0\\uC11C \\uB110\\uB9AC \\uC0AC\\uC6A9\\uB429\\uB2C8\\uB2E4.\"]}),(0,n.jsx)(e.hr,{}),(0,n.jsxs)(e.h2,{className:\"content-header\",id:\"\\uBAA9\\uCC28\",children:[(0,n.jsx)(e.a,{href:\"#\\uBAA9\\uCC28\",\"aria-hidden\":\"true\",tabIndex:\"-1\",children:(0,n.jsx)(n.Fragment,{children:(0,n.jsx)(e.span,{className:\"content-header-link\",children:(0,n.jsxs)(e.svg,{className:\"h-5 linkicon w-5\",fill:\"currentColor\",viewBox:\"0 0 20 20\",xmlns:\"http://www.w3.org/2000/svg\",children:[(0,n.jsx)(e.path,{d:\"M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z\"}),(0,n.jsx)(e.path,{d:\"M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z\"})]})})})}),\"\\uBAA9\\uCC28\"]}),(0,n.jsxs)(e.ol,{children:[(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#1-%EC%A0%9C%EB%AA%A9headers\",children:\"\\uC81C\\uBAA9(Headers)\"})}),(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#2-%ED%85%8D%EC%8A%A4%ED%8A%B8-%EC%84%9C%EC%8B%9Dtext-formatting\",children:\"\\uD14D\\uC2A4\\uD2B8 \\uC11C\\uC2DD\"})}),(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#3-%EB%AA%A9%EB%A1%9Dlists\",children:\"\\uBAA9\\uB85D\"})}),(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#4-%EB%A7%81%ED%81%AC%EC%99%80-%EC%9D%B4%EB%AF%B8%EC%A7%80links--images\",children:\"\\uB9C1\\uD06C\\uC640 \\uC774\\uBBF8\\uC9C0\"})}),(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#5-%EC%BD%94%EB%93%9C-%EB%B8%94%EB%A1%9Dcode-blocks\",children:\"\\uCF54\\uB4DC \\uBE14\\uB85D\"})}),(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#6-%EC%9D%B8%EC%9A%A9%EA%B5%ACblockquotes\",children:\"\\uC778\\uC6A9\\uAD6C\"})}),(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#7-%ED%85%8C%EC%9D%B4%EB%B8%94tables\",children:\"\\uD14C\\uC774\\uBE14\"})}),(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#8-%EC%88%98%ED%8F%89%EC%84%A0horizontal-rules\",children:\"\\uC218\\uD3C9\\uC120\"})}),(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#9-%EC%B2%B4%ED%81%AC%EB%A6%AC%EC%8A%A4%ED%8A%B8task-lists\",children:\"\\uCCB4\\uD06C\\uB9AC\\uC2A4\\uD2B8\"})}),(0,n.jsx)(e.li,{children:(0,n.jsx)(e.a,{href:\"#10-%EC%9D%B4%EB%AA%A8%EC%A7%80emojis\",children:\"\\uC774\\uBAA8\\uC9C0\"})})]}),(0,n.jsx)(e.hr,{}),(0,n.jsxs)(e.h2,{className:\"content-header\",id:\"1-\\uC81C\\uBAA9headers\",children:[(0,n.jsx)(e.a,{href:\"#1-\\uC81C\\uBAA9headers\",\"aria-hidden\":\"true\",tabIndex:\"-1\",children:(0,n.jsx)(n.Fragment,{children:(0,n.jsx)(e.span,{className:\"content-header-link\",children:(0,n.jsxs)(e.svg,{className:\"h-5 linkicon w-5\",fill:\"currentColor\",viewBox:\"0 0 20 20\",xmlns:\"http://www.w3.org/2000/svg\",children:[(0,n.jsx)(e.path,{d:\"M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z\"}),(0,n.jsx)(e.path,{d:\"M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z\"})]})})})}),\"1. \\uC81C\\uBAA9(Headers)\"]}),(0,n.jsxs)(e.p,{children:[(0,n.jsx)(e.code,{children:\"#\"}),\" \\uAE30\\uD638\\uB97C \\uC0AC\\uC6A9\\uD558\\uC5EC \\uC81C\\uBAA9\\uC758 \\uC218\\uC900\\uC744 \\uC124\\uC815\\uD569\\uB2C8\\uB2E4.\",(0,n.jsx)(e.br,{}),\"\\uC81C\\uBAA9\\uC758 \\uD06C\\uAE30\\uB294 \",(0,n.jsx)(e.code,{children:\"#\"}),\"\\uC758 \\uAC1C\\uC218\\uC5D0 \\uB530\\uB77C \\uC904\\uC5B4\\uB4ED\\uB2C8\\uB2E4.\"]}),(0,n.jsx)(e.pre,{className:\"language-markdown\",children:(0,n.jsxs)(e.code,{className:\"language-markdown code-highlight\",children:[(0,n.jsxs)(e.span,{className:\"code-line\",children:[(0,n.jsxs)(e.span,{className:\"token important title\",children:[(0,n.jsx)(e.span,{className:\"token punctuation\",children:\"#\"}),\" \\uC81C\\uBAA9 1\"]}),`\n`]}),(0,n.jsxs)(e.span,{className:\"code-line\",children:[(0,n.jsxs)(e.span,{className:\"token important title\",children:[(0,n.jsx)(e.span,{className:\"token punctuation\",children:\"##\"}),\" \\uC81C\\uBAA9 2\"]}),`\n`]}),(0,n.jsxs)(e.span,{className:\"code-line\",children:[(0,n.jsxs)(e.span,{className:\"token important title\",children:[(0,n.jsx)(e.span,{className:\"token punctuation\",children:\"###\"}),\" \\uC81C\\uBAA9 3\"]}),`\n`]}),(0,n.jsxs)(e.span,{className:\"code-line\",children:[(0,n.jsxs)(e.span,{className:\"token important title\",children:[(0,n.jsx)(e.span,{className:\"token punctuation\",children:\"####\"}),\" \\uC81C\\uBAA9 4\"]}),`\n`]}),(0,n.jsxs)(e.span,{className:\"code-line\",children:[(0,n.jsxs)(e.span,{className:\"token important title\",children:[(0,n.jsx)(e.span,{className:\"token punctuation\",children:\"#####\"}),\" \\uC81C\\uBAA9 5\"]}),`\n`]}),(0,n.jsxs)(e.span,{className:\"code-line\",children:[(0,n.jsxs)(e.span,{className:\"token important title\",children:[(0,n.jsx)(e.span,{className:\"token punctuation\",children:\"######\"}),\" \\uC81C\\uBAA9 6\"]}),`\n`]}),(0,n.jsx)(e.span,{className:\"code-line\",children:`\n`}),(0,n.jsx)(e.span,{className:\"code-line\",children:`\n`}),(0,n.jsxs)(e.span,{className:\"code-line\",children:[(0,n.jsxs)(e.span,{className:\"token bold\",children:[(0,n.jsx)(e.span,{className:\"token punctuation\",children:\"**\"}),(0,n.jsx)(e.span,{className:\"token content\",children:\"\\uAD75\\uC740 \\uD14D\\uC2A4\\uD2B8\"}),(0,n.jsx)(e.span,{className:\"token punctuation\",children:\"**\"})]}),`\n`]})]})})]})}function o(a={}){let{wrapper:e}=a.components||{};return e?(0,n.jsx)(e,{...a,children:(0,n.jsx)(h,{...a})}):h(a)}return C(B);})();\n;return Component;"
+  },
+  "_id": "blog/20241227-2-markdownguide.mdx",
+  "_raw": {
+    "sourceFilePath": "blog/20241227-2-markdownguide.mdx",
+    "sourceFileName": "20241227-2-markdownguide.mdx",
+    "sourceFileDir": "blog",
+    "contentType": "mdx",
+    "flattenedPath": "blog/20241227-2-markdownguide"
+  },
+  "type": "Blog",
+  "readingTime": {
+    "text": "2 min read",
+    "minutes": 1.6,
+    "time": 96000,
+    "words": 320
+  },
+  "slug": "20241227-2-markdownguide",
+  "path": "blog/20241227-2-markdownguide",
+  "filePath": "blog/20241227-2-markdownguide.mdx",
+  "toc": [
+    {
+      "value": "Markdown 사용법:",
+      "url": "#markdown-사용법",
+      "depth": 1
+    },
+    {
+      "value": "Markdown이란?",
+      "url": "#markdown이란",
+      "depth": 2
+    },
+    {
+      "value": "목차",
+      "url": "#목차",
+      "depth": 2
+    },
+    {
+      "value": "1. 제목(Headers)",
+      "url": "#1-제목headers",
+      "depth": 2
+    }
+  ],
+  "structuredData": {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "자주 사용되는 markdown",
+    "datePublished": "2024-12-26T00:00:00.000Z",
+    "dateModified": "2024-12-26T00:00:00.000Z",
+    "description": "자주 사용되는 markdown 사용법 소개",
+    "image": "/static/images/twitter-card.png",
+    "url": "https://tailwind-nextjs-starter-blog.vercel.app/blog/20241227-2-markdownguide"
+  }
+}

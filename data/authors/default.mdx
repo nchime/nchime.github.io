@@ -7,14 +7,31 @@ linkedin: https://www.linkedin.com/in/nchime
 github: https://github.com/nchime
 ---
 
-##### 뭔가 나를 표현하고 싶은 좋은 문구로 채워 놓겠습니다.
 
-#### 뭔가 나를 표현하고 싶은 좋은 문구로 채워 놓겠습니다.
+```bash
+// 버그는 나를 멈추지 못한다. 오히려 더 나은 코드를 만들게 할 뿐."
 
-### 뭔가 나를 표현하고 싶은 좋은 문구로 채워 놓겠습니다.
+class BugWarrior {
+    constructor() {
+        this.bugs = 0;
+        this.codeQuality = 0;
+    }
 
-## 뭔가 나를 표현하고 싶은 좋은 문구로 채워 놓겠습니다.
+    fightBug(severity) {
+        try {
+            throw new Error("버그 발생! 🐛");
+        } catch (bug) {
+            this.bugs++;
+            this.codeQuality += severity * 2;
+            return `버그 ${this.bugs}번째 도전! 코드 품질 ${this.codeQuality}% 상승 💪`;
+        } finally {
+            return "버그는 나를 더 강하게 만들 뿐! 🚀";
+        }
+    }
+}
 
-# 뭔가 나를 표현하고 싶은 좋은 문구로 채워 놓겠습니다.
+const developer = new BugWarrior();
+console.log(developer.fightBug(10));
 
-뭔가 나를 표현하고 싶은 좋은 문구로 채워 놓겠습니다.
+
+```
