@@ -14,7 +14,6 @@ github: https://github.com/nchime
 class BugWarrior {
     constructor() {
         this.bugs = 0;
-        this.codeQuality = 0;
     }
 
     fightBug(severity) {
@@ -22,8 +21,8 @@ class BugWarrior {
             throw new Error("버그 발생! 🐛");
         } catch (bug) {
             this.bugs++;
-            this.codeQuality += severity * 2;
-            return `버그 ${this.bugs}번째 도전! 코드 품질 ${this.codeQuality}% 상승 💪`;
+            this.message = this.bugs + "번째 도전! 💪 ";
+            return `${this.bugs} 번째 도전! 💪`;
         } finally {
             return "버그는 나를 더 강하게 만들 뿐! 🚀";
         }
@@ -32,6 +31,5 @@ class BugWarrior {
 
 const developer = new BugWarrior();
 console.log(developer.fightBug(10));
-
 
 ```
