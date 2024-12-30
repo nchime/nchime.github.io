@@ -1,6 +1,3 @@
-'use client'
-
-import { useEffect } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
@@ -11,24 +8,12 @@ import SearchButton from './SearchButton'
 import 'animate.css'
 import Image from 'next/image'
 
-import TagManager from 'react-gtm-module';
 
 const Header = () => {
   let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
   if (siteMetadata.stickyNav) {
     headerClass += ' sticky top-0 z-50'
   }
-
-  // const tag_mng = { gtmId: process.env.NEXT_PUBLIC_GA_CODE };
-  const tag_mng = { gtmId: "G-H76R7051QG" };
-  
-  useEffect(() => {
-
-    console.log(tag_mng)
-      TagManager.initialize(tag_mng);
-  }, []);
-
-
 
   return (
     <header className={headerClass}>
