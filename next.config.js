@@ -88,6 +88,9 @@ module.exports = () => {
         },
       ]
     },
+    env: {
+      NEXT_PUBLIC_GA_CODE: "G-H76R7051QG",
+    },    
     webpack: (config, options) => {
       config.module.rules.push({
         test: /\.svg$/,
