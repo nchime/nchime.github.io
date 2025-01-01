@@ -7,7 +7,7 @@ const siteMetadata = {
   // headerTitle: 'TailwindBlog',
   headerTitle: '곽선생 Tech Blog',
   // description: 'A blog created with Next.js and Tailwind.css',
-  description: 'All the latest tech blog news, straight from chkwak.',
+  description: 'A blog created with Next.js and Tailwind.css',
   // language: 'en-us',
   language: 'ko-kr',
   theme: 'system', // system, dark or light
