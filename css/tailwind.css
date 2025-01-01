@@ -58,3 +58,9 @@ input:-webkit-autofill:focus {
   display: inline-block;
   vertical-align: middle;
 }
+
+
+.rounded-image {
+  border-radius: 12px; /* 원하는 둥근 정도 */
+  border: 2px solid #ccc; /* 테두리 색상 및 두께 */
+}

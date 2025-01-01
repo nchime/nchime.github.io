@@ -1,0 +1,161 @@
+---
+title: Nextjs에서 Disqus 댓글 기능 사용하기
+date: '2025-01-01'
+tags: ['blog', 'nextjs', 'discus']
+draft: false
+images: ['https://ps.w.org/disqus-comment-system/assets/banner-772x250.png?rev=1636350']
+summary: Nextjs에 Disqus 댓글 기능을 통합하는 방법을 안내합니다. 설치부터 설정, 페이지 적용까지 소개합니다.
+---
+
+![Discus Logo](https://ps.w.org/disqus-comment-system/assets/banner-772x250.png?rev=1636350)
+
+
+**목차**
+
+1. [Disqus란?](#disqus란)
+2. [Disqus 준비](#disqus-준비)
+3. [Disqus React 패키지 설치](#disqus-react-패키지-설치)
+4. [Disqus 댓글 컴포넌트 구현](#disqus-댓글-컴포넌트-구현)
+5. [Next.js 페이지에 통합](#nextjs-페이지에-통합)
+6. [SEO 및 추가 고려사항](#seo-및-추가-고려사항)
+
+---
+
+
+![cms-265128_1280](/static/images/cms-265128_1280.jpg){className="rounded-image"}
+
+
+### Disqus란?
+
+Disqus는 웹사이트에 댓글 기능을 간편하게 추가할 수 있는 인기 있는 서비스입니다. 블로그, 뉴스 사이트 등에서 사용자의 피드백과 커뮤니티 상호작용을 높이는 데 유용합니다. 이 글에서는 **Next.js** 프로젝트에 Disqus를 통합하는 방법을 알아봅니다.
+
+---
+
+### Disqus 준비
+
+1. [Disqus 공식 웹사이트](https://disqus.com/)에 가입합니다.
+2. **사이트 추가** 메뉴에서 새 사이트를 등록합니다.
+3. 사이트 설정 중 **Shortname**을 생성합니다. Shortname은 Disqus와 웹사이트를 연결하는 고유 식별자입니다.
+
+---
+
+### Disqus React 패키지 설치
+
+Disqus를 React 기반 프로젝트에서 쉽게 사용할 수 있도록 제공되는 `disqus-react` 라이브러리를 설치합니다.
+
+```bash
+npm install disqus-react
+```
+
+또는
+
+```bash
+yarn add disqus-react
+```
+
+---
+
+### Disqus 댓글 컴포넌트 구현
+
+Disqus 댓글을 렌더링하기 위한 컴포넌트를 만들어 재사용할 수 있도록 합니다.
+
+#### 파일 생성: `components/DisqusComments.js`
+
+```jsx
+import React from "react";
+import { DiscussionEmbed } from "disqus-react";
+
+const DisqusComments = ({ url, identifier, title }) => {
+  const disqusConfig = {
+    url: url,
+    identifier: identifier, // 게시물 고유 ID
+    title: title, // 게시물 제목
+  };
+
+  return (
+    <div>
+      <DiscussionEmbed shortname="your-disqus-shortname" config={disqusConfig} />
+    </div>
+  );
+};
+
+export default DisqusComments;
+```
+
+- **`shortname`**: `your-disqus-shortname` 부분을 Disqus 설정에서 생성한 Shortname으로 변경하세요.
+- **`url`**: 댓글을 로드할 URL을 입력합니다.
+- **`identifier`**: 게시물의 고유 ID입니다.
+- **`title`**: 게시물 제목입니다.
+
+---
+
+### Next.js 페이지에 통합
+
+이제 생성한 Disqus 댓글 컴포넌트를 Next.js의 페이지에서 활용해 봅시다.
+
+#### 예제: `pages/blog/[slug].js`
+
+```jsx
+import React from "react";
+import DisqusComments from "../../components/DisqusComments";
+
+const BlogPost = ({ post }) => {
+  const { slug, title, content } = post;
+
+  return (
+    <div>
+      <h1>{title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: content }} />
+
+      <DisqusComments
+        url={`https://your-domain.com/blog/${slug}`}
+        identifier={slug}
+        title={title}
+      />
+    </div>
+  );
+};
+
+// 서버에서 데이터 가져오기
+export async function getServerSideProps(context) {
+  const { slug } = context.params;
+
+  // 예제 게시물 데이터
+  const post = {
+    slug,
+    title: "Example Blog Post",
+    content: "<p>This is the content of the blog post.</p>",
+  };
+
+  return {
+    props: {
+      post,
+    },
+  };
+}
+
+export default BlogPost;
+```
+
+#### 주요 포인트
+- **`DisqusComments` 컴포넌트**를 사용하여 댓글을 렌더링합니다.
+- `url`, `identifier`, `title` 값은 각 게시물에 맞게 동적으로 설정됩니다.
+
+---
+
+### SEO 및 추가 고려사항
+
+1. **SEO 영향**  
+   Disqus는 클라이언트에서 렌더링되기 때문에 댓글 내용이 검색 엔진에 노출되지 않습니다. 댓글 데이터를 중요한 콘텐츠로 활용하려면 서버 측 렌더링(SSR)이나 정적 생성(ISG)을 고려해야 합니다.
+
+2. **디자인 커스터마이징**  
+   Disqus 대시보드에서 댓글 영역의 스타일을 사용자 정의할 수 있습니다.
+
+3. **CSP 설정**  
+   Disqus를 사용할 때 적절한 콘텐츠 보안 정책(Content Security Policy)을 설정해야 합니다. Disqus에서 요청하는 스크립트와 스타일이 차단되지 않도록 설정합니다.
+
+---
+
+### 결론
+
+이 글에서는 Next.js 프로젝트에 Disqus 댓글 기능을 통합하는 방법을 살펴보았습니다. `disqus-react` 라이브러리를 활용하여 간단하게 댓글 영역을 추가할 수 있으며, SEO와 디자인 커스터마이징도 고려할 수 있습니다. 여러분의 웹사이트에서 활발한 커뮤니티 상호작용을 만들어 보세요!
