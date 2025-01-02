@@ -23,19 +23,7 @@ const projectsData: Project[] = [
     description: `로또 구매 갯수 대비 예상 당첨확률을 체험해 볼 수 있습니다. 신뢰도를 높이기 위해 실제 추첨된 회차별 데이터를 기준으로 산정되었습니다`,
     imgSrc: '/static/images/time-machine.jpg',
     href: 'https://satellite-app.vercel.app/lotto',
-  },
-
-
-  
-
-  // {
-  //   title: 'The Time Machine',
-  //   description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-  //   to the desired date and press "Go". No more worrying about lost keys or
-  //   forgotten headphones with this simple yet affordable solution.`,
-  //   imgSrc: '/static/images/time-machine.jpg',
-  //   href: '/blog/the-time-machine',
-  // },
+  }
 ]
 
 export default projectsData
