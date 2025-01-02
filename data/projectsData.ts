@@ -7,21 +7,35 @@ interface Project {
 
 const projectsData: Project[] = [
   {
-    title: 'A Search Engine',
-    description: `What if you could look up any information in the world? Webpages, images, videos
-    and more. Google has many features to help you find exactly what you're looking
-    for.`,
-    imgSrc: '/static/images/google.png',
-    href: 'https://www.google.com',
+    title: '컨퍼런스 메이트',
+    description: `국내 개최되는 각종 컨퍼런스/밋업/세미나/교육 행사정보를 제공합니다. 행사별 간략정보와 관심행사 찜하기 기능 등으로 일정 관리가 가능합니다`,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: 'https://satellite-app.vercel.app/confmate',
   },
   {
-    title: 'The Time Machine',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten headphones with this simple yet affordable solution.`,
+    title: '흑백요리사 가게정보',
+    description: `넷플릭스 화제작 흑백요리사 가게 위치 정보를 제공합니다.`,
     imgSrc: '/static/images/time-machine.jpg',
-    href: '/blog/the-time-machine',
+    href: 'https://satellite-app.vercel.app/bhcook',
   },
+  {
+    title: '로또 확률 체험하기',
+    description: `로또 구매 갯수 대비 예상 당첨확률을 체험해 볼 수 있습니다. 신뢰도를 높이기 위해 실제 추첨된 회차별 데이터를 기준으로 산정되었습니다`,
+    imgSrc: '/static/images/time-machine.jpg',
+    href: 'https://satellite-app.vercel.app/lotto',
+  },
+
+
+  
+
+  // {
+  //   title: 'The Time Machine',
+  //   description: `Imagine being able to travel back in time or to the future. Simple turn the knob
+  //   to the desired date and press "Go". No more worrying about lost keys or
+  //   forgotten headphones with this simple yet affordable solution.`,
+  //   imgSrc: '/static/images/time-machine.jpg',
+  //   href: '/blog/the-time-machine',
+  // },
 ]
 
 export default projectsData

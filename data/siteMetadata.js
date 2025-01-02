@@ -7,7 +7,7 @@ const siteMetadata = {
   // headerTitle: 'TailwindBlog',
   headerTitle: '곽선생 Tech Blog',
   // description: 'A blog created with Next.js and Tailwind.css',
-  description: 'A blog created with Next.js and Tailwind.css',
+  description: 'Memories are short, but records are forever',
   // language: 'en-us',
   language: 'ko-kr',
   theme: 'system', // system, dark or light
@@ -27,8 +27,8 @@ const siteMetadata = {
   // instagram: 'https://www.instagram.com',
   // medium: 'https://medium.com',
   // bluesky: 'https://bsky.app/',
-  // locale: 'en-US',
-  locale: 'ko-KR',
+  locale: 'en-US',
+  // locale: 'ko-KR',
   // set to true if you want a navbar fixed to the top
   stickyNav: false,
   analytics: {

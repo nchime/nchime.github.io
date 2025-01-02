@@ -1,0 +1,110 @@
+---
+title: nextjs 페이지를 github page로 배포하기
+date: '2025-01-02'
+lastmod: '2024-02-10'
+draft: false
+tags: ['blog', 'github']
+summary: nextjs 페이지를 github.io 도메인으로 접속해서 이용할 수 있는 나만의 웹페이지를 만드는 법을 정리합니다. 
+---
+
+
+# Next.js 애플리케이션을 GitHub Pages로 배포하는 방법
+
+GitHub Pages는 정적 사이트를 호스팅하기에 적합한 플랫폼으로, Next.js 애플리케이션을 배포할 수 있습니다. 이 글에서는 Next.js 프로젝트를 GitHub Pages에서 호스팅하는 방법을 단계별로 설명합니다.
+
+## 1. Next.js 프로젝트 준비하기
+
+먼저 Next.js 프로젝트를 생성하거나 기존 프로젝트를 준비합니다.
+
+### 프로젝트 생성
+```bash
+npx create-next-app@latest my-nextjs-app
+cd my-nextjs-app
+```
+
+### GitHub 저장소 생성
+GitHub에서 새로운 저장소를 생성하고 로컬 프로젝트를 연결합니다.
+
+```bash
+git init
+git remote add origin https://github.com/username/repository-name.git
+git branch -M main
+git push -u origin main
+```
+
+## 2. `next.config.js` 파일 수정
+Next.js를 정적 사이트로 빌드하기 위해 `next.config.js` 파일을 설정합니다.
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  basePath: '/repository-name', // GitHub Pages에 배포할 저장소 이름
+  images: {
+    unoptimized: true, // 이미지 최적화를 비활성화
+  },
+};
+
+module.exports = nextConfig;
+```
+
+## 3. `scripts` 수정
+`package.json` 파일에 GitHub Pages 배포를 위한 스크립트를 추가합니다.
+
+```json
+"scripts": {
+  "build": "next build",
+  "export": "next build && next export",
+  "deploy": "npm run export && git add . && git commit -m 'Deploy to GitHub Pages' && git push origin main"
+}
+```
+
+## 4. `out` 디렉토리를 GitHub Pages에 연결
+Next.js를 정적 파일로 내보내면 `out` 디렉토리가 생성됩니다. 이 디렉토리를 GitHub Pages에서 호스팅하려면 `gh-pages` 브랜치를 사용해야 합니다.
+
+### GitHub Actions 설정
+`.github/workflows/deploy.yml` 파일을 생성하여 자동 배포를 설정합니다.
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build and export
+      run: npm run export
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./out
+```
+
+## 5. GitHub Pages 활성화
+
+1. GitHub 저장소로 이동합니다.
+2. **Settings > Pages**로 이동합니다.
+3. **Source**에서 `gh-pages` 브랜치를 선택합니다.
+4. 저장 후 몇 분 기다리면 사이트가 배포됩니다.
+
+## 6. 배포 확인
+배포가 완료되면 브라우저에서 `https://username.github.io/repository-name`를 방문하여 애플리케이션을 확인합니다.
+
+---
+
+이 가이드를 따라 Next.js 애플리케이션을 GitHub Pages에서 간단히 호스팅할 수 있습니다. 정적 사이트로 내보내는 제약이 있으므로 서버 사이드 렌더링(SSR) 기능은 사용할 수 없음을 유의하세요. 꼭 필요한 경우 API를 별도로 호스팅하거나 다른 배포 플랫폼을 고려하세요.
+

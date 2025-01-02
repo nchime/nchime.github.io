@@ -3,9 +3,10 @@
 import blog__20241226GithubactionMdx from './blog__20241226-githubaction.mdx.json' with { type: 'json' }
 import blog__20241227NextjsblogMdx from './blog__20241227-nextjsblog.mdx.json' with { type: 'json' }
 import blog__20250101DiscusMdx from './blog__20250101-discus.mdx.json' with { type: 'json' }
+import blog__20250101GithubpageMdx from './blog__20250101-githubpage.mdx.json' with { type: 'json' }
 import blog__20250101SampleMdx from './blog__20250101-sample.mdx.json' with { type: 'json' }
 import blog__20250101StaticblogMdx from './blog__20250101-staticblog.mdx.json' with { type: 'json' }
 import blog__guideToUsingImagesInNextjsMdx from './blog__guide-to-using-images-in-nextjs.mdx.json' with { type: 'json' }
 import blog__introducingTailwindNextjsStarterBlogMdx from './blog__introducing-tailwind-nextjs-starter-blog.mdx.json' with { type: 'json' }
 
-export const allBlogs = [blog__20241226GithubactionMdx, blog__20241227NextjsblogMdx, blog__20250101DiscusMdx, blog__20250101SampleMdx, blog__20250101StaticblogMdx, blog__guideToUsingImagesInNextjsMdx, blog__introducingTailwindNextjsStarterBlogMdx]
+export const allBlogs = [blog__20241226GithubactionMdx, blog__20241227NextjsblogMdx, blog__20250101DiscusMdx, blog__20250101GithubpageMdx, blog__20250101SampleMdx, blog__20250101StaticblogMdx, blog__guideToUsingImagesInNextjsMdx, blog__introducingTailwindNextjsStarterBlogMdx]
