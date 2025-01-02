@@ -46,7 +46,6 @@ const Card = ({ title, description, imgSrc, href }) => (
             aria-label={`Link to ${title}`}
           >
             Learn more &rarr;
-            
           </Link>
         )}
       </div>
