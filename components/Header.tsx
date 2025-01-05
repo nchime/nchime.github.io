@@ -21,7 +21,8 @@ const Header = () => {
           <div className="animate__animated animate__heartBeat mr-3">
             {/* <Logo /> */}
             <Image
-              src="/static/images/nchime_avatar.jpg"              
+              // src="/static/images/cartoon-satellite.png"
+              src="/static/images/nchime_avatar.jpg"
               alt="Satellite Logo"
               width={50}
               height={50}
@@ -29,9 +30,7 @@ const Header = () => {
             />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="h-6 text-1xl font-semibold sm:block">              
-              {siteMetadata.headerTitle}
-            </div>
+            <div className="h-6 text-2xl font-semibold sm:block">{siteMetadata.headerTitle}</div>
           ) : (
             siteMetadata.headerTitle
           )}
