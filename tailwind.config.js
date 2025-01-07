@@ -13,6 +13,9 @@ module.exports = {
     './data/**/*.mdx',
   ],
   darkMode: 'class',
+  backgroundImage: {
+    "main-img": "url('/static/image/avatar.png')",
+  },
   theme: {
     extend: {
       lineHeight: {
@@ -72,7 +75,7 @@ module.exports = {
           },
         },
       }),
-    },
+    }
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 }
