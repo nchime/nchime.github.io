@@ -30,7 +30,7 @@ const Header = () => {
             />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="h-6 text-2xl font-semibold sm:block">{siteMetadata.headerTitle}</div>
+            <div className="font-semibold sm:text-1xl sm:leading-10 md:text-2xl md:leading-14" >{siteMetadata.headerTitle}</div> 
           ) : (
             siteMetadata.headerTitle
           )}
