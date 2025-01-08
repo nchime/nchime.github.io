@@ -9,8 +9,7 @@ import 'animate.css'
 import Image from 'next/image'
 
 const Header = () => {
-  // let headerClass = 'flex items-center w-full bg-white  dark:bg-gray-950 justify-between py-10'
-  let headerClass = 'flex items-center w-full bg-stone-100 dark:bg-gray-950 justify-between py-10'
+  let headerClass = 'flex items-center w-full bg-white  dark:bg-gray-950 justify-between py-10'
   if (siteMetadata.stickyNav) {
     headerClass += ' sticky top-0 z-50'
   }
@@ -31,7 +30,9 @@ const Header = () => {
             />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="font-semibold sm:text-1xl sm:leading-10 md:text-2xl md:leading-14" >{siteMetadata.headerTitle}</div> 
+            <div className="font-semibold sm:leading-10 md:text-2xl md:leading-14">
+              {siteMetadata.headerTitle}
+            </div>
           ) : (
             siteMetadata.headerTitle
           )}

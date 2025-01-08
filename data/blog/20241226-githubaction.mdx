@@ -6,44 +6,38 @@ draft: false
 summary: github action 사용법
 ---
 
-# GitHub Actions 시작하기: CI/CD 자동화의 강력한 도구
+GitHub Actions 완벽 가이드: 초보자를 위한 자동화 워크플로우 설정하기
 
-GitHub Actions는 소프트웨어 개발 워크플로우를 자동화하고 사용자 지정할 수 있는 CI/CD 플랫폼입니다[1][2]. 개발자들의 반복적인 작업을 자동화하여 개발 시간을 절약하고, 배포되는 소프트웨어의 버전을 안정적으로 관리할 수 있게 해줍니다[2].
+GitHub Actions는 코드 저장소에서 빌드, 테스트, 배포 등을 자동화할 수 있는 강력한 CI/CD 플랫폼입니다[2]. 이 글에서는 실제 사례를 통해 GitHub Actions의 기본 사용법을 알아보겠습니다.
 
-## 주요 구성 요소
+## GitHub Actions의 핵심 개념
 
-**워크플로우(Workflow)**
-- GitHub 저장소에서 발생하는 이벤트에 의해 트리거되는 자동화된 프로세스
-- YAML 파일로 정의되며 `.github/workflows` 디렉토리에 위치
-
-**이벤트(Event)**
-- 워크플로우를 실행시키는 특정 활동이나 규칙
-- 예: push, pull request, issue 생성 등
-
-**작업(Jobs)**
-- 워크플로우 내에서 실행되는 독립적인 작업 단위
-- 하나 이상의 스텝으로 구성
+**워크플로우(Workflow)**: 자동화된 전체 프로세스를 의미합니다[2].
+**이벤트(Event)**: 워크플로우를 실행시키는 트리거입니다[2].
+**잡(Job)**: 워크플로우 내의 독립적인 실행 단위입니다[2].
+**스텝(Step)**: 각 잡 내에서 순차적으로 실행되는 작업들입니다[2].
+**액션(Action)**: 재사용 가능한 작업 단위입니다[2].
 
 ## 기본 워크플로우 작성하기
 
-워크플로우 파일의 기본 구조는 다음과 같습니다:
+가장 먼저 `.github/workflows` 디렉토리를 생성하고 YAML 파일을 작성합니다[4].
 
 ```yaml
-name: 워크플로우 이름
-on: [push, pull_request]  # 트리거할 이벤트
+name: Basic Workflow
+on: [push]  # push 이벤트 발생 시 실행
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: 작업 이름
+      - uses: actions/checkout@v3
+      - name: Run a script
         run: echo "Hello, GitHub Actions!"
 ```
 
-## 실제 사용 예시
+## 실용적인 예제들
 
-**Node.js 프로젝트 테스트 자동화**:
+### 1. Node.js 프로젝트 테스트 자동화
 
 ```yaml
 name: Node.js CI
@@ -53,51 +47,99 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Node.js 설정
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v1
         with:
           node-version: '16'
       - run: npm install
       - run: npm test
 ```
 
-## 주요 장점
+### 2. Spring Boot 프로젝트 빌드 자동화
 
-- **자동화된 워크플로우**: 테스트, 빌드, 배포 작업을 자동으로 처리[2]
-- **버전 관리**: 소프트웨어 배포 버전을 안정적으로 관리[2]
-- **다양한 플랫폼 지원**: Linux, Windows, macOS 가상 머신 제공[6]
-- **커스터마이징**: 다양한 플러그인과 액션을 통한 확장 가능[2]
+```yaml
+name: Spring Boot CI
+on:
+  pull_request:
+    branches: [main]
 
-## 로컬 테스트
-
-GitHub Actions를 로컬 환경에서 테스트하려면 `act`라는 도구를 사용할 수 있습니다[2].
-
-```bash
-# Mac 설치
-brew install act
-
-# Windows 설치
-winget install nektos.act
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+      - run: "./gradlew build"
 ```
 
-## 보안 관리
+### 3. Docker 이미지 빌드 및 푸시
 
-민감한 정보는 GitHub의 secrets 기능을 통해 안전하게 관리할 수 있습니다[2]. 로컬 테스트 시에는 다음과 같이 사용합니다:
+```yaml
+name: Docker Build
+on:
+  push:
+    branches: [main]
 
-```bash
-act -s MY_SECRET=secretvalue
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: user/app:latest
 ```
 
-GitHub Actions는 현대 소프트웨어 개발에서 필수적인 CI/CD 도구로, 개발 워크플로우를 효율적으로 자동화하고 관리할 수 있게 해줍니다[6][7].
+## 유용한 GitHub Actions 기능
+
+### 환경 변수 사용하기
+```yaml
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+    env:
+      DB_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - name: Use environment variable
+        run: echo $DB_URL
+```
+
+### 조건부 실행
+```yaml
+steps:
+  - name: Run only on main branch
+    if: github.ref == 'refs/heads/main'
+    run: echo "This runs only on main branch"
+```
+
+## 모범 사례
+
+1. **재사용 가능한 워크플로우 작성**
+   - 공통 작업은 별도의 워크플로우로 분리
+   - Marketplace의 검증된 액션 활용
+
+2. **보안 고려사항**
+   - 민감한 정보는 반드시 Secrets 사용
+   - 최소 권한 원칙 적용
+
+3. **성능 최적화**
+   - 병렬 작업 활용
+   - 캐시 사용으로 빌드 시간 단축
+
+GitHub Actions는 개발 워크플로우를 자동화하는 강력한 도구입니다[2]. 위의 예제들을 기반으로 자신의 프로젝트에 맞는 워크플로우를 구성해보세요.
 
 Citations:  
 [1] https://docs.github.com/ko/actions  
-[2] https://blog.teamelysium.kr/github-actions  
-[3] https://docs.github.com/ko/actions/writing-workflows/quickstart  
-[4] https://docs.github.com/ko/actions/use-cases-and-examples  
-[5] https://velog.io/@pikadev1771/Github-Action-%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC  
-[6] https://docs.github.com/ko/actions/about-github-actions/understanding-github-actions  
-[7] https://everhour.com/blog/github-actions-tutorial/  
-[8] https://wschoi.tistory.com/67  
-[9] https://docs.github.com/ko/enterprise-cloud@latest/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions  
+[2] https://hudi.blog/github-actions-concepts/  
+[3] https://www.youtube.com/watch?v=R8_veQiYBjI  
+[4] https://callmemaru.com/posts/github-actions-learning-2/  
+[5] https://everhour.com/blog/github-actions-tutorial/  
+[6] https://www.daleseo.com/github-actions-basics/  
+[7] https://docs.github.com/en/actions/about-github-actions/understanding-github-actions  
+[8] https://docs.github.com/ko/actions/use-cases-and-examples  
+[9] https://docs.github.com/ko/actions/about-github-actions/understanding-github-actions  
+[10] https://www.learnenough.com/blog/git-actions-tutorial  
