@@ -28,9 +28,15 @@ export default function Home({ posts }) {
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                     <dl>
                       <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400 mr-5">
+                      <dd className="mr-5 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                         <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                        {post.images && <img src={post.images} alt={`Cover Image for ${title}`} className="mb-4 w-full rounded-lg border-1 border-gray-300 bg-gray-200 mt-4 mr-4" style={{ opacity: '0.8' }} />}
+                        {post.images && (
+                          <img
+                            src={post.images}
+                            alt={`${title}`}
+                            className="border-1 mb-4 mr-4 mt-4 w-full rounded-lg border-gray-300 bg-gray-200"
+                          />
+                        )}
                       </dd>
                     </dl>
                     <div className="space-y-5 xl:col-span-3">
