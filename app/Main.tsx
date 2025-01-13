@@ -18,6 +18,7 @@ export default function Home({ posts }) {
             {siteMetadata.description}
           </p>
         </div>
+
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
@@ -34,7 +35,7 @@ export default function Home({ posts }) {
                           <img
                             src={post.images}
                             alt={`${title}`}
-                            className="border-1 mb-4 mr-4 mt-4 w-full rounded-lg border-gray-300 bg-gray-200"
+                            className="border-1 mb-4 mr-4 mt-4 w-full rounded-lg border-gray-300 bg-gray-200 mx-auto"
                           />
                         )}
                       </dd>
