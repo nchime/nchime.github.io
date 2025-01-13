@@ -4,7 +4,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 // import NewsletterForm from 'pliny/ui/NewsletterForm'
 
-const MAX_DISPLAY = 10
+const MAX_DISPLAY = 5
 
 export default function Home({ posts }) {
   return (
@@ -30,6 +30,8 @@ export default function Home({ posts }) {
                       <dt className="sr-only">Published on</dt>
                       <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                         <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                        {/* <img src={post.images} alt={`Cover Image for ${title}`} className="mb-4 w-full rounded-lg p-4" /> */}
+
                       </dd>
                     </dl>
                     <div className="space-y-5 xl:col-span-3">
