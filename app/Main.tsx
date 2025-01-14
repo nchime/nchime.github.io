@@ -35,7 +35,7 @@ export default function Home({ posts }) {
                           <img
                             src={post.images}
                             alt={`${title}`}
-                            className="border-1 mb-4 mr-4 mt-4 w-full rounded-lg border-gray-300 bg-gray-200 mx-auto"
+                            className="border-1 mb-4 mr-4 mt-4 w-full rounded-lg border-gray-300 bg-gray-200"
                           />
                         )}
                       </dd>
