@@ -7,7 +7,7 @@ import blog__20250101GithubpageMdx from './blog__20250101-githubpage.mdx.json' w
 import blog__20250101StaticblogMdx from './blog__20250101-staticblog.mdx.json' with { type: 'json' }
 import blog__20250106GooglenotebooklmMdx from './blog__20250106-googlenotebooklm.mdx.json' with { type: 'json' }
 import blog__20250107OpengraphMdx from './blog__20250107-opengraph.mdx.json' with { type: 'json' }
-import blog__introducingTailwindNextjsStarterBlogMdx from './blog__introducing-tailwind-nextjs-starter-blog.mdx.json' with { type: 'json' }
 import blog__20250116K9sMdx from './blog__20250116-k9s.mdx.json' with { type: 'json' }
+import blog__introducingTailwindNextjsStarterBlogMdx from './blog__introducing-tailwind-nextjs-starter-blog.mdx.json' with { type: 'json' }
 
-export const allBlogs = [blog__20241226GithubactionMdx, blog__20241227NextjsblogMdx, blog__20250101DiscusMdx, blog__20250101GithubpageMdx, blog__20250101StaticblogMdx, blog__20250106GooglenotebooklmMdx, blog__20250107OpengraphMdx, blog__introducingTailwindNextjsStarterBlogMdx, blog__20250116K9sMdx]
+export const allBlogs = [blog__20241226GithubactionMdx, blog__20241227NextjsblogMdx, blog__20250101DiscusMdx, blog__20250101GithubpageMdx, blog__20250101StaticblogMdx, blog__20250106GooglenotebooklmMdx, blog__20250107OpengraphMdx, blog__20250116K9sMdx, blog__introducingTailwindNextjsStarterBlogMdx]
