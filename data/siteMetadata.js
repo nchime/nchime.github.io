@@ -2,10 +2,12 @@
 const siteMetadata = {
   // title: 'Next.js Starter Blog',
   title: '곽선생 Tech Blog',
+
   // author: 'Tails Azimuth',
   author: 'chkwak',
   // headerTitle: 'TailwindBlog',
-  headerTitle: '곽선생 Tech Blog',
+  // headerTitle: '곽선생 Tech Blog',
+  headerTitle: process.env.TITLE_NAME,
   // description: 'A blog created with Next.js and Tailwind.css',
   description: 'Memories are short, but records are forever',
   // language: 'en-us',
@@ -14,7 +16,7 @@ const siteMetadata = {
   siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
   siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
   // siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
-  siteLogo: `${process.env.BASE_PATH || ''}/static/images/nchime_avatar.png`,  
+  siteLogo: `${process.env.BASE_PATH || ''}/static/images/nchime_avatar.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
   mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'nchime@gmail.com',

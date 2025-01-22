@@ -39,6 +39,8 @@ jobs:
           EXPORT: 1
           UNOPTIMIZED: 1
           BASE_PATH: ${{ steps.configurepages.outputs.base_path }}
+          NEXT_PUBLIC_TITLE_NAME: ${{ secrets.NEXT_PUBLIC_TITLE_NAME }} 
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
