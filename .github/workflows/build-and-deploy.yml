@@ -18,6 +18,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_TITLE_NAME: ${{ secrets.NEXT_PUBLIC_TITLE_NAME }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -39,7 +41,7 @@ jobs:
           EXPORT: 1
           UNOPTIMIZED: 1
           BASE_PATH: ${{ steps.configurepages.outputs.base_path }}
-          NEXT_PUBLIC_TITLE_NAME: ${{ secrets.NEXT_PUBLIC_TITLE_NAME }} 
+          NEXT_PUBLIC_TITLE_NAME: ${{ secrets.NEXT_PUBLIC_TITLE_NAME }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
