@@ -85,6 +85,15 @@ summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소�
  
 ### 그래서 <span className="text-red-500"> **"tailwind-nextjs-starter-blog"** </span>를 선택했습니다.
 
+![](../../public/static/images/2025-01-22-20-41-11.png)
+
+![](/public/static/images/2025-01-22-20-41-11.png)
+
+
+![ocean](/public/static/images/ocean.jpeg)
+
+![Discus Logo](https://ps.w.org/disqus-comment-system/assets/banner-772x250.png?rev=1636350)
+
 <div className="border-1 border-blue-500 bg-orange-100 p-1 rounded-lg text-left">
 - 전문적인 CSS 지식이 없더라도 tailwind CSS 가이드를 통해 간편하게 커스터마이징 가능 
 - git 배포방식으로 블로그 컨텐츠를 항상 로컬에 보관하며 언제든 새로운 저장소에 배포 가능 
@@ -98,22 +107,58 @@ summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소�
 > 지금부터 <span className="bg-neon-yellow text-black rounded-md"> [tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog)</span> 블로그 템플릿을 이용하여 블로그 서비스를 운영 하는 방법을 소개합니다
 
 
-##  tailwind-nextjs-starter-blog 로컬 설치 및 배포 방법   
+##  tailwind-nextjs-starter-blog 설치 및 배포 방법   
 
 
-1. vscode 설치 
-    - 로컬 환경에서 nextjs를 직접 실행하고 동작시켜 보기 위한 메인 에디터 역할을 합니다. 
+### 사전 준비 사항  
+<div className="border-1 border-blue-500 bg-gray-100 p-1 rounded-lg text-left">
+    - [Visual Studio Code](https://code.visualstudio.com/download)   
+        - 로컬 환경에서 직접 tailwind-nextjs-starter-blog를 구동하고 블로그 글을 작성한 후 확인하기 위한 에디터 도구   
+    - [git 설치](https://git-scm.com/download)
+        - 배포 명령어를 수행하기 위한 git cli  
+    - [nodejs 설치](https://nodejs.org/en/download)        
+        - tailwind-nextjs-starter-blog 를 실행하기 위한 javascript Runtime     
+    - [github 계정](https://github.com/)  
+        - 블로그 페이지 배포 서버
+    - [google analystic 계정](https://analytics.google.com/)
+        - 블로그 접속통계 모니터링 서비스 
+</div>
 
-1. node 설치 상태 확인 
-    - npm 설치
 
 1. git clone 
-    - 별도로 수정한 git repo clone 
+    - 공식 [github Repo](https://github.com/timlrx/tailwind-nextjs-starter-blog)는 실제 배포힐 때 버전 충돌로 오류가 발생되고 있어서 몇가지 수정된 아래 repo로 clone 해주세요
 
-1. vscode 구동 환경 실행 
-    ```javascript
+
+    ```shell
+    # Git Repo clone 
+    git clone https://github.com/chkwak-devops/myblog
+
+    # VSCODE 실행
+    cd myblog
+    code .
+    ```
+
+
+1. 로컬애서 VSCIODE로 블로그 실행하기 
+    - VSCODE에서 터미널 뷰 실행 후 npm 명령어로 블로그 실행하여 결과 확인 
+
+    ```shell
+
+    # package.json 라이브러리 설치 
+    npm install  
+    
+    # tailwind-nextjs-starter-blog 실행 
     npm run dev 
     ```
+
+    - 브라우저에서 로컬 URL 입력후 접속 상태 확인 
+
+
+
+
+
+
+
 
 1. github pages 배포하기
     ```shell
@@ -223,4 +268,7 @@ summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소�
 1. 
 
 
+## 블로그 운영시 주의사항 
+
+1. git repo가 public 상태라서 누구든지 코드를 열람할 수 있으므로 개인정보, 계정정보등은 코드에 절대 포함하지 않도록 해야 됩니다. 
 
