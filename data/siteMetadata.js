@@ -7,7 +7,7 @@ const siteMetadata = {
   author: 'chkwak',
   // headerTitle: 'TailwindBlog',
   // headerTitle: '곽선생 Tech Blog',
-  headerTitle: process.env.TITLE_NAME,
+  headerTitle: process.env.NEXT_PUBLIC_TITLE_NAME ? process.env.NEXT_PUBLIC_TITLE_NAME : process.env.TITLE_NAME,
   // description: 'A blog created with Next.js and Tailwind.css',
   description: 'Memories are short, but records are forever',
   // language: 'en-us',
