@@ -6,9 +6,9 @@ const siteMetadata = {
   // author: 'Tails Azimuth',
   author: 'chkwak',
   // headerTitle: 'TailwindBlog',
-  // headerTitle: '곽선생 Tech Blog',
-  headerTitle: process.env.NEXT_PUBLIC_TITLE_NAME ? process.env.NEXT_PUBLIC_TITLE_NAME : process.env.TITLE_NAME,
-  // description: 'A blog created with Next.js and Tailwind.css',
+  headerTitle: '곽선생 Tech Blog',
+  // headerTitle: process.env.NEXT_PUBLIC_TITLE_NAME ? process.env.NEXT_PUBLIC_TITLE_NAME : process.env.TITLE_NAME,
+  // // description: 'A blog created with Next.js and Tailwind.css',
   description: 'Memories are short, but records are forever',
   // language: 'en-us',
   language: 'ko-kr',
@@ -59,7 +59,10 @@ const siteMetadata = {
     // },
     googleAnalytics: {
       // googleAnalyticsId: 'G-H76R7051QG', // e.g. G-XXXXXXX
-      googleAnalyticsId: process.env.NEXT_PUBLIC_GA_CODE,
+      // googleAnalyticsId: process.env.NEXT_PUBLIC_GA_CODE,
+      // googleAnalyticsId: process.env.NEXT_PUBLIC_GA_CODE,
+      googleAnalyticsId: process.env.NEXT_PUBLIC_GA_CODE ? process.env.NEXT_PUBLIC_GA_CODE : process.env.GA_CODE
+
     },
 
   },
