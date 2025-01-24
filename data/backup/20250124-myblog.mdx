@@ -1,24 +1,23 @@
 ---
 title: 누구나 쉽게 할 수 있는 나만의 블로그 만들기
-date: '2025-01-01'
+date: '2025-01-24'
 tags: ['blog']
 draft: false
 images: ['https://github.com/user-attachments/assets/b82cdcca-39d8-4388-8b5c-94541bc7e7b7']
-summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소개합니다. 
+summary: 무료로 나만의 개성있는 블로그를 만드는 방법을 소개합니다. 
 ---
 
 <img width="920" src="https://github.com/user-attachments/assets/b82cdcca-39d8-4388-8b5c-94541bc7e7b7" />
 
-
-<TOCInline toc={props.toc} exclude="Overview" toHeading={2} />
-
+<div className="border-2 border-gray-200 bg-gray-100 p-1 rounded-lg text-left">
+    <TOCInline toc={props.toc} exclude="Overview" toHeading={2} />
+</div>
 
 ---
-## 개인 블로그 만드는 유형
+## <span className="text-red-700">개인 블로그 만드는 유형</span>
 
 블로그는 크게 두 가지 방법으로 시작할 수 있습니다  
 포털 블로그 서비스를 이용하거나, 직접 블로그를 만드는 것입니다.
-
 
 <details>
 <summary>포털 블로그 서비스를 이용하기</summary>
@@ -36,7 +35,6 @@ summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소�
 대표적으로 해외에는 [Medium](https://medium.com), 국내에는 [티스토리](https://www.tistory.com)와 [밸로그](https://velog.io), [브런치](https://brunch.co.kr) 등이 있습니다.   
 이러한 서비스들은 UI가 깔끔하고 블로그를 커스터마이징하기가 좀 더 용이하다는 장점이 있습니다.  
 그러나 이러한 플랫폼이 서비스를 종료하면 블로그도 함께 없어질 위험이 있으므로, 장기적인 운영을 계획하신다면 이러한 리스크를 고려하셔야 합니다.
-
 
 </details>
 
@@ -72,43 +70,51 @@ summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소�
 </details>
 
 
-## 제가 선택한 블로그 방식은? 
-
+## <span className="text-red-700">제가 추천하는 블로그 방식 </span>
 
 ### 전제 조건 
-<div className="border-1 border-blue-500 bg-gray-100 p-1 rounded-lg text-left">
+<div className="border-2 border-gray-200 p-1 rounded-lg text-left">
 - 언제든지 쉽게 작성하고 배포할 수 있도록 사용하기 편해야 한다.
 - 유지 비용이 들지 않아야 한다. 
 - 플랫폼에 종속적이지 않아야 한다.  
 - 블로그 스타일은 내가 원하는대로 커스터마이징이 용이해야 한다. 
 </div>
  
-### 그래서 <span className="text-red-500"> **"tailwind-nextjs-starter-blog"** </span>를 선택했습니다.
+### tailwindcss와 nextjs 기반 <span className="text-red-500"> **"tailwind nextjs starter blog kit"** </span>를 추천합니다.
 
-<div className="border-1 border-blue-500 bg-orange-100 p-1 rounded-lg text-left">
-- 전문적인 CSS 지식이 없더라도 tailwind CSS 가이드를 통해 간편하게 커스터마이징 가능 
+<img width="684" alt="" src="https://github.com/user-attachments/assets/fc7303b9-f3d6-4d9f-828b-8131e4bcd4fd" />
+
+[tailwind-nextjs-starter-blog 공식 Github](https://github.com/timlrx/tailwind-nextjs-starter-blog)
+
+
+### 주요 특징 및 장점
+<div className="border-2 border-gray-200 p-1 rounded-lg text-left">
+- 초간단 블로그 설치 스타트 툴킷 방식을 활용하여 즉시 생성 가능  
+- 전문적인 CSS 지식이 없더라도 [tailwindcss가이드](https://tailwindui.com/?ref=top)를 통해 간편하게 커스터마이징 가능 
 - git 배포방식으로 블로그 컨텐츠를 항상 로컬에 보관하며 언제든 새로운 저장소에 배포 가능 
 - 호스팅, 도메인 구매 등이 필요없이 github 상에서 github.io 도메인으로 별도 비용없이 블로그 운영 가능 
 - nextjs mdx 방식으로 정적인 마크다운 표현 뿐 아니라 다양한 고급 기능을 추가로 구현해서 적용 가능 
 - react nextjs 생태계의 다양한 기법들을 실험하고 적용해 볼 수 있음
-- 접속 통계, 댓글, 메일링리스트 등 블로그 운영에 필요한 기능 컴포넌트로 제공
+- 접속 통계, 댓글, 메일링리스트 등 블로그 운영에 필요한 기능 기본 컴포넌트로 제공
 - 블로그 다듬는 과정을 통해 프런트페이지 개발에 대한 안목을 덤으로 높일수 있음  
 </div>
 
-> 지금부터 <span className="bg-neon-yellow text-black rounded-md"> [tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog)</span> 블로그 템플릿을 이용하여 블로그 서비스를 운영 하는 방법을 소개합니다
+> 지금부터 [tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog) 블로그 템플릿을 이용하여 블로그 서비스를 운영 하는 방법을 소개합니다
 
 
-##  tailwind-nextjs-starter-blog 설치 및 배포 방법   
+## <span className="text-red-700"> tailwind-nextjs-starter-blog 설치 및 배포 방법  </span>  
 
 
 ### 사전 준비 사항  
-<div className="border-1 border-blue-500 bg-gray-100 p-1 rounded-lg text-left">
+<div className="border-2 border-gray-200 p-1 rounded-lg text-left bg-gray-100">
     - [Visual Studio Code](https://code.visualstudio.com/download)   
         - 로컬 환경에서 직접 tailwind-nextjs-starter-blog를 구동하고 블로그 글을 작성한 후 확인하기 위한 에디터 도구   
     - [git 설치](https://git-scm.com/download)
         - 배포 명령어를 수행하기 위한 git cli  
     - [nodejs 설치](https://nodejs.org/en/download)        
         - tailwind-nextjs-starter-blog 를 실행하기 위한 javascript Runtime     
+    - [yarn 설치](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)        
+        - tailwind-nextjs-starter-blog 라이브러리 패키지 매니저
     - [github 계정](https://github.com/)  
         - 블로그 페이지 배포 서버
     - [google analystic 계정](https://analytics.google.com/)
@@ -116,13 +122,21 @@ summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소�
 </div>
 
 
-1. git clone 
-    - 공식 [github Repo](https://github.com/timlrx/tailwind-nextjs-starter-blog)는 실제 배포힐 때 버전 충돌로 오류가 발생되고 있어서 몇가지 수정된 아래 repo로 clone 해주세요
+### 단계별 설치 및 배포 절차  
 
+
+1. github.com 사이트에서 "tailwind-nextjs-starter-blog" git을 fork하여 개인 repo 생성
+
+    - https://github.com 로그인
+    - 공식 tailwind-nextjs-starter-blog Repo git url https://github.com/timlrx/tailwind-nextjs-starter-blog 접속 후 상단탭에서 Fork 기능을 이용하여 Fork 진행 
+    - github.io 도메인으로 서비스해야 되므로 repository name은 반드시 <span className="bg-neon-green text-blue rounded-md">[github계정명].github.io</span> 로 해야 됩니다. 
+        <img width="737"  src="https://github.com/user-attachments/assets/b55260f0-2b97-4ca1-860f-add8d8e9b717" />
+
+1. 로컬 환경에서 fork를 통해 생성된 git clone 
 
     ```shell
-    # Git Repo clone 
-    git clone https://github.com/chkwak-devops/myblog
+    # fork한 Git Repo clone 
+    git clone https://[git토큰]@github.com/[github계정]/[git Repo이름]
 
     # VSCODE 실행
     cd myblog
@@ -131,38 +145,39 @@ summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소�
 
 
 1. 로컬애서 VSCIODE로 블로그 실행하기 
-    - VSCODE에서 터미널 뷰 실행 후 npm 명령어로 블로그 실행하여 결과 확인 
+    - VSCODE에서 터미널 뷰 실행 후 기본 라이브러리 설치 및 실행
 
     ```shell
-
     # package.json 라이브러리 설치 
-    npm install  
+    yarn  
     
     # tailwind-nextjs-starter-blog 실행 
     npm run dev 
     ```
 
-    - 브라우저에서 로컬 URL 입력후 접속 상태 확인 
+    - 실행후 콘솔 화면에서 로컬 접속 URL 확인
+        <img src="https://github.com/user-attachments/assets/bfea94ee-d89c-4965-b07a-4d45f241c468"  />
 
-
-
-
-
-
+    - 로컬 URL로 브라우저에서 접속 상태 확인 
+    - 이 상태에서 블로그 작성 후 실시간 작성 상태 확인
 
 
 1. github pages 배포하기
-    ```shell
-    git add .
-    git commit -m "init"
-    git push origin main
-    ```
 
-1. github action 동작 상태 확인 
+    - github 프로젝트 repo Setting > pages 접속
+    - github action 방식을 "deploy from a branch" 로 설정
+      <img width="655" src="https://github.com/user-attachments/assets/25710210-6022-4864-b686-8a2f889059d8" />
 
+    - Github Action 메뉴애 접속하여 job 최초 실행
+    <img width="1703" src="https://github.com/user-attachments/assets/9b0cefcb-63ff-463a-9db0-f4cb71387140" />
 
-1. 배포 상태 확인 
-    - 브라우저에서 [github 아이디].github.io 입력해서 접속 상태 확인 
+     
+    - 정상 배포되었다면 브라우저에서 https://[Github계정].github.io URL을 통해 블로그 사이트가 조회되는지 확인   
+    <img width="1088" src="https://github.com/user-attachments/assets/a572edca-1a67-4087-80c2-f83045a10db0" />
+
+    - 나만의 블로그가 완성되었습니다.👏 
+    - 지금부터는 블로그 작성하고 git push만 학게 되면 자동 배포되어 https://[Github계정].github.io 에서 변경 상태를 확인할 수 있습니다. 
+
 
 
 
@@ -172,63 +187,7 @@ summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소�
     - /data/siteMetadata.js  
     블로그 타이틀, 소개, SNS 연결정보 등 작성
 
-    ```shell
-        const siteMetadata = {
-        title: '곽선생 Tech Blog',
-        author: 'chkwak',
-        headerTitle: '곽선생 Tech Blog',
-        description: 'Memories are short, but records are forever',
-        language: 'ko-kr',
-        theme: 'system', // system, dark or light
-        siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-        siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
-        siteLogo: `${process.env.BASE_PATH || ''}/static/images/nchime_avatar.png`,  
-        socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
-        mastodon: 'https://mastodon.social/@mastodonuser',
-        email: 'nchime@gmail.com',
-        github: 'https://github.com/nchime',
-        facebook: 'https://facebook.com/neochime',
-        youtube: 'https://youtube.com',
-        linkedin: 'https://www.linkedin.com/in/nchime',
-        locale: 'en-US',
-        stickyNav: false,
-        analytics: {
-            umamiAnalytics: {
-            umamiWebsiteId: process.env.NEXT_UMAMI_ID, // e.g. 123e4567-e89b-12d3-a456-426614174000
-            },
-            googleAnalytics: {
-            googleAnalyticsId: process.env.NEXT_PUBLIC_GA_CODE,
-            },
-        },
-        newsletter: {
-            provider: 'buttondown',
-        },
-        comments: {
-            provider: 'giscus', // supported providers: giscus, utterances, disqus
-            giscusConfig: {
-            repo: process.env.NEXT_PUBLIC_GISCUS_REPO,
-            repositoryId: process.env.NEXT_PUBLIC_GISCUS_REPOSITORY_ID,
-            category: process.env.NEXT_PUBLIC_GISCUS_CATEGORY,
-            categoryId: process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID,
-            mapping: 'pathname', // supported options: pathname, url, title
-            reactions: '1', // Emoji reactions: 1 = enable / 0 = disable
-            metadata: '0',
-            theme: 'light',
-            darkTheme: 'transparent_dark',
-            themeURL: '',
-            lang: 'en',
-            },
-        },
-        search: {
-            provider: 'kbar', // kbar or algolia
-            kbarConfig: {
-            searchDocumentsPath: `${process.env.BASE_PATH || ''}/search.json`, // path to load documents to search
-            },
-        },
-        }
 
-        module.exports = siteMetadata
-    ```
     - /data/authors/default.mdx
     나만의 개성있는 정보로 변경해서 작성 
 
@@ -239,7 +198,6 @@ summary: 나만의 개성있는 블로그를 만드는 다양한 방법을 소�
 
 1. Google Analystic 통계 기능 추가하기 
 
-1. 이메일 메일링리스트 기능 추가하기 
 
 
 
