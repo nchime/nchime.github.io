@@ -57,7 +57,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="ml-2">Go Back</span>
+                <span className="ml-1">Go Back</span>
               </div>
             </Link>
           </div>
@@ -188,7 +188,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                   aria-label="Back to the blog"
                 >
-                  <div className="flex items-center">
+                  <div className="flex">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -201,7 +201,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span className="ml-2">Go Back</span>
+                    <span className="mr-1">Go Back</span>
                   </div>
                 </Link>
               </div>

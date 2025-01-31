@@ -92,7 +92,7 @@ export default function ListLayoutWithTags({
             </p>
           </div>
         </div>
-        <div className="flex sm:space-x-24">
+        <div className="flex sm:space-x-12">
           <div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-gray-50 pt-5 shadow-md dark:bg-gray-900/70 dark:shadow-gray-800/40 sm:flex">
             <div className="px-6 py-4">
               {pathname.startsWith('/blog') ? (
@@ -133,8 +133,9 @@ export default function ListLayoutWithTags({
               {displayPosts.map((post) => {
                 const { path, date, title, summary, tags } = post
                 return (
-                  <li key={path} className="py-5">
-                    <article className="flex flex-col space-y-2 xl:space-y-0">
+
+                  <li key={path} className="py-5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                    <article className="flex flex-col space-y-2 xl:space-y-0 ml-4 mr-4">
                       <dl>
                         <dt className="sr-only">Published on</dt>
                         <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">

@@ -10,7 +10,8 @@ export default function Home({ posts }) {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+        
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5 relative" style={{ backgroundPosition: 'right top', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundImage: 'url(/static/images/rb_171060.png)' }}>
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Latest Posts
           </h1>
@@ -18,18 +19,17 @@ export default function Home({ posts }) {
             {siteMetadata.description}
           </p>
         </div>
-
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
           {posts.slice(0, MAX_DISPLAY).map((post) => {
             const { slug, date, title, summary, tags } = post
             return (
-              <li key={slug} className="py-8">
+              <li key={slug} className="py-8 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
                 <article>
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                     <dl>
                       <dt className="sr-only">Published on</dt>
-                      <dd className="mr-5 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                      <dd className="mr-5 ml-5 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                         <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
                         {post.images && (
                           <img
@@ -40,7 +40,7 @@ export default function Home({ posts }) {
                         )}
                       </dd>
                     </dl>
-                    <div className="space-y-5 xl:col-span-3">
+                    <div className="space-y-5 xl:col-span-3 ml-12">
                       <div className="space-y-6">
                         <div>
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
@@ -67,7 +67,16 @@ export default function Home({ posts }) {
                           className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                           aria-label={`Read more: "${title}"`}
                         >
-                          Read more &rarr;
+                          {/* Read more &rarr; */}
+
+                          <span className="flex">
+                          Read more
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.4} stroke="currentColor" className="size-5 ml-0.5 mt-0.5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                            </svg>
+                          </span>
+
+
                         </Link>
                       </div>
                     </div>
@@ -85,7 +94,13 @@ export default function Home({ posts }) {
             className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
             aria-label="All posts"
           >
-            All Posts &rarr;
+            {/* All Posts &rarr; */}
+            <span className="flex">
+              All Posts
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.4} stroke="currentColor" className="size-5 ml-0.5 mt-0.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+              </svg>
+            </span>
           </Link>
         </div>
       )}
