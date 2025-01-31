@@ -10,6 +10,7 @@ const siteMetadata = {
   // headerTitle: process.env.NEXT_PUBLIC_TITLE_NAME ? process.env.NEXT_PUBLIC_TITLE_NAME : process.env.TITLE_NAME,
   // // description: 'A blog created with Next.js and Tailwind.css',
   description: 'Memories are short, but records are forever',
+  blogdescription: 'We live, not as we wish, but as we can.',  
   // language: 'en-us',
   language: 'ko-kr',
   theme: 'system', // system, dark or light
@@ -115,6 +116,50 @@ const siteMetadata = {
     //   indexName: 'docsearch',
     // },
   },
+  quotes: [
+    // Life Wisdom
+    "Your smile can change someone's entire day.",
+    "Failure is the first step toward success.",
+    "Today's dreams become tomorrow's reality.",
+    "Your limits are set by your mind.",
+    "Small progress is still progress.",
+    
+    // Challenge & Growth
+    "Life begins outside your comfort zone.",
+    "Impossible is just something not yet tried.",
+    "Don't fear failure, fear not trying.",
+    "Your future depends on what you do today.",
+    "Don't avoid obstacles while chasing your dreams; overcome them.",
+    
+    // Self-Development
+    "A 1% improvement daily becomes 365% in a year.",
+    "Your thoughts shape your reality.",
+    "Don't compare yourself to others, compare yourself to who you were yesterday.",
+    "Mistakes are opportunities to learn.",
+    "Your passion is the key to your success.",
+    
+    // Relationships
+    "Sincerity is the best way to win hearts.",
+    "Kindness is free but its value is infinite.",
+    "Great relationships start with understanding and respect.",
+    "True friends believe in your potential.",
+    "Love multiplies when shared.",
+    
+    // Success & Goals
+    "The secret to achieving goals is to begin.",
+    "Success comes to those who are prepared.",
+    "If your dreams don't scare you, they aren't big enough.",
+    "When you feel like giving up, you're closest to success.",
+    "Small actions create big changes.",
+    
+    // Positive Mindset
+    "Positive thoughts create a positive life.",
+    "Today's struggles are tomorrow's blessings.",
+    "Your attitude determines your life.",
+    "Happiness is a choice.",
+    "A grateful heart attracts more blessings."
+  ]  
+  
 }
 
 module.exports = siteMetadata
