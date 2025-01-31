@@ -74,34 +74,23 @@ export default function ListLayoutWithTags({
 
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
-
   const getQuotesIndex = () => {
-    const today = new Date();
-    const formattedDate = today.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
-    const randomNumber = (today.getDate() % siteMetadata.quotes.length);
-    return randomNumber
+    const today = new Date()
+    return today.getDate() % siteMetadata.quotes.length
   }
-
 
   return (
     <>
       <div>
         <div className="pb-6 pt-6">
-          {/* <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:hidden sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            {title}
-            Latest Posts
-          </h1> */}
           <div className="space-y-2 pb-8 pt-1 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            All Posts
-          </h1>
-          
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.quotes[getQuotesIndex()]}
-          </p>
-        </div>
-
-
+            <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+              All Posts
+            </h1>
+            <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+              {siteMetadata.quotes[getQuotesIndex()]}
+            </p>
+          </div>
         </div>
         <div className="flex sm:space-x-24">
           <div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-gray-50 pt-5 shadow-md dark:bg-gray-900/70 dark:shadow-gray-800/40 sm:flex">
