@@ -133,9 +133,11 @@ export default function ListLayoutWithTags({
               {displayPosts.map((post) => {
                 const { path, date, title, summary, tags } = post
                 return (
-
-                  <li key={path} className="py-5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
-                    <article className="flex flex-col space-y-2 xl:space-y-0 ml-4 mr-4">
+                  <li
+                    key={path}
+                    className="rounded-lg py-5 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <article className="ml-4 mr-4 flex flex-col space-y-2 xl:space-y-0">
                       <dl>
                         <dt className="sr-only">Published on</dt>
                         <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
