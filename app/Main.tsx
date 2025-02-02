@@ -31,7 +31,11 @@ export default function Home({ posts }) {
           {posts.slice(0, MAX_DISPLAY).map((post) => {
             const { slug, date, title, summary, tags } = post
             return (
-              <li key={slug} className="rounded-lg py-8 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <li
+                key={slug}
+                className="rounded-lg py-8 hover:bg-gray-100 dark:hover:bg-gray-700"
+                // className="rounded-lg py-5 transition-transform duration-500 ease-in-out hover:translate-y-[-4px] hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
                 <article>
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                     <dl>

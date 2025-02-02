@@ -136,7 +136,7 @@ export default function ListLayoutWithTags({
                 return (
                   <li
                     key={path}
-                    className="rounded-lg py-5 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="rounded-lg py-5 transition-transform duration-500 ease-in-out hover:translate-y-[-4px] hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <article className="ml-4 mr-4 flex flex-col space-y-2 xl:space-y-0">
                       <dl>
