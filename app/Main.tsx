@@ -16,13 +16,13 @@ export default function Home({ posts }) {
             backgroundPosition: 'right top',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
-            backgroundImage: 'url(/static/images/rb_171060.png)',
+            // backgroundImage: 'url(/static/images/rb_171060.png)',
           }}
         >
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Latest Posts
           </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500 dark:text-gray-400 sm:text-4xl  md:text-3xl md:leading-8 lg:text-base lg:leading-4">
             {siteMetadata.description}
           </p>
         </div>
@@ -59,11 +59,9 @@ export default function Home({ posts }) {
                             </Link>
                           </h2>
                           <div className="flex flex-wrap">
-                            ≤
                             {tags.map((tag) => (
                               <Tag key={tag} text={tag} />
                             ))}
-                            ≤
                           </div>
                         </div>
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
