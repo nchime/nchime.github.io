@@ -88,7 +88,7 @@ export default function ListLayoutWithTags({
               All Posts
             </h1>
             {/* <p className="text-lg leading-7 text-gray-500 dark:text-gray-400"> */}
-            <p className="text-gray-500 dark:text-gray-400 sm:text-4xl  md:text-3xl md:leading-8 lg:text-base lg:leading-4">
+            <p className="text-gray-500 dark:text-gray-400 sm:text-4xl sm:text-base md:text-base md:leading-4 lg:text-base lg:leading-4">
               {siteMetadata.quotes[getQuotesIndex()]}
             </p>
           </div>
@@ -101,7 +101,7 @@ export default function ListLayoutWithTags({
               ) : (
                 <Link
                   href={`/blog`}
-                  className="font-bold uppercase text-gray-700 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500"
+                  className="text-gray-500 dark:text-gray-400 sm:text-4xl sm:text-base md:text-base md:leading-4 lg:text-base lg:leading-4"
                 >
                   All Posts
                 </Link>

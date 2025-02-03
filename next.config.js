@@ -93,11 +93,11 @@ module.exports = () => {
       ]
     },
     env: {
-      NEXT_PUBLIC_GA_CODE: "G-H76R7051QG",
-      NEXT_PUBLIC_GISCUS_REPO: "nchime/nchime.github.io",
-      NEXT_PUBLIC_GISCUS_REPOSITORY_ID: "R_kgDOI_YtKA",
-      NEXT_PUBLIC_GISCUS_CATEGORY: "Announcements",
-      NEXT_PUBLIC_GISCUS_CATEGORY_ID: "DIC_kwDOI_YtKM4Clmna"
+      // NEXT_PUBLIC_GA_CODE: 'G-H76R7051QG',
+      NEXT_PUBLIC_GISCUS_REPO: 'nchime/nchime.github.io',
+      NEXT_PUBLIC_GISCUS_REPOSITORY_ID: 'R_kgDOI_YtKA',
+      NEXT_PUBLIC_GISCUS_CATEGORY: 'Announcements',
+      NEXT_PUBLIC_GISCUS_CATEGORY_ID: 'DIC_kwDOI_YtKM4Clmna',
     },
     webpack: (config, options) => {
       config.module.rules.push({
