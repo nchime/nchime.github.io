@@ -1,33 +1,45 @@
 'use client'
 
-import React from 'react'
 import { AgGridReact } from 'ag-grid-react'
-import { ColDef } from 'ag-grid-community'
-// import 'ag-grid-community/styles/ag-grid.css'
-// import 'ag-grid-community/styles/ag-theme-alpine.css'
+// import { ColDef, ClientSideRowModelModule } from 'ag-grid-community'
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'
 
-interface RowData {
-  name: string
-  age: number
-  country: string
-}
+import { useMemo } from 'react'
 
-const AgGridComponent: React.FC = () => {
-  const rowData: RowData[] = [
-    { name: 'Alice', age: 25, country: 'USA' },
-    { name: 'Bob', age: 30, country: 'Canada' },
-    { name: 'Charlie', age: 35, country: 'UK' },
-  ]
+ModuleRegistry.registerModules([AllCommunityModule])
 
-  const columnDefs: ColDef[] = [
-    { field: 'name', headerName: 'Name', sortable: true, filter: true },
-    { field: 'age', headerName: 'Age', sortable: true, filter: true },
-    { field: 'country', headerName: 'Country', sortable: true, filter: true },
-  ]
+const AgGridComponent = () => {
+  const columnDefs = useMemo(
+    () => [
+      { field: 'name', headerName: 'Name' },
+      {
+        field: 'age',
+        headerName: 'Age',
+        cellClassRules: {
+          'invalid-cell': (params: any) => params.value < 0 || params.value > 120,
+        },
+        onCellValueChanged: (params: any) => {
+          if (params.value < 0 || params.value > 120) {
+            alert('Invalid age. Please enter a value between 0 and 120.')
+            params.node.setDataValue(params.colDef.field, params.oldValue)
+          }
+        },
+      },
+    ],
+    []
+  )
+
+  const rowData = useMemo(
+    () => [
+      { name: 'Alice', age: '24' },
+      { name: 'Bob', age: '30' },
+    ],
+    []
+  )
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 300, width: 600 }}>
-      <AgGridReact<RowData> rowData={rowData} columnDefs={columnDefs} />
+    <div style={{ height: 200, width: '100%' }}>
+      <AgGridReact rowData={rowData} columnDefs={columnDefs as any} />
     </div>
   )
 }

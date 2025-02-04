@@ -4,14 +4,19 @@ import React from 'react'
 
 interface StyledButtonProps {
   children: React.ReactNode
-  onClick?: () => void
 }
 
-const StyledButton: React.FC<StyledButtonProps> = ({ children }) => {
+const StyledButton: React.FC<StyledButtonProps & { images: string[] }> = ({ images }) => {
   return (
-    <button className="rounded bg-blue-500 px-4 py-4 font-bold text-white hover:bg-blue-200">
-      {children}
-    </button>
+    <div className="flex flex-wrap justify-center">
+      {images.map((image, index) => (
+        <img
+          key={index}
+          src={image}
+          className="w-1/4 transform-gpu cursor-pointer p-2 transition-transform duration-100 ease-in-out hover:scale-150"
+        />
+      ))}
+    </div>
   )
 }
 

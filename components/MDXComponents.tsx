@@ -6,6 +6,10 @@ import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
 
+import InteractiveBox from '@/components/InteractiveBox'
+import AgGridComponent from '@/components/AgGridComponent'
+import EChartComponent from '@/components/EChartComponent'
+
 export const components: MDXComponents = {
   Image,
   TOCInline,
@@ -13,4 +17,7 @@ export const components: MDXComponents = {
   pre: Pre,
   table: TableWrapper,
   BlogNewsletterForm,
+  InteractiveBox,
+  AgGridComponent,
+  EChartComponent,
 }
