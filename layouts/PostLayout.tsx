@@ -30,7 +30,7 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags } = content
+  const { filePath, path, slug, date, title, tags, images } = content
   const basePath = path.split('/')[0]
 
   return (
@@ -73,9 +73,17 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </dd>
                 </div>
               </dl>
-              <div style={{ textAlign: 'left' }}>
-                <PageTitle>{title}</PageTitle>
-              </div>
+              {images ? (
+                <div className="mt-6">
+                  <div className="flex flex-wrap">
+                    <img src={images[0]} />
+                  </div>
+                </div>
+              ) : (
+                <div style={{ textAlign: 'left' }}>
+                  <PageTitle>{title}</PageTitle>
+                </div>
+              )}
             </div>
           </header>
           <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">
