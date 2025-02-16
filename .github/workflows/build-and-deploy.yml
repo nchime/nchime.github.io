@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_TITLE_NAME: ${{ secrets.NEXT_PUBLIC_TITLE_NAME }}
+      NEXT_PUBLIC_GA_CODE: ${{ secrets.NEXT_PUBLIC_GA_CODE }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
