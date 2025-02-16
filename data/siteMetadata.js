@@ -59,9 +59,11 @@ const siteMetadata = {
     //   googleAnalyticsId: '', // e.g. G-XXXXXXX
     // },
     googleAnalytics: {
-      googleAnalyticsId: 'G-H76R7051QG', // e.g. G-XXXXXXX
+      // googleAnalyticsId: 'G-H76R7051QG', // e.g. G-XXXXXXX
       // googleAnalyticsId: process.env.NEXT_PUBLIC_GA_CODE,
-      // googleAnalyticsId: process.env.NEXT_PUBLIC_GA_CODE ? process.env.NEXT_PUBLIC_GA_CODE : process.env.GA_CODE
+      googleAnalyticsId: process.env.NEXT_PUBLIC_GA_CODE
+        ? process.env.NEXT_PUBLIC_GA_CODE
+        : process.env.GA_CODE,
     },
   },
   newsletter: {
