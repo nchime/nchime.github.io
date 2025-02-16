@@ -1,0 +1,137 @@
+---
+title: nextjs MDX 기능으로 동적인 마크다운 페이지 만들기 
+date: '2025-02-15'
+tags: ['blog', 'nextgs']
+draft: false
+summary: Next.js에서 MDX와 Markdown(.md) 포맷을 비교하는 블로그 글입니다.
+---
+
+
+# Next.js에서 MDX와 Markdown(.md) 비교
+
+Next.js에서 블로그를 만들거나 문서를 작성할 때 일반적으로 Markdown(.md) 또는 MDX를 사용합니다. 이 글에서는 두 포맷의 차이점을 설명하고, 구체적인 예시를 통해 어떤 경우에 MDX를 선택하는 것이 좋은지 살펴보겠습니다.
+
+## 1. Markdown(.md)란?
+
+Markdown(.md)은 텍스트를 HTML로 변환하는 경량 마크업 언어입니다. 보통 기술 블로그, 문서화, README 파일 등에 많이 사용됩니다.
+
+**Markdown 예시:**
+
+```md
+# 제목
+
+여기는 일반적인 마크다운 문서입니다.
+
+- 리스트 항목 1
+- 리스트 항목 2
+
+**굵은 글씨**와 *기울임 글씨*를 사용할 수 있습니다.
+```
+
+위 내용을 HTML로 변환하면 다음과 같이 출력됩니다.
+
+```html
+<h1>제목</h1>
+<p>여기는 일반적인 마크다운 문서입니다.</p>
+<ul>
+  <li>리스트 항목 1</li>
+  <li>리스트 항목 2</li>
+</ul>
+<p><strong>굵은 글씨</strong>와 <em>기울임 글씨</em>를 사용할 수 있습니다.</p>
+```
+
+Markdown은 정적인 콘텐츠를 작성하는 데 유용하지만, React 컴포넌트나 동적 기능을 사용할 수 없습니다.
+
+## 2. MDX란?
+
+MDX는 Markdown과 JSX를 결합한 확장형 마크다운입니다. 즉, 일반적인 Markdown 문법을 그대로 사용하면서도 React 컴포넌트를 포함할 수 있습니다. 이는 Next.js에서 블로그, 문서 페이지, 인터랙티브한 콘텐츠를 만들 때 강력한 기능을 제공합니다.
+
+**MDX 예시:**
+
+```mdx
+# 제목
+
+여기는 MDX 문서입니다.
+
+<MyComponent />
+
+- 리스트 항목 1
+- 리스트 항목 2
+```
+
+위 코드에서 `<MyComponent />`는 일반적인 Markdown에서는 사용할 수 없지만, MDX에서는 React 컴포넌트를 직접 포함할 수 있습니다.
+
+### MDX 활용 예시
+```tsx
+// components/MyComponent.tsx
+export default function MyComponent() {
+  return <div style={{ color: 'blue', fontWeight: 'bold' }}>이것은 React 컴포넌트입니다!</div>;
+}
+```
+
+이제 MDX 파일에서 해당 컴포넌트를 가져와 사용할 수 있습니다.
+
+```mdx
+import MyComponent from "@/components/MyComponent";
+
+# MDX에서 React 컴포넌트 사용하기
+
+<MyComponent />
+```
+
+출력 결과:
+```
+# MDX에서 React 컴포넌트 사용하기
+
+이것은 React 컴포넌트입니다! (파란색, 굵은 글씨)
+```
+
+## 3. MDX vs Markdown 비교
+
+| 비교 항목 | Markdown(.md) | MDX |
+|-----------|--------------|-----|
+| 지원 기능 | 정적인 콘텐츠 | React 컴포넌트 포함 가능 |
+| 활용 예시 | 블로그, 문서 | 블로그, 문서 + 동적 콘텐츠 |
+| JSX 지원 | ❌ 없음 | ✅ 가능 |
+| 코드 확장성 | 제한적 | 매우 확장 가능 |
+| 인터랙티브 요소 | ❌ 불가능 | ✅ 가능 |
+
+## 4. 어떤 경우에 MDX를 선택해야 할까?
+
+- **일반적인 블로그나 문서**라면 Markdown(.md)으로도 충분합니다.
+- **React 컴포넌트를 활용한 동적 콘텐츠**(예: 차트, 버튼, 코드 예제 등)를 포함하려면 MDX가 적합합니다.
+- **Next.js에서 블로그나 문서를 관리하면서 재사용 가능한 UI 요소**를 포함하고 싶다면 MDX를 사용하는 것이 좋습니다.
+
+
+## 5. 실제로 구현된 mdx용 컴포넌트 적용 예시입니다. 
+
+import StyledButton from '@/components/StyledButton'
+
+<StyledButton
+  images={[
+    'https://github.com/user-attachments/assets/9b0cefcb-63ff-463a-9db0-f4cb71387140',
+    'https://github.com/user-attachments/assets/a572edca-1a67-4087-80c2-f83045a10db0',
+    'https://github.com/user-attachments/assets/b55260f0-2b97-4ca1-860f-add8d8e9b717',
+    'https://github.com/user-attachments/assets/1ed4ff57-5b9d-48a5-82da-6376f26679bd',
+    'https://github.com/user-attachments/assets/25710210-6022-4864-b686-8a2f889059d8',
+  ]}
+/>
+
+<InteractiveBox />
+
+<EChartComponent />
+
+<AgGridComponent />
+
+
+
+## 5. 결론
+
+Next.js에서는 Markdown과 MDX 모두 활용할 수 있지만, MDX는 Markdown의 장점은 유지하면서도 React 컴포넌트를 활용할 수 있는 강력한 기능을 제공합니다. 단순한 문서화에는 Markdown이 적합하지만, 인터랙티브한 콘텐츠가 필요하다면 MDX를 고려하는 것이 좋습니다.
+
+이제 프로젝트에서 Markdown과 MDX 중 어떤 것을 선택해야 할지 더 명확해졌을 것입니다. 필요에 맞게 적절한 포맷을 활용해보세요!
+
+
+
+
+

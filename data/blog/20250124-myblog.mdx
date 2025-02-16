@@ -69,7 +69,7 @@ summary: 무료로 나만의 개성있는 블로그를 만드는 방법을 소�
 
 ## 2. 제가 추천하는 블로그 방식
 
-### 전제 조건
+### 2.1 전제 조건
 
 <div className="rounded-lg border-2 border-gray-200 p-1 text-left">
   - 언제든지 쉽게 작성하고 배포할 수 있도록 사용하기 편해야 한다. 
@@ -87,7 +87,7 @@ summary: 무료로 나만의 개성있는 블로그를 만드는 방법을 소�
 
 [tailwind-nextjs-starter-blog 공식 Github](https://github.com/timlrx/tailwind-nextjs-starter-blog)
 
-### 주요 특징 및 장점
+### 2.2 주요 특징 및 장점
 
 <div className="rounded-lg border-2 border-gray-200 p-1 text-left">
   - 초간단 블로그 설치 스타트 툴킷 방식을 활용하여 즉시 생성 가능 
@@ -103,23 +103,24 @@ summary: 무료로 나만의 개성있는 블로그를 만드는 방법을 소�
 
 ## 3. tailwind-nextjs-starter-blog 설치 및 배포 방법
 
-### 사전 준비 사항
+### 3.1 사전 준비 사항
 
 <div className="rounded-lg border-2 border-gray-200 bg-gray-100 p-1 text-left">
-  - [Visual Studio Code](https://code.visualstudio.com/download) 
-  - 로컬 환경에서 직접 tailwind-nextjs-starter-blog를 구동하고 블로그 글을 작성한 후 확인하기 위한 에디터 도구 
-  - [git 설치](https://git-scm.com/download) 
-  - 배포 명령어를 수행하기 위한 git cli 
-  - [nodejs 설치](https://nodejs.org/en/download) 
-  - tailwind-nextjs-starter-blog 를 실행하기 위한 javascript Runtime 
-  - [yarn 설치](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable) 
-  - tailwind-nextjs-starter-blog 라이브러리 패키지 매니저 - [github 계정](https://github.com/) 
-  - 블로그 페이지 배포 서버
+  - [Visual Studio Code](https://code.visualstudio.com/download)   
+    로컬 환경에서 직접 tailwind-nextjs-starter-blog를 구동하고 블로그 글을 작성한 후 확인하기 위한 에디터 도구 
+  - [git 설치](https://git-scm.com/download)  
+    배포 명령어를 수행하기 위한 git cli 
+  - [nodejs 설치](https://nodejs.org/en/download)   
+    tailwind-nextjs-starter-blog 를 실행하기 위한 javascript Runtime   
+  - [yarn 설치](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)  
+    tailwind-nextjs-starter-blog 라이브러리 패키지 매니저   
+  - [github 계정](https://github.com/)   
+    블로그 페이지 배포 서버
 </div>
 
-### 단계별 설치 및 배포 절차
+### 3.2 단계별 설치 및 배포 절차
 
-1. github.com 사이트에서 "tailwind-nextjs-starter-blog" git을 fork하여 개인 repo 생성
+3.2.1. github.com 사이트에서 "tailwind-nextjs-starter-blog" git을 fork하여 개인 repo 생성
 
    - https://github.com 로그인
    - 공식 tailwind-nextjs-starter-blog Repo git url https://github.com/timlrx/tailwind-nextjs-starter-blog 접속 후 상단탭에서 Fork 기능을 이용하여 Fork 진행
@@ -130,7 +131,7 @@ summary: 무료로 나만의 개성있는 블로그를 만드는 방법을 소�
        src="https://github.com/user-attachments/assets/b55260f0-2b97-4ca1-860f-add8d8e9b717"
      />
 
-1. 로컬 환경에서 fork를 통해 생성된 git clone
+3.2.2. 로컬 환경에서 fork를 통해 생성된 git clone
 
    ```shell
    # fork한 Git Repo clone
@@ -141,7 +142,7 @@ summary: 무료로 나만의 개성있는 블로그를 만드는 방법을 소�
    code .
    ```
 
-1. 로컬에서 VSCODE로 블로그 실행하기
+3.2.3. 로컬에서 VSCODE로 블로그 실행하기
 
    - VSCODE에서 터미널 뷰 실행 후 기본 라이브러리 설치 및 실행
 
@@ -165,7 +166,7 @@ summary: 무료로 나만의 개성있는 블로그를 만드는 방법을 소�
    - 로컬 URL로 브라우저에서 접속 상태 확인
    - 이 상태에서 블로그 작성 후 실시간 작성 상태 확인이 가능합니다.
 
-1. github pages 배포하기
+3.2.4. github pages 배포하기
 
    - github 프로젝트 repo Setting > pages 접속
    - github action 방식을 "deploy from a branch" 로 설정
@@ -190,26 +191,196 @@ summary: 무료로 나만의 개성있는 블로그를 만드는 방법을 소�
      />
 
    - 나만의 블로그가 완성되었습니다.👏
-   - 지금부터는 블로그 페이지를 작성하고 git push만 하게 되면 소스코드 내에 있는 github workflow에 의해 github action이 자동 작동되어 https://[Github계정].github.io 에서 변경 상태를 확인할 수 있습니다.
+   - 지금부터는 블로그 페이지를 작성하고 git push만 하게 되면 소스코드 내에 있는 github workflow에 의해 github action이 자동 작동되어 https://[Github계정].github.io 에서 변경된 블로그 사이트를 확인할 수 있습니다.
 
-## 4. 고급 기능 사용하기
 
-### 아래는 Tailwind CSS로 스타일링된 버튼 컴포넌트입니다11
+## 4. 본격적인 블로그 운영을 위한 팁 
 
-import StyledButton from '@/components/StyledButton'
 
-<StyledButton
-  images={[
-    'https://github.com/user-attachments/assets/9b0cefcb-63ff-463a-9db0-f4cb71387140',
-    'https://github.com/user-attachments/assets/a572edca-1a67-4087-80c2-f83045a10db0',
-    'https://github.com/user-attachments/assets/b55260f0-2b97-4ca1-860f-add8d8e9b717',
-    'https://github.com/user-attachments/assets/1ed4ff57-5b9d-48a5-82da-6376f26679bd',
-    'https://github.com/user-attachments/assets/25710210-6022-4864-b686-8a2f889059d8',
-  ]}
-/>
+### 4.1. 개인용 블로그 작성을 위한 최소한의 설정
 
-<InteractiveBox />
+최초 설치하게 되면 기본 템플릿과 정보로 되어 있어서 나만의 블로그 용도에 맞는 문구나 정보로 교체해야 됩니다. 
 
-<EChartComponent />
+vscode에 아래 파일을 오픈하여 나의 블로그 정보에 맞는 정보로 수정해 주세요
+SNS, 이메일 정보 등은 실제 사용하는 값으로 교체하고 사용하지 않는 정보는 주석으로 막으면 됩니다. 
+변경된 상태 정보는 직접 로컬 환경에서 구동중인 블로그 페이지에서 확인하면서 수정해 보세요 
 
-<AgGridComponent />
+<details>
+<summary>data/siteMetadata.js</summary>
+
+```javascript
+/** @type {import("pliny/config").PlinyConfig } */
+const siteMetadata = {
+  title: 'Next.js Starter Blog',  //블로그 제목 
+  author: 'Tails Azimuth',        //블로그 저장명  
+  headerTitle: 'TailwindBlog',    //블로그 헤더 타이틀명 
+  description: 'A blog created with Next.js and Tailwind.css',
+  language: 'en-us',
+  theme: 'system', // system, dark or light
+  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
+  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
+  socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
+  mastodon: 'https://mastodon.social/@mastodonuser',
+  email: 'address@yoursite.com',
+  github: 'https://github.com',
+  x: 'https://twitter.com/x',
+  // twitter: 'https://twitter.com/Twitter',
+  facebook: 'https://facebook.com',
+  youtube: 'https://youtube.com',
+  linkedin: 'https://www.linkedin.com',
+  threads: 'https://www.threads.net',
+  instagram: 'https://www.instagram.com',
+  medium: 'https://medium.com',
+  bluesky: 'https://bsky.app/',
+  locale: 'en-US',
+  // set to true if you want a navbar fixed to the top
+  stickyNav: false,
+  analytics: {
+    // If you want to use an analytics provider you have to add it to the
+    // content security policy in the `next.config.js` file.
+    // supports Plausible, Simple Analytics, Umami, Posthog or Google Analytics.
+    umamiAnalytics: {
+      // We use an env variable for this site to avoid other users cloning our analytics ID
+      umamiWebsiteId: process.env.NEXT_UMAMI_ID, // e.g. 123e4567-e89b-12d3-a456-426614174000
+      // You may also need to overwrite the script if you're storing data in the US - ex:
+      // src: 'https://us.umami.is/script.js'
+      // Remember to add 'us.umami.is' in `next.config.js` as a permitted domain for the CSP
+    },
+    // plausibleAnalytics: {
+    //   plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
+    // If you are hosting your own Plausible.
+    //   src: '', // e.g. https://plausible.my-domain.com/js/script.js
+    // },
+    // simpleAnalytics: {},
+    // posthogAnalytics: {
+    //   posthogProjectApiKey: '', // e.g. 123e4567-e89b-12d3-a456-426614174000
+    // },
+    // googleAnalytics: {
+    //   googleAnalyticsId: '', // e.g. G-XXXXXXX
+    // },
+  },
+  newsletter: {
+    // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus, beehive
+    // Please add your .env file and modify it according to your selection
+    provider: 'buttondown',
+  },
+  comments: {
+    // If you want to use an analytics provider you have to add it to the
+    // content security policy in the `next.config.js` file.
+    // Select a provider and use the environment variables associated to it
+    // https://vercel.com/docs/environment-variables
+    provider: 'giscus', // supported providers: giscus, utterances, disqus
+    giscusConfig: {
+      // Visit the link below, and follow the steps in the 'configuration' section
+      // https://giscus.app/
+      repo: process.env.NEXT_PUBLIC_GISCUS_REPO,
+      repositoryId: process.env.NEXT_PUBLIC_GISCUS_REPOSITORY_ID,
+      category: process.env.NEXT_PUBLIC_GISCUS_CATEGORY,
+      categoryId: process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID,
+      mapping: 'pathname', // supported options: pathname, url, title
+      reactions: '1', // Emoji reactions: 1 = enable / 0 = disable
+      // Send discussion metadata periodically to the parent window: 1 = enable / 0 = disable
+      metadata: '0',
+      // theme example: light, dark, dark_dimmed, dark_high_contrast
+      // transparent_dark, preferred_color_scheme, custom
+      theme: 'light',
+      // theme when dark mode
+      darkTheme: 'transparent_dark',
+      // If the theme option above is set to 'custom`
+      // please provide a link below to your custom theme css file.
+      // example: https://giscus.app/themes/custom_example.css
+      themeURL: '',
+      // This corresponds to the `data-lang="en"` in giscus's configurations
+      lang: 'en',
+    },
+  },
+  search: {
+    provider: 'kbar', // kbar or algolia
+    kbarConfig: {
+      searchDocumentsPath: `${process.env.BASE_PATH || ''}/search.json`, // path to load documents to search
+    },
+    // provider: 'algolia',
+    // algoliaConfig: {
+    //   // The application ID provided by Algolia
+    //   appId: 'R2IYF7ETH7',
+    //   // Public API key: it is safe to commit it
+    //   apiKey: '599cec31baffa4868cae4e79f180729b',
+    //   indexName: 'docsearch',
+    // },
+  },
+}
+module.exports = siteMetadata
+```
+</details>
+
+
+
+
+### 4.2. 링크 공유를 고려한 페이지 작성  
+
+운영하고 있는 블로그 사이트로 직접 도메인을 입력하고 접속하는 사용자도 있겠지만   
+구글 검색엔진에 의해 검색되어 블로그 페이지 링크로 바로 유입되거나 특정한 목적으로 URL만 링크 공유할 경우가 많습니다. 
+특히 SNS나 포털 게시판 등에 링크 공유가 될 경우 오픈그래프 메타태그 정보가 잘 등록되어 있어야 링크 정보 하단에 사진과 decription 정보가 깔끔하게 제공됩니다. 
+블로그 작성시 SEO 형식이 잘 갖추어진 기본 템플릿을 정의한 후 참조해서 내용을 채우는 방식으로 작성해 보세요 
+
+>  [오픈그래프를 고려한 tailwind 블로그 작성하기](/blog/20250201-tailwindopengraph)
+
+
+### 4.3. 블로그 기본 템플릿을 개성있는 나만의 스타일로 변경하기     
+
+기본 설정값으로 스타일링 되어 있는 tailwind 블로그 사이트의 레이아웃을 서비스 목적과 취향에 맞게 얼마든지 변경해서 구성할 수 있습니다
+
+> [tailwind 블로그 커스터마이징하기](/blog/20250201-nextjscustomizing)
+
+<details>
+<summary>tailwind 블로그 커스터마이징하기</summary>
+
+[tailwind-nextjs-starter-blog 공식 Github](https://github.com/timlrx/tailwind-nextjs-starter-blog)에서 pull 받은 nextjs 코드는 그대로 사용할 수도 있지만 UI를 본인만의 스타일로 개성있게 수정해서 사용할 수도 있습니다.  
+nextjs에 대한 기본적인 개발 경험이 있다면 훨씬 간편하게 커스터마이징이 가능합니다. 
+
+폴더별 구조는 및 주요 역할은 다음과 같습니다. 
+
+| 폴더명 | 하위폴더명 |  설명 |
+| --- | --- | --- |
+| app |  | 애플리케이션의 시작점|
+| app | about | 나의 소개 페이지 레이아웃 정의 |
+| app | api | 외부 시스템 연동 API(newsletter 등) |
+| app | blog | 블로그 페이지 레이아웃 정의 |
+| app | projects | 소개하고 싶은 프로젝트 페이지 레이아웃 정의 |
+| app | tags | 블로그별로 태깅된 태그정보 레이아웃 |
+| components  | | 모듈화된 공통 라이브러리 |
+| css  | | 모듈화된 공통 라이브러리 |
+| data  | blog |  마크다운(mdx) 방식으로 작성된 블로그 데이터 업로드 공간|
+| layouts | |  전체(Top, Body, Footer 등) 블로그 레이아웃 정의|
+| public | |  이미지 등 웹 제공용 assets 데이터 공간|
+
+
+</details>
+
+
+
+### 4.4. mdx 기능으로 동적인 마크다운 페이지 만들기 
+
+nextjs에서는 Markdown과 JSX를 결합한 확장형 마크다운기능을 제공합니다. 즉, 일반적인 Markdown 문법을 그대로 사용하면서도 React 컴포넌트를 포함할 수 있습니다. 이를 통해 블로그 페이지에서 인터랙티브한 콘텐츠를 만들 수 있습니다. 
+
+>  [nextjs에서 제공하는 mdx 기능으로 동적인 마크다운 페이지 만들기 ](/blog/2025021501-nextjsmdx)
+
+
+### 4.5. 페이지별 댓글 기능 추가하기 
+
+페이지별로 조회자가 반응을 남길 수 있도록 댓글 기능을 추가할 수 있습니다.  
+tailwind 블로그는 페이지별로 giscus, utterances, disqus 댓글 기능을 추가할 수 있으므로 원하는대로 선택해서 설정할 수 있습니다.  
+
+[댓글 기능 추가하기](/blog/2025021501-discus)
+
+
+### 4.6. 접속자 통계 현황 조회하기 
+
+블로그 사용자 접속 통계 현황을 파악하는 것은 블로그 운영의 중요한 동기 부여가 됩니다.  
+tailwind블로그에 GA(Google Analytics) 코드를 연동하고 Looker Studio로 현황판을 만들어서 조회하도록 해 보세요.  
+
+[tailwind 블로그 접속통계 조회하기](/blog/2025021502-gamonitor)
+
+
+
