@@ -43,6 +43,7 @@ jobs:
           UNOPTIMIZED: 1
           BASE_PATH: ${{ steps.configurepages.outputs.base_path }}
           # NEXT_PUBLIC_TITLE_NAME: ${{ secrets.NEXT_PUBLIC_TITLE_NAME }}
+          NEXT_PUBLIC_GA_CODE: ${{ secrets.NEXT_PUBLIC_GA_CODE }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

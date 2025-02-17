@@ -33,8 +33,7 @@ export default function Home({ posts }) {
             return (
               <li
                 key={slug}
-                className="rounded-lg py-8 hover:bg-gray-100 dark:hover:bg-gray-700"
-                // className="rounded-lg py-5 transition-transform duration-500 ease-in-out hover:translate-y-[-4px] hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="rounded-lg py-5 transition-transform duration-500 ease-in-out hover:translate-y-[-4px] hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 <article>
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
@@ -46,7 +45,7 @@ export default function Home({ posts }) {
                           <img
                             src={post.images}
                             alt={`${title}`}
-                            className="border-1 mb-4 mr-4 mt-4 w-full rounded-lg border-gray-300 bg-gray-200"
+                            className="border-1 mb-2 mr-4 mt-1 mt-4 w-full rounded-lg border-gray-300 bg-gray-200"
                           />
                         )}
                       </dd>
