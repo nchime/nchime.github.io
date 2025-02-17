@@ -16,6 +16,8 @@ const Tag = ({ text }: Props) => {
       {text.split(' ').join('-')}
       {siteMetadata.title}
       {siteMetadata.googleAnalytics}
+      --
+      {process.env.NEXT_PUBLIC_GA_CODE}
     </Link>
   )
 }
