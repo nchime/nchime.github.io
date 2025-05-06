@@ -41,11 +41,13 @@ export default function Home({ posts }) {
                       <dt className="sr-only">Published on</dt>
                       <dd className="ml-5 mr-5 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                         <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+
                         {post.images && (
+                          // TODO 타이틀 이미지 말고 상징 대표 이미지로 하자..
                           <img
                             src={post.images}
                             alt={`${title}`}
-                            className="border-1 mb-2 mr-4 mt-1 mt-4 w-full rounded-lg border-gray-300 bg-gray-200"
+                            className="border-1 mb-2 mr-4 mt-1 mt-4 h-full w-full rounded-lg border-gray-300 bg-gray-200 object-cover"
                           />
                         )}
                       </dd>

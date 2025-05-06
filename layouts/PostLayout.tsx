@@ -38,7 +38,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
       <ScrollTopAndComment />
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
-          <div className="pt-4 xl:hidden">
+          {/* <div className="pt-4 xl:hidden">
             <Link
               href={`/${basePath}`}
               className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
@@ -60,11 +60,11 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 <span className="ml-1">Go Back</span>
               </div>
             </Link>
-          </div>
-          <header className="pt-6 xl:pb-6">
+          </div> */}
+          <header className="pm-0 pt-1 xl:pb-6">
             <div className="space-y-1 text-center">
               <dl className="space-y-10">
-                <div style={{ textAlign: 'left' }}>
+                <div style={{ textAlign: 'right' }}>
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <time dateTime={date}>
@@ -73,21 +73,22 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </dd>
                 </div>
               </dl>
-              {images ? (
+              {/* {images ? (
                 <div className="mt-6">
                   <div className="flex flex-wrap">
-                    <img src={images[0]} />
+                    <img src={images[1]} />
                   </div>
                 </div>
               ) : (
                 <div style={{ textAlign: 'left' }}>
                   <PageTitle>{title}</PageTitle>
                 </div>
-              )}
+              )} */}
+              <PageTitle>{title}</PageTitle>
             </div>
           </header>
           <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">
-            <dl className="pb-10 pt-6 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
+            {/* <dl className="hidden pb-10 pt-6 sm:block xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
               <dt className="sr-only">Authors</dt>
               <dd>
                 <ul className="justify-left flex flex-wrap gap-4 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
@@ -114,7 +115,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                             @neochime
                           </Link>
                         </dd>
-                        {/* <dt className="sr-only">Twitter</dt>
+                        <dt className="sr-only">Twitter</dt>
                         <dd>
                           {author.twitter && (
                             <Link
@@ -126,13 +127,14 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                                 .replace('https://x.com/', '@')}
                             </Link>
                           )}
-                        </dd> */}
+                        </dd>
                       </dl>
                     </li>
                   ))}
                 </ul>
               </dd>
-            </dl>
+            </dl> */}
+
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pb-8 pt-10 dark:prose-invert">{children}</div>
               <div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">
