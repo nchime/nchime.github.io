@@ -142,8 +142,14 @@ export default function ListLayoutWithTags({
                       <dl>
                         <dt className="sr-only">Published on</dt>
                         <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                          <time dateTime={date} suppressHydrationWarning>
+                          {/* <time dateTime={date} suppressHydrationWarning>
                             {formatDate(date, siteMetadata.locale)}
+                          </time> */}
+
+                          <time dateTime={date}>
+                            {new Date(date).getFullYear()}-
+                            {(new Date(date).getMonth() + 1).toString().padStart(2, '0')}-
+                            {new Date(date).getDate().toString().padStart(2, '0')}
                           </time>
                         </dd>
                       </dl>

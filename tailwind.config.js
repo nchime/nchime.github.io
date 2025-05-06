@@ -14,7 +14,7 @@ module.exports = {
   ],
   darkMode: 'class',
   backgroundImage: {
-    "main-img": "url('/static/image/avatar.png')",
+    'main-img': "url('/static/image/avatar.png')",
     // "main-img": "url('/static/image/ocean.jpeg')",
   },
   theme: {
@@ -30,15 +30,16 @@ module.exports = {
       },
       colors: {
         // primary: colors.pink,
-        primary: colors.teal,
+        // primary: colors.teal,
+        primary: colors.gray,
         gray: colors.gray,
         neutral: colors.neutral,
         secondary: colors.yellow,
         neon: {
           green: '#39ff14', // 형광 녹색
           yellow: '#ccff00', // 형광 노랑
-          pink: '#ff00ff',   // 형광 핑크
-          blue: '#0ff0fc',   // 형광 파랑
+          pink: '#ff00ff', // 형광 핑크
+          blue: '#0ff0fc', // 형광 파랑
         },
       },
       zIndex: {
@@ -82,8 +83,8 @@ module.exports = {
             },
           },
         },
-      })
-    }
+      }),
+    },
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 }

@@ -39,16 +39,24 @@ export default function Home({ posts }) {
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                     <dl>
                       <dt className="sr-only">Published on</dt>
+
                       <dd className="ml-5 mr-5 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                        <div className="hidden xl:block">
+                          <time dateTime={date}>
+                            {new Date(date).getFullYear()}-
+                            {(new Date(date).getMonth() + 1).toString().padStart(2, '0')}-
+                            {new Date(date).getDate().toString().padStart(2, '0')}
+                          </time>
+                        </div>
 
                         {post.images && (
-                          // TODO 타이틀 이미지 말고 상징 대표 이미지로 하자..
-                          <img
-                            src={post.images}
-                            alt={`${title}`}
-                            className="border-1 mb-2 mr-4 mt-1 mt-4 h-full w-full rounded-lg border-gray-300 bg-gray-200 object-cover"
-                          />
+                          <div className="hidden xl:block">
+                            <img
+                              src={post.images}
+                              alt={`${title}`}
+                              className="border-1 mb-2 mr-4 mt-1 mt-4 h-full w-full rounded-lg border-gray-300 bg-gray-200 object-cover"
+                            />
+                          </div>
                         )}
                       </dd>
                     </dl>

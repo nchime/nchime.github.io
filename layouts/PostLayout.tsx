@@ -68,7 +68,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   <dt className="sr-only">Published on</dt>
                   <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <time dateTime={date}>
-                      {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
+                      {new Date(date).getFullYear()}-
+                      {(new Date(date).getMonth() + 1).toString().padStart(2, '0')}-
+                      {new Date(date).getDate().toString().padStart(2, '0')}
                     </time>
                   </dd>
                 </div>
