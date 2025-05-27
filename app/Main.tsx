@@ -60,7 +60,7 @@ export default function Home({ posts }) {
                         )}
                       </dd>
                     </dl>
-                    <div className=" ml-12 space-y-5 xl:col-span-3">
+                    <div className=" ml-2 space-y-5 xl:col-span-3">
                       <div className="space-y-6">
                         <div>
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
