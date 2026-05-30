@@ -12,7 +12,9 @@ import blog__20250209MentomentMdx from './blog__20250209-mentoment.mdx.json' wit
 import blog__20250215ToyprojectMdx from './blog__20250215-toyproject.mdx.json' with { type: 'json' }
 import blog__2025021501NextjsmdxMdx from './blog__2025021501-nextjsmdx.mdx.json' with { type: 'json' }
 import blog__20260503HarnessEngineeringMdx from './blog__20260503-harness-engineering.mdx.json' with { type: 'json' }
+import blog__20260523OntologyServiceMdx from './blog__20260523-ontology-service.mdx.json' with { type: 'json' }
 import blog__introducingTailwindNextjsStarterBlogMdx from './blog__introducing-tailwind-nextjs-starter-blog.mdx.json' with { type: 'json' }
 import blog__newfeatureMdx from './blog__newfeature.mdx.json' with { type: 'json' }
+import blog__20260531HarnessDeveloperEfficiencyMdx from './blog__20260531-harness-developer-efficiency.mdx.json' with { type: 'json' }
 
-export const allBlogs = [blog__20241226GithubactionMdx, blog__20241227NextjsblogMdx, blog__20250101DiscusMdx, blog__20250101GithubpageMdx, blog__20250106GooglenotebooklmMdx, blog__20250107OpengraphMdx, blog__20250116K9sMdx, blog__20250124MyblogMdx, blog__20250209MentomentMdx, blog__20250215ToyprojectMdx, blog__2025021501NextjsmdxMdx, blog__20260503HarnessEngineeringMdx, blog__introducingTailwindNextjsStarterBlogMdx, blog__newfeatureMdx]
+export const allBlogs = [blog__20241226GithubactionMdx, blog__20241227NextjsblogMdx, blog__20250101DiscusMdx, blog__20250101GithubpageMdx, blog__20250106GooglenotebooklmMdx, blog__20250107OpengraphMdx, blog__20250116K9sMdx, blog__20250124MyblogMdx, blog__20250209MentomentMdx, blog__20250215ToyprojectMdx, blog__2025021501NextjsmdxMdx, blog__20260503HarnessEngineeringMdx, blog__20260523OntologyServiceMdx, blog__introducingTailwindNextjsStarterBlogMdx, blog__newfeatureMdx, blog__20260531HarnessDeveloperEfficiencyMdx]
