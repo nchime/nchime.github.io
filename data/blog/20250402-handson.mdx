@@ -1,0 +1,130 @@
+---
+title: EKS 핸즈온 Guide
+date: '2025-04-02'
+tags: ['handson']
+draft: false
+layout: PostLayout
+summary: EKS 핸즈온 Guide를 제공합니다. 
+---
+
+
+
+# 핸즈온 진행을 위한 사전 준비사항
+
+## 1. 설치 프로그램
+
+아래 설치 기준은 Mac 환경 기준입니다.   
+Windows 환경인 경우 brew 등 맥전용 util은 사용불가하므로 git cli 등을 이용하여 리눅스 설치방식이 필요하므로 별도 문의바랍니다.  
+
+- kubectl 설치
+```
+# - https://kubernetes.io/ko/docs/tasks/tools/
+$ curl -LO "https://dl.k8s.io/release/v1.32.0/bin/darwin/arm64/kubectl"
+$ chmod +x ./kubectl
+$ sudo mv ./kubectl /usr/local/bin/kubectl  
+
+$ kubectl version
+```
+
+- aws cli 설치
+```
+# - https://docs.aws.amazon.com/ko_kr/cli/latest/userguide/getting-started-install.html
+$ sudo apt install unzip
+$ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+$ unzip awscliv2.zip
+$ sudo ./aws/install
+
+$ aws
+```
+
+- eksctl 설치(설치되어 있더라도 EKS 업그레이드 버전과 다를 경우 다시 설치해줘야 됨)
+```
+# - https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/install-kubectl.html
+$ curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+$ sudo mv /tmp/eksctl /usr/local/bin
+
+$ eksctl version
+```
+
+- helm 설치
+```
+# - https://helm.sh/ko/docs/intro/install/
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+
+$ helm version
+
+# helm repo 추가 등록
+$ helm repo add eks https://aws.github.io/eks-charts
+$ helm repo add datadog https://helm.datadoghq.com
+$ helm repo list
+```
+
+- k9s 설치
+```
+# - https://k9scli.io/topics/install/
+brew install derailed/k9s/k9s
+```
+
+- IDE 설치(visual studio code 추천)
+```
+# - https://code.visualstudio.com/download
+```
+
+EKS 설치 진행 과정 중 Istio, Argocd Cli는 별도로 진행됩니다. 
+
+
+## 2. 환경 설정 
+
+
+- https://emart.awsapps.com/start 로그인시 emart-d-aiml accont가 표시되어야 합니다. 
+
+
+- aws account 프로파일 설정 추가 
+
+```
+$ vi ~/.aws/config
+
+[profile aiml-dev]
+sso_start_url = https://emart.awsapps.com/start
+sso_region = ap-northeast-2
+sso_account_id = 454915266927
+sso_role_name = aiml-emart-admin-sso-ps
+region = ap-northeast-2
+output = json
+```
+
+- kube config 파일 확인  
+해당 파일은 EKS 추가되면 명령어를 통해 반영시키게 됩니다.  
+ 
+```
+$ vi ~/.kube/config
+
+```
+
+
+## 3. 기본 사용 명령어 
+
+```
+# AWS 인증
+$ aws sso login --profile aiml-dev
+
+# 로그인된 AWS 계정정보 조회
+$ export AWS_PROFILE=aiml-dev
+$ aws sts get-caller-identity
+
+
+# 현재 접속된 클러스터 상태 조회
+$ kubectl config current-context
+
+# 전체 클러스터 리스트 조회
+$ kubectl config get-contexts
+$ aws eks list-clusters
+
+# 클러스터 이동하기 (아래 예시)
+$ kubectl config use-context arn:aws:eks:ap-northeast-2:454915266927:cluster/aiml-dev-svc-215733-eks
+
+# k9s 사용
+$ k9s
+```
