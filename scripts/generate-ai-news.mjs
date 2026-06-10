@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * AI Latest News → Blog Post Generator
- * 
+ *
  * 매일 오전 2시(KST)에 실행되어 AI 최신 뉴스를 검색하고
  * 블로그 포스트(MDX)를 자동 생성합니다.
- * 
+ *
  * Usage: node scripts/generate-ai-news.mjs
  */
 
@@ -27,16 +27,28 @@ const NEWS_SOURCES = [
       const text = await res.text()
       // Parse RSS XML
       const items = [...text.matchAll(/<item>([\s\S]*?)<\/item>/g)]
-      return items.map(([, content]) => {
-        const title = content.match(/<title><!\[CDATA\[(.*?)\]\]>/)?.[1] || content.match(/<title>(.*?)<\/title>/)?.[1] || ''
-        const link = content.match(/<link>(.*?)<\/link>/)?.[1] || ''
-        const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
-        const description = content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] || content.match(/<description>(.*?)<\/description>/)?.[1] || ''
-        // Strip HTML tags from description
-        const cleanDesc = description.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, ' ').trim().slice(0, 300)
-        return { title, link, pubDate, description: cleanDesc, source: this.name }
-      }).filter(item => item.title && item.link)
-    }
+      return items
+        .map(([, content]) => {
+          const title =
+            content.match(/<title><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
+            content.match(/<title>(.*?)<\/title>/)?.[1] ||
+            ''
+          const link = content.match(/<link>(.*?)<\/link>/)?.[1] || ''
+          const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
+          const description =
+            content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
+            content.match(/<description>(.*?)<\/description>/)?.[1] ||
+            ''
+          // Strip HTML tags from description
+          const cleanDesc = description
+            .replace(/<[^>]*>/g, '')
+            .replace(/&[^;]+;/g, ' ')
+            .trim()
+            .slice(0, 300)
+          return { title, link, pubDate, description: cleanDesc, source: this.name }
+        })
+        .filter((item) => item.title && item.link)
+    },
   },
   {
     name: 'arXiv AI',
@@ -45,14 +57,25 @@ const NEWS_SOURCES = [
       const res = await fetch(this.url)
       const text = await res.text()
       const entries = [...text.matchAll(/<entry>([\s\S]*?)<\/entry>/g)]
-      return entries.map(([, content]) => {
-        const title = content.match(/<title>([\s\S]*?)<\/title>/)?.[1]?.replace(/\s+/g, ' ').trim() || ''
-        const link = content.match(/<id>(.*?)<\/id>/)?.[1] || ''
-        const published = content.match(/<published>(.*?)<\/published>/)?.[1] || ''
-        const summary = content.match(/<summary>([\s\S]*?)<\/summary>/)?.[1]?.replace(/\s+/g, ' ').trim().slice(0, 300) || ''
-        return { title, link, pubDate: published, description: summary, source: this.name }
-      }).filter(item => item.title && item.link)
-    }
+      return entries
+        .map(([, content]) => {
+          const title =
+            content
+              .match(/<title>([\s\S]*?)<\/title>/)?.[1]
+              ?.replace(/\s+/g, ' ')
+              .trim() || ''
+          const link = content.match(/<id>(.*?)<\/id>/)?.[1] || ''
+          const published = content.match(/<published>(.*?)<\/published>/)?.[1] || ''
+          const summary =
+            content
+              .match(/<summary>([\s\S]*?)<\/summary>/)?.[1]
+              ?.replace(/\s+/g, ' ')
+              .trim()
+              .slice(0, 300) || ''
+          return { title, link, pubDate: published, description: summary, source: this.name }
+        })
+        .filter((item) => item.title && item.link)
+    },
   },
   {
     name: 'TechCrunch AI',
@@ -61,16 +84,29 @@ const NEWS_SOURCES = [
       const res = await fetch(this.url)
       const text = await res.text()
       const items = [...text.matchAll(/<item>([\s\S]*?)<\/item>/g)]
-      return items.slice(0, 10).map(([, content]) => {
-        const title = content.match(/<title><!\[CDATA\[(.*?)\]\]>/)?.[1] || content.match(/<title>(.*?)<\/title>/)?.[1] || ''
-        const link = content.match(/<link>(.*?)<\/link>/)?.[1] || ''
-        const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
-        const description = content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] || content.match(/<description>(.*?)<\/description>/)?.[1] || ''
-        const cleanDesc = description.replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, ' ').trim().slice(0, 300)
-        return { title, link, pubDate, description: cleanDesc, source: this.name }
-      }).filter(item => item.title && item.link)
-    }
-  }
+      return items
+        .slice(0, 10)
+        .map(([, content]) => {
+          const title =
+            content.match(/<title><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
+            content.match(/<title>(.*?)<\/title>/)?.[1] ||
+            ''
+          const link = content.match(/<link>(.*?)<\/link>/)?.[1] || ''
+          const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
+          const description =
+            content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
+            content.match(/<description>(.*?)<\/description>/)?.[1] ||
+            ''
+          const cleanDesc = description
+            .replace(/<[^>]*>/g, '')
+            .replace(/&[^;]+;/g, ' ')
+            .trim()
+            .slice(0, 300)
+          return { title, link, pubDate, description: cleanDesc, source: this.name }
+        })
+        .filter((item) => item.title && item.link)
+    },
+  },
 ]
 
 // ─── 유틸리티 ─────────────────────────────────────────────────
@@ -90,7 +126,7 @@ function slugify(text) {
 
 function deduplicateNews(allNews) {
   const seen = new Set()
-  return allNews.filter(item => {
+  return allNews.filter((item) => {
     const key = item.title.toLowerCase().replace(/\s+/g, ' ').trim()
     if (seen.has(key)) return false
     seen.add(key)
@@ -116,10 +152,11 @@ function generateMDX(newsItems, dateStr) {
     day: 'numeric',
   })
 
-  const newsList = newsItems.map((item, i) => {
-    const link = item.link || '#'
-    const source = item.source || ''
-    return `### ${i + 1}. ${item.title}
+  const newsList = newsItems
+    .map((item, i) => {
+      const link = item.link || '#'
+      const source = item.source || ''
+      return `### ${i + 1}. ${item.title}
 
 ${item.description || '요약 정보가 없습니다.'}
 
@@ -127,7 +164,8 @@ ${item.description || '요약 정보가 없습니다.'}
 - **링크**: [${link}](${link})
 - **게시일**: ${item.pubDate ? new Date(item.pubDate).toLocaleDateString('ko-KR') : 'N/A'}
 `
-  }).join('\n---\n\n')
+    })
+    .join('\n---\n\n')
 
   return `---
 title: 'AI 최신 뉴스 요약 - ${dateDisplay}'
@@ -227,7 +265,8 @@ async function main() {
     console.log(`   ✅ 커밋 완료: ${commitMessage}`)
 
     // Push — use current branch
-    const branch = execSync('git branch --show-current', { cwd: projectDir, encoding: 'utf-8' }).trim() || 'main'
+    const branch =
+      execSync('git branch --show-current', { cwd: projectDir, encoding: 'utf-8' }).trim() || 'main'
     execSync(`git push origin ${branch}`, { cwd: projectDir })
     console.log(`   ✅ 푸시 완료 → origin/${branch}`)
   } catch (gitErr) {
@@ -236,7 +275,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('❌ 스크립트 실패:', err)
   process.exit(1)
 })
