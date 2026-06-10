@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ag-grid-community/client-side-row-model": "^32.3.3",
+    "@google-analytics/data": "^6.1.0",
     "@headlessui/react": "2.2.0",
     "@next/bundle-analyzer": "15.0.2",
     "@tailwindcss/forms": "^0.5.9",
