@@ -72,8 +72,9 @@ function generateSampleData(days: number) {
 
   return { overview, topPages, totals, isSample: true }
 }
-export async function GET(request: NextRequest, { params }: { params: { days: string } }) {
-  const days = parseInt(params.days || '30', 10)
+export async function GET(request: NextRequest, { params }: { params: Promise<{ days: string }> }) {
+  const { days: daysParam } = await params
+  const days = parseInt(daysParam || '30', 10)
 
   try {
     const data = await getAnalyticsData(days)
