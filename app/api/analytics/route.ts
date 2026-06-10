@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAnalyticsData } from '@/lib/analytics'
 
-// Cache for 1 hour (3600 seconds)
-export const revalidate = 3600
+// Pre-generate static files for common days values (7, 30, 90 days)
+export async function generateStaticParams() {
+  return [{ days: '7' }, { days: '30' }, { days: '90' }]
+}
 
 function generateSampleData(days: number) {
   const overview: {
@@ -20,7 +22,6 @@ function generateSampleData(days: number) {
     d.setDate(d.getDate() - i)
     const dateStr = d.toISOString().slice(0, 10).replace(/-/g, '')
 
-    // Generate realistic-looking data with some variation
     const baseViews = 80 + Math.sin(i * 0.3) * 40
     const weekendFactor = d.getDay() === 0 || d.getDay() === 6 ? 0.6 : 1.0
     const randomFactor = 0.7 + Math.random() * 0.6
@@ -72,16 +73,14 @@ function generateSampleData(days: number) {
   return { overview, topPages, totals, isSample: true }
 }
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams
-  const days = parseInt(searchParams.get('days') || '30', 10)
+export async function GET(request: NextRequest, { params }: { params: Promise<{ days: string }> }) {
+  const { days: daysParam } = await params
+  const days = parseInt(daysParam || '30', 10)
 
   try {
-    // Try real GA4 data first
     const data = await getAnalyticsData(days)
     return NextResponse.json(data)
   } catch (error) {
-    // Fall back to sample data if credentials are not configured
     console.log('GA4 not configured, returning sample data:', (error as Error).message)
     const sampleData = generateSampleData(days)
     return NextResponse.json(sampleData)
