@@ -66,7 +66,7 @@ export default function DashboardPage() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch(`/api/analytics?days=${days}`)
+      const res = await fetch(`/api/analytics/${days}`)
       if (!res.ok) {
         const body = await res.json()
         throw new Error(body.details || body.error || 'Failed to fetch')
