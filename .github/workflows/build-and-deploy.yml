@@ -21,11 +21,11 @@ jobs:
     env:
       NEXT_PUBLIC_TITLE_NAME: ${{ secrets.NEXT_PUBLIC_TITLE_NAME }}
       NEXT_PUBLIC_GA_CODE: ${{ secrets.NEXT_PUBLIC_GA_CODE }}
-    steps:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: yarn
       - id: configurepages
         uses: actions/configure-pages@v5
