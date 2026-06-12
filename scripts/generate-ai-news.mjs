@@ -278,6 +278,15 @@ async function main() {
   console.log(`   경로: ${filepath}`)
   console.log(`   뉴스: ${top10.length}건`)
 
+  // Prettier 포맷 (GitHub Actions 빌드 에러 방지)
+  try {
+    console.log('\n🎨 Prettier 포맷 실행...')
+    execSync(`npx prettier --write "${filepath}"`, { cwd: process.cwd(), encoding: 'utf-8' })
+    console.log('   ✅ Prettier 포맷 완료')
+  } catch (prettierErr) {
+    console.error(`   ⚠️ Prettier 실패: ${prettierErr.message} — 포맷 없이 계속 진행`)
+  }
+
   // Git commit & push
   try {
     console.log('\n📦 Git commit & push 시작...')
