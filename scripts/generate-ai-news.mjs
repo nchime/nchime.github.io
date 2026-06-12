@@ -26,9 +26,7 @@ function parseRSSItems(text, maxItems = 10) {
         content.match(/<title>(.*?)<\/title>/)?.[1] ||
         ''
       const link =
-        content.match(/<link>(.*?)<\/link>/)?.[1] ||
-        content.match(/<guid>(.*?)<\/guid>/)?.[1] ||
-        ''
+        content.match(/<link>(.*?)<\/link>/)?.[1] || content.match(/<guid>(.*?)<\/guid>/)?.[1] || ''
       const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
       const description =
         content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
@@ -107,10 +105,9 @@ const NEWS_SOURCES = [
       return parseRSSItems(text, 10)
         .filter((item) => {
           // 지다넷은 전체 IT 뉴스이므로 AI 관련만 필터
-          const isAI =
-            /AI|인공지능|LLM|GPT|머신러닝|딥러닝|챗봇|생성형|언어모델/i.test(
-              item.title + item.description
-            )
+          const isAI = /AI|인공지능|LLM|GPT|머신러닝|딥러닝|챗봇|생성형|언어모델/i.test(
+            item.title + item.description
+          )
           return isAI
         })
         .map((item) => ({ ...item, source: this.name }))
