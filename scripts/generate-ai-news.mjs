@@ -209,6 +209,7 @@ title: '오늘의 AI 소식 - ${dateDisplay}'
 date: '${dateStr}'
 tags: ['AI', '뉴스', '다이제스트']
 draft: false
+images: ['/images/ai-news/digest-cover.png']
 summary: 'AI 분야의 최신 뉴스를 요약한 일일 다이제스트입니다. 오늘 수집된 주요 AI/ML 관련 뉴스 ${newsItems.length}건을 엄선하여 소개합니다.'
 ---
 
