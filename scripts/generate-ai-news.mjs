@@ -52,15 +52,6 @@ function parseRSSItems(text, maxItems = 10) {
 
 const NEWS_SOURCES = [
   {
-    name: 'TechCrunch AI',
-    url: 'https://techcrunch.com/category/artificial-intelligence/feed/',
-    async fetch() {
-      const res = await fetch(this.url)
-      const text = await res.text()
-      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
-    },
-  },
-  {
     name: 'The Verge AI',
     url: 'https://www.theverge.com/ai-artificial-intelligence/rss/index.xml',
     async fetch() {
@@ -104,7 +95,6 @@ const NEWS_SOURCES = [
       const text = await res.text()
       return parseRSSItems(text, 10)
         .filter((item) => {
-          // 지다넷은 전체 IT 뉴스이므로 AI 관련만 필터
           const isAI = /AI|인공지능|LLM|GPT|머신러닝|딥러닝|챗봇|생성형|언어모델/i.test(
             item.title + item.description
           )
@@ -141,12 +131,29 @@ const NEWS_SOURCES = [
     },
   },
   {
-    name: 'HackerNews AI',
-    url: 'https://hnrss.org/newest?q=AI+OR+LLM+OR+GPT+OR+machine+learning+OR+deep+learning&count=15',
+    name: 'ZDNet Korea',
+    url: 'https://zdnet.co.kr/rss/news/',
     async fetch() {
       const res = await fetch(this.url)
       const text = await res.text()
-      return parseRSSItems(text, 15).map((item) => ({ ...item, source: this.name }))
+      return parseRSSItems(text, 10)
+        .filter((item) => {
+          const isAI =
+            /AI|인공지능|LLM|GPT|머신러닝|딥러닝|챗봇|생성형|언어모델|클라우드|데이터/i.test(
+              item.title + item.description
+            )
+          return isAI
+        })
+        .map((item) => ({ ...item, source: this.name }))
+    },
+  },
+  {
+    name: 'AITimes',
+    url: 'https://www.aitimes.kr/rss/GN_RSS_ALLARTICLE.xml',
+    async fetch() {
+      const res = await fetch(this.url)
+      const text = await res.text()
+      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
     },
   },
 ]
