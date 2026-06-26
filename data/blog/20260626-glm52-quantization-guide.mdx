@@ -3,7 +3,8 @@ title: '1.5TB의 거인을 내 컴퓨터에 넣는 법: GLM-5.2로 보는 최신
 date: '2026-06-26'
 tags: ['Quantization', 'GLM', 'LLM', 'ModelCompression', 'GGUF', 'Unsloth']
 draft: false
-images: ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop']
+images:
+  ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop']
 summary: 'Z.ai의 1.5TB급 오픈 모델 GLM-5.2를 예로 들어, 최신 모델 양자화 기술의 원리와 동적 양자화, 하드웨어 기반 양자화 등 최신 트렌드를 상세히 소개합니다.'
 ---
 
@@ -72,13 +73,13 @@ AI 모델 안에서도 답변 성능에 결정적인 영향을 미치는 핵심 
 
 ### 3-1. 양자화별 성능 비교
 
-| 구분 | 동적 4~5비트 | 동적 2비트 | 동적 1비트 |
-| :--- | :--- | :--- | :--- |
-| **모델 용량** | 300~400GB | 239GB | 217~223GB |
-| **압축율** | 약 75% | 84% | 86% |
-| **원본 대비 정확도** | 사실상 무손실 | 약 82% | 약 76.2% |
-| **추천 하드웨어** | 다중 GPU 서버 | 256GB+ Mac Studio | 단일 GPU 서버 |
-| **사용 가능 영역** | 프로덕션 서빙 | 고사양 로컬 실행 | 실험/리서치 |
+| 구분                 | 동적 4~5비트  | 동적 2비트        | 동적 1비트    |
+| :------------------- | :------------ | :---------------- | :------------ |
+| **모델 용량**        | 300~400GB     | 239GB             | 217~223GB     |
+| **압축율**           | 약 75%        | 84%               | 86%           |
+| **원본 대비 정확도** | 사실상 무손실 | 약 82%            | 약 76.2%      |
+| **추천 하드웨어**    | 다중 GPU 서버 | 256GB+ Mac Studio | 단일 GPU 서버 |
+| **사용 가능 영역**   | 프로덕션 서빙 | 고사양 로컬 실행  | 실험/리서치   |
 
 ### 3-2. 동적 4비트 / 5비트 (UD-Q4_K_XL 등)
 
@@ -139,6 +140,7 @@ GLM-5.2를 클라우드 인프라에서 초고속으로 서빙하는 **Baseten**
 ---
 
 참고 링크:
+
 - [Z.ai GLM-5.2 모델 문서](https://github.com/zai-org/glm)
 - [Unsloth Dynamic Quantization](https://github.com/unslothai/unsloth)
 - [GGUF 양자화 포맷 가이드](https://github.com/ggerganov/llama.cpp)

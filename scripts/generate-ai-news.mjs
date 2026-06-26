@@ -161,10 +161,8 @@ const NEWS_SOURCES = [
 // ─── 유틸리티 ─────────────────────────────────────────────────
 
 function formatDate(date) {
-  const pad = (n) => String(n).padStart(2, '0');
-  return date.getFullYear() + '-' +
-    pad(date.getMonth() + 1) + '-' +
-    pad(date.getDate());
+  const pad = (n) => String(n).padStart(2, '0')
+  return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-' + pad(date.getDate())
 }
 
 function deduplicateNews(allNews) {

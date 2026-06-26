@@ -3,7 +3,7 @@ title: github action 사용법
 date: '2024-12-24'
 tags: ['git', 'github']
 draft: false
-summary: github action의 간단한 사용법과 활용 예시를 정리합니다. 
+summary: github action의 간단한 사용법과 활용 예시를 정리합니다.
 ---
 
 GitHub Actions 완벽 가이드: 초보자를 위한 자동화 워크플로우 설정하기
@@ -24,7 +24,7 @@ GitHub Actions는 코드 저장소에서 빌드, 테스트, 배포 등을 자동
 
 ```yaml
 name: Basic Workflow
-on: [push]  # push 이벤트 발생 시 실행
+on: [push] # push 이벤트 발생 시 실행
 
 jobs:
   build:
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           java-version: '11'
-      - run: "./gradlew build"
+      - run: './gradlew build'
 ```
 
 ### 3. Docker 이미지 빌드 및 푸시
@@ -97,6 +97,7 @@ jobs:
 ## 유용한 GitHub Actions 기능
 
 ### 환경 변수 사용하기
+
 ```yaml
 jobs:
   example-job:
@@ -109,6 +110,7 @@ jobs:
 ```
 
 ### 조건부 실행
+
 ```yaml
 steps:
   - name: Run only on main branch
@@ -119,10 +121,12 @@ steps:
 ## 모범 사례
 
 1. **재사용 가능한 워크플로우 작성**
+
    - 공통 작업은 별도의 워크플로우로 분리
    - Marketplace의 검증된 액션 활용
 
 2. **보안 고려사항**
+
    - 민감한 정보는 반드시 Secrets 사용
    - 최소 권한 원칙 적용
 
@@ -142,4 +146,4 @@ Citations:
 [7] https://docs.github.com/en/actions/about-github-actions/understanding-github-actions  
 [8] https://docs.github.com/ko/actions/use-cases-and-examples  
 [9] https://docs.github.com/ko/actions/about-github-actions/understanding-github-actions  
-[10] https://www.learnenough.com/blog/git-actions-tutorial  
+[10] https://www.learnenough.com/blog/git-actions-tutorial
