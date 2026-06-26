@@ -8,50 +8,103 @@
  * Usage: node scripts/generate-ai-news.mjs
  */
 
-import { writeFileSync, existsSync, mkdirSync } from 'fs'
+import { writeFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { execSync } from 'child_process'
 
 const BLOG_DIR = join(process.cwd(), 'data', 'blog')
 
+// ─── 공통 파서 ────────────────────────────────────────────────
+
+function parseRSSItems(text, maxItems = 10) {
+  const items = [...text.matchAll(/<item>([\s\S]*?)<\/item>/g)]
+  const slicer = maxItems ? items.slice(0, maxItems) : items
+  return slicer
+    .map(([, content]) => {
+      const title =
+        content.match(/<title><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
+        content.match(/<title>(.*?)<\/title>/)?.[1] ||
+        ''
+      const link =
+        content.match(/<link>(.*?)<\/link>/)?.[1] || content.match(/<guid>(.*?)<\/guid>/)?.[1] || ''
+      const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
+      const description =
+        content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
+        content.match(/<description>(.*?)<\/description>/)?.[1] ||
+        ''
+      const cleanDesc = description
+        .replace(/<[^>]*>/g, '')
+        .replace(/&[^;]+;/g, ' ')
+        .trim()
+        .slice(0, 300)
+      const dateMatch = content.match(/<dc:date>(.*?)<\/dc:date>/)?.[1]
+      return {
+        title,
+        link,
+        pubDate: pubDate || dateMatch || '',
+        description: cleanDesc,
+      }
+    })
+    .filter((item) => item.title && item.link)
+}
+
 // ─── 뉴스 소스 ───────────────────────────────────────────────
-// 여러 소스에서 AI 관련 뉴스를 가져옵니다.
-// 각 소스는 fetch 함수와 파서를 반환합니다.
 
 const NEWS_SOURCES = [
   {
-    name: 'HackerNews AI',
-    url: 'https://hnrss.org/newest?q=AI+OR+LLM+OR+GPT+OR+machine+learning+OR+deep+learning&count=15',
+    name: 'The Verge AI',
+    url: 'https://www.theverge.com/ai-artificial-intelligence/rss/index.xml',
     async fetch() {
       const res = await fetch(this.url)
       const text = await res.text()
-      // Parse RSS XML
-      const items = [...text.matchAll(/<item>([\s\S]*?)<\/item>/g)]
-      return items
-        .map(([, content]) => {
-          const title =
-            content.match(/<title><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
-            content.match(/<title>(.*?)<\/title>/)?.[1] ||
-            ''
-          const link = content.match(/<link>(.*?)<\/link>/)?.[1] || ''
-          const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
-          const description =
-            content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
-            content.match(/<description>(.*?)<\/description>/)?.[1] ||
-            ''
-          // Strip HTML tags from description
-          const cleanDesc = description
-            .replace(/<[^>]*>/g, '')
-            .replace(/&[^;]+;/g, ' ')
-            .trim()
-            .slice(0, 300)
-          return { title, link, pubDate, description: cleanDesc, source: this.name }
-        })
-        .filter((item) => item.title && item.link)
+      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
     },
   },
   {
-    name: 'arXiv AI',
+    name: 'VentureBeat AI',
+    url: 'https://venturebeat.com/category/ai/feed/',
+    async fetch() {
+      const res = await fetch(this.url)
+      const text = await res.text()
+      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
+    },
+  },
+  {
+    name: 'GeekNews',
+    url: 'https://news.hada.io/rss/news',
+    async fetch() {
+      const res = await fetch(this.url)
+      const text = await res.text()
+      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
+    },
+  },
+  {
+    name: 'AI타임스',
+    url: 'https://cdn.aitimes.com/rss/gn_rss_allArticle.xml',
+    async fetch() {
+      const res = await fetch(this.url)
+      const text = await res.text()
+      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
+    },
+  },
+  {
+    name: '지다넷코리아',
+    url: 'https://feeds.feedburner.com/zdkorea',
+    async fetch() {
+      const res = await fetch(this.url)
+      const text = await res.text()
+      return parseRSSItems(text, 10)
+        .filter((item) => {
+          const isAI = /AI|인공지능|LLM|GPT|머신러닝|딥러닝|챗봇|생성형|언어모델/i.test(
+            item.title + item.description
+          )
+          return isAI
+        })
+        .map((item) => ({ ...item, source: this.name }))
+    },
+  },
+  {
+    name: 'arXiv AI/ML',
     url: 'https://export.arxiv.org/api/query?search_query=cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL&sortBy=submittedDate&sortOrder=descending&max_results=10',
     async fetch() {
       const res = await fetch(this.url)
@@ -78,33 +131,29 @@ const NEWS_SOURCES = [
     },
   },
   {
-    name: 'TechCrunch AI',
-    url: 'https://techcrunch.com/category/artificial-intelligence/feed/',
+    name: 'ZDNet Korea',
+    url: 'https://zdnet.co.kr/rss/news/',
     async fetch() {
       const res = await fetch(this.url)
       const text = await res.text()
-      const items = [...text.matchAll(/<item>([\s\S]*?)<\/item>/g)]
-      return items
-        .slice(0, 10)
-        .map(([, content]) => {
-          const title =
-            content.match(/<title><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
-            content.match(/<title>(.*?)<\/title>/)?.[1] ||
-            ''
-          const link = content.match(/<link>(.*?)<\/link>/)?.[1] || ''
-          const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
-          const description =
-            content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
-            content.match(/<description>(.*?)<\/description>/)?.[1] ||
-            ''
-          const cleanDesc = description
-            .replace(/<[^>]*>/g, '')
-            .replace(/&[^;]+;/g, ' ')
-            .trim()
-            .slice(0, 300)
-          return { title, link, pubDate, description: cleanDesc, source: this.name }
+      return parseRSSItems(text, 10)
+        .filter((item) => {
+          const isAI =
+            /AI|인공지능|LLM|GPT|머신러닝|딥러닝|챗봇|생성형|언어모델|클라우드|데이터/i.test(
+              item.title + item.description
+            )
+          return isAI
         })
-        .filter((item) => item.title && item.link)
+        .map((item) => ({ ...item, source: this.name }))
+    },
+  },
+  {
+    name: 'AITimes',
+    url: 'https://www.aitimes.kr/rss/GN_RSS_ALLARTICLE.xml',
+    async fetch() {
+      const res = await fetch(this.url)
+      const text = await res.text()
+      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
     },
   },
 ]
@@ -114,14 +163,6 @@ const NEWS_SOURCES = [
 function formatDate(date) {
   const d = new Date(date)
   return d.toISOString().slice(0, 10)
-}
-
-function slugify(text) {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .slice(0, 60)
 }
 
 function deduplicateNews(allNews) {
@@ -156,23 +197,27 @@ function generateMDX(newsItems, dateStr) {
     .map((item, i) => {
       const link = item.link || '#'
       const source = item.source || ''
+      const pubDateStr = item.pubDate
+        ? new Date(item.pubDate).toLocaleDateString('ko-KR')
+        : '날짜 없음'
       return `### ${i + 1}. ${item.title}
 
 ${item.description || '요약 정보가 없습니다.'}
 
-- **출처**: ${source}
-- **링크**: [${link}](${link})
-- **게시일**: ${item.pubDate ? new Date(item.pubDate).toLocaleDateString('ko-KR') : 'N/A'}
+- **출처**: [${source}](${link})
+- **원문 링크**: [${link}](${link})
+- **게시일**: ${pubDateStr}
 `
     })
     .join('\n---\n\n')
 
   return `---
-title: 'AI 최신 뉴스 요약 - ${dateDisplay}'
+title: '오늘의 AI 소식 - ${dateDisplay}'
 date: '${dateStr}'
-tags: ['AI', 'news', 'digest']
+tags: ['AI', '뉴스', '다이제스트']
 draft: false
-summary: 'AI 분야의 최신 뉴스를 요약한 일일 다이제스트입니다. 오늘 접수된 주요 AI/ML 관련 뉴스 ${newsItems.length}건을 엄선하여 소개합니다.'
+images: ['/images/ai-news/digest-cover.png']
+summary: 'AI 분야의 최신 뉴스를 요약한 일일 다이제스트입니다. 오늘 수집된 주요 AI/ML 관련 뉴스 ${newsItems.length}건을 엄선하여 소개합니다.'
 ---
 
 > 📰 이 글은 AI 최신 뉴스를 자동으로 수집·요약하여 매일 오전 2시에 게시됩니다.
@@ -237,6 +282,15 @@ async function main() {
   console.log(`\n✅ 블로그 글 생성 완료: ${filename}`)
   console.log(`   경로: ${filepath}`)
   console.log(`   뉴스: ${top10.length}건`)
+
+  // Prettier 포맷 (GitHub Actions 빌드 에러 방지)
+  try {
+    console.log('\n🎨 Prettier 포맷 실행...')
+    execSync(`npx prettier --write "${filepath}"`, { cwd: process.cwd(), encoding: 'utf-8' })
+    console.log('   ✅ Prettier 포맷 완료')
+  } catch (prettierErr) {
+    console.error(`   ⚠️ Prettier 실패: ${prettierErr.message} — 포맷 없이 계속 진행`)
+  }
 
   // Git commit & push
   try {
