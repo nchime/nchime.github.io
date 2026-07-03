@@ -1,0 +1,456 @@
+---
+title: 'GoatCounter: 쿠키 없는 프라이버시 중심 웹 분석 도구 완벽 가이드'
+date: '2026-07-04'
+tags: ['GoatCounter', 'WebAnalytics', 'Privacy', 'SelfHosted', 'GDPR']
+draft: false
+images:
+  [
+    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  ]
+summary: 'GoatCounter는 쿠키를 사용하지 않는 프라이버시 중심 웹 분석 도구입니다. 이 글에서는 GoatCounter의 특징, 설정 방법, 커스텀 이벤트 트래킹, 그리고 API를 활용한 대시보드 구축 방법을 소개합니다.'
+---
+
+## 1. 서론
+
+최근 웹 분석 도구 시장에서 프라이버시에 대한 관심이 급격히 높아지고 있습니다. Google Analytics가 쿠키 종속 정책을 강화하면서, 많은 개발자와 기업들이 대안을 모색하고 있습니다. 그 중심에 **GoatCounter**가 있습니다.
+
+GoatCounter는 쿠키를 사용하지 않으면서도 강력한 웹 분석 기능을 제공하는 오픈소스 도구입니다. GDPR, CCPA 등 개인정보 보호 규정을 기본으로 준수하며, 셀프호스팅(Self-hosting)도 지원합니다.
+
+이 글에서는 GoatCounter의 핵심 특징부터 실제 사이트에 적용하는 방법, 그리고 API를 활용한 커스텀 대시보드 구축까지 자세히 알아보겠습니다.
+
+---
+
+## 2. GoatCounter란?
+
+### 2-1. GoatCounter의 핵심 특징
+
+**GoatCounter**는 2019년 Martin Tournoij가 개발한 웹 분석 도구입니다. 기존 분석 도구들과 차별화되는 몇 가지 핵심 특징이 있습니다.
+
+- **쿠키 미사용**: 사용자 추적을 위해 쿠키를 전혀 사용하지 않습니다. 대신 페이지뷰 기반의 익명 통계를 제공합니다.
+- **프라이버시 우선**: IP 주소는 해시 처리되어 저장되며, 원본 IP는 저장하지 않습니다.
+- **경량 스크립트**: `count.js` 스크립트는 약 1KB에 불과하며, 페이지 로드 성능에 미치는 영향이 최소화됩니다.
+- **셀프호스팅 지원**: 오픈소스이므로 자체 서버에 호스팅할 수 있습니다.
+- **API 제공**: RESTful API를 통해 프로그래밍 방식으로 데이터에 접근할 수 있습니다.
+
+### 2-2. Google Analytics와의 차이점
+
+| 구분        | GoatCounter         | Google Analytics      |
+| :---------- | :------------------ | :-------------------- |
+| **쿠키**    | 미사용              | 필수 사용             |
+| **GDPR**    | 기본 준수           | 추가 설정 필요        |
+| **데이터**  | 익명화된 통계       | 상세 사용자 프로필    |
+| **가격**    | 무료 (셀프호스팅)   | 유료 (Enterprise)     |
+| **스크립트** | 약 1KB             | 약 45KB               |
+| **셀프호스팅** | 지원              | 불가                  |
+
+---
+
+## 3. GoatCounter 설정 방법
+
+### 3-1. 계정 생성 및 사이트 추가
+
+GoatCounter를 사용하기 위한 첫 번째 단계는 계정을 생성하는 것입니다.
+
+1. [https://www.goatcounter.com](https://www.goatcounter.com)에 접속합니다.
+2. **Sign up**을 클릭하고 이메일 주소를 입력합니다.
+3. 이메일 인증을 완료합니다.
+4. 대시보드에 로그인한 후 좌측 메뉴에서 **Sites**를 클릭합니다.
+5. **Add new site**를 클릭하고 사이트 도메인을 입력합니다.
+6. 생성된 사이트 코드를 확인합니다 (예: `mysite` → `mysite.goatcounter.com`).
+
+### 3-2. 추적 코드 삽입
+
+GoatCounter에서 제공하는 추적 코드를 모니터링할 사이트의 HTML에 삽입합니다.
+
+#### JavaScript 코드 (권장)
+
+```html
+<script data-goatcounter="https://YOURCODE.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+```
+
+`YOURCODE`는 3-1단계에서 확인한 사이트 코드로 대체합니다.
+
+#### 이미지 픽셀 (JavaScript 비활성화 시)
+
+```html
+<img src="https://YOURCODE.goatcounter.com/pv.gif"
+     style="display: none;" alt="" referrerpolicy="no-referrer-when-downgrade">
+```
+
+### 3-3. 프레임워크별 설정 예시
+
+**Next.js (`_document.js` 또는 `layout.js`)**
+
+```jsx
+import Script from 'next/script';
+
+// _document.js의 <Head> 안에 추가
+<Script
+  data-goatcounter="https://YOURCODE.goatcounter.com/count"
+  strategy="afterInteractive"
+  src="//gc.zgo.at/count.js"
+/>
+```
+
+**WordPress (테마 헤더)**
+
+```php
+<!-- functions.php에 추가 -->
+function goatcounter_tracking() {
+    echo '<script data-goatcounter="https://YOURCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>';
+}
+add_action('wp_head', 'goatcounter_tracking');
+```
+
+**React / Vue.js (`public/index.html`)**
+
+```html
+<script data-goatcounter="https://YOURCODE.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+```
+
+---
+
+## 4. 고급 설정
+
+### 4-1. Content Security Policy (CSP) 설정
+
+대상 사이트에 CSP 헤더가 설정되어 있는 경우, GoatCounter 도메인을 허용 목록에 추가해야 합니다.
+
+#### Nginx 설정
+
+```nginx
+# nginx.conf 또는 사이트 설정 파일
+add_header Content-Security-Policy "
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' gc.zgo.at;
+    img-src 'self' YOURCODE.goatcounter.com;
+    connect-src 'self' YOURCODE.goatcounter.com;
+" always;
+```
+
+#### Apache 설정 (.htaccess)
+
+```apache
+<IfModule mod_headers.c>
+    Header set Content-Security-Policy "script-src 'self' 'unsafe-inline' gc.zgo.at; img-src 'self' YOURCODE.goatcounter.com; connect-src 'self' YOURCODE.goatcounter.com;"
+</IfModule>
+```
+
+#### Next.js (next.config.js)
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  headers: async () => [
+    {
+      source: '/:path*',
+      headers: [
+        {
+          key: 'Content-Security-Policy',
+          value: "script-src 'self' 'unsafe-inline' gc.zgo.at; img-src 'self' YOURCODE.goatcounter.com; connect-src 'self' YOURCODE.goatcounter.com;"
+        }
+      ]
+    }
+  ]
+};
+
+module.exports = nextConfig;
+```
+
+### 4-2. 이벤트 트래킹 설정
+
+GoatCounter는 커스텀 이벤트도 트래킹할 수 있습니다.
+
+#### 기본 사용법
+
+```html
+<button onclick="goatcounter.count_event('button-click')">클릭</button>
+```
+
+#### JavaScript에서 이벤트 기록
+
+```javascript
+// 페이지뷰 카운트 (기본값)
+goatcounter.count();
+
+// 커스텀 이벤트
+goatcounter.count_event('signup-completed');
+goatcounter.count_event('purchase', { path: '/checkout/success' });
+
+// 커스텀 경로로 페이지뷰 카운트
+goatcounter.count({ path: '/custom-page' });
+
+// 리퍼러 무시
+goatcounter.count({ event: false });
+```
+
+#### 상품 구매 트래킹 예시
+
+```html
+<script>
+function trackPurchase(orderId, amount) {
+    goatcounter.count_event('purchase', {
+        path: '/purchase/' + orderId,
+        title: 'Purchase: $' + amount
+    });
+}
+</script>
+
+<button onclick="trackPurchase('12345', 99.99)">구매하기</button>
+```
+
+#### 폼 제출 트래킹 예시
+
+```javascript
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    goatcounter.count_event('form-submit', {
+        path: '/contact/success',
+        title: 'Contact Form Submitted'
+    });
+});
+```
+
+### 4-3. 커스텀 변수 설정
+
+페이지별로 커스텀 변수를 전달하여 더 세밀한 분석이 가능합니다.
+
+```html
+<script data-goatcounter="https://YOURCODE.goatcounter.com/count"
+        data-goatcounter-settings='{
+            "path": "/custom-path",
+            "title": "커스텀 페이지 제목",
+            "event": false
+        }'
+        async src="//gc.zgo.at/count.js"></script>
+```
+
+#### 동적 경로 설정 (SPA)
+
+```javascript
+// React Router, Vue Router 등에서 라우트 변경 시
+window.addEventListener('popstate', function() {
+    goatcounter.count({ path: window.location.pathname });
+});
+
+// 또는 프레임워크별 라우트 이벤트에서
+router.afterEach(function(to) {
+    goatcounter.count({ path: to.fullPath });
+});
+```
+
+### 4-4. 특정 페이지 제외
+
+관리자 페이지 등 특정 페이지는 트래킹에서 제외할 수 있습니다.
+
+#### 방법 1: JavaScript로 제외
+
+```javascript
+// 관리자 페이지에서는 카운트하지 않음
+if (window.location.pathname.startsWith('/admin')) {
+    // 추적 코드 미로드
+} else {
+    // 추적 코드 로드
+    var script = document.createElement('script');
+    script.src = '//gc.zgo.at/count.js';
+    script.dataset.goatcounter = 'https://YOURCODE.goatcounter.com/count';
+    document.head.appendChild(script);
+}
+```
+
+#### 방법 2: 서버사이드에서 조건부 삽입
+
+```php
+<?php if (!$is_admin_page): ?>
+<script data-goatcounter="https://YOURCODE.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<?php endif; ?>
+```
+
+#### 방법 3: GoatCounter 설정에서 IP 무시
+
+GoatCounter 대시보드 → Settings → IPs에서 특정 IP를 무시 목록에 추가할 수 있습니다.
+
+---
+
+## 5. API를 활용한 커스텀 대시보드 구축
+
+GoatCounter는 RESTful API를 제공하여 프로그래밍 방식으로 데이터에 접근할 수 있습니다. 이를 활용하면 커스텀 대시보드를 구축할 수 있습니다.
+
+### 5-1. API 키 발급
+
+1. GoatCounter 대시보드 좌측 메뉴 → **Settings**를 클릭합니다.
+2. 상단 탭에서 **API**를 클릭합니다.
+3. **Create new API token**을 클릭합니다.
+4. 이름을 입력하고 권한을 **Read**로 선택합니다.
+5. 생성된 API 키를 복사합니다 (한 번만 표시됩니다).
+
+### 5-2. 주요 API 엔드포인트
+
+GoatCounter API는 다음과 같은 엔드포인트를 제공합니다.
+
+| 엔드포인트              | 설명                     |
+| :---------------------- | :----------------------- |
+| `/api/v0/stats/total`   | 총 방문자 수 조회        |
+| `/api/v0/stats/hits`    | 페이지별 히트 통계       |
+| `/api/v0/stats/browsers`| 브라우저별 통계          |
+| `/api/v0/stats/systems` | 운영체제별 통계          |
+| `/api/v0/stats/locations`| 지역별 통계             |
+| `/api/v0/stats/toprefs` | 추천 소스(Referrer) 통계 |
+
+### 5-3. Node.js 프록시 서버 예시
+
+CORS 정책으로 인해 브라우저에서 직접 API를 호출할 수 없는 경우, 프록시 서버를 구성할 수 있습니다.
+
+```javascript
+const express = require('express');
+const path = require('path');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 8000;
+
+// 정적 파일 서빙
+app.use(express.static(path.join(__dirname)));
+
+// GoatCounter API 프록시
+app.all('/api/proxy', async (req, res) => {
+    const { target, ...params } = req.query;
+
+    if (!target) {
+        return res.status(400).json({ error: 'target parameter is required' });
+    }
+
+    try {
+        const url = new URL(target);
+
+        Object.entries(params).forEach(([key, value]) => {
+            if (key !== 'target' && value !== undefined && value !== null) {
+                url.searchParams.append(key, value);
+            }
+        });
+
+        const headers = {
+            'Accept': 'application/json'
+        };
+
+        if (req.headers.authorization) {
+            headers['Authorization'] = req.headers.authorization;
+        }
+
+        const response = await fetch(url.toString(), {
+            method: req.method,
+            headers: headers
+        });
+
+        const data = await response.text();
+        res.status(response.status).set('Content-Type', 'application/json').send(data);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
+```
+
+### 5-4. JavaScript에서 API 호출하기
+
+프록시 서버를 통해 GoatCounter API를 호출하는 예시입니다.
+
+```javascript
+function apiFetch(endpoint, params) {
+    params = params || {};
+    var targetUrl = 'https://YOURCODE.goatcounter.com/api/v0' + endpoint;
+    var proxyUrl = new URL('/api/proxy', window.location.origin);
+    proxyUrl.searchParams.append('target', targetUrl);
+
+    Object.keys(params).forEach(function (k) {
+        if (params[k] !== undefined && params[k] !== null) {
+            proxyUrl.searchParams.append(k, params[k]);
+        }
+    });
+
+    return fetch(proxyUrl.toString(), {
+        headers: { Authorization: 'Bearer YOUR_API_KEY' }
+    })
+    .then(function (res) {
+        if (!res.ok) throw new Error('API ' + res.status);
+        return res.json();
+    });
+}
+
+// 사용 예시: 총 방문자 수 조회
+apiFetch('/stats/total', {
+    start: '2026-07-01T00:00:00Z',
+    end: '2026-07-04T23:59:59Z'
+}).then(function (data) {
+    console.log('총 방문자:', data.total);
+});
+```
+
+---
+
+## 6. 프라이버시 및 보안
+
+### 6-1. Do Not Track (DNT) 지원
+
+GoatCounter는 브라우저의 Do Not Track 설정을 자동으로 지원합니다. 사용자가 DNT를 활성화하면 자동으로 카운트되지 않습니다.
+
+로컬호스트에서 카운트를 제외하려면 다음 설정을 추가합니다.
+
+```html
+<script data-goatcounter="https://YOURCODE.goatcounter.com/count"
+        data-goatcounter-allow-local="false"
+        async src="//gc.zgo.at/count.js"></script>
+```
+
+### 6-2. 프라이버시 준수 사항
+
+- **GDPR, CCPA 준수**: 개인정보 보호 규정을 기본으로 준수합니다.
+- **IP 해시 처리**: 원본 IP는 저장하지 않고 해시 처리된 값만 저장합니다.
+- **쿠키 미사용**: fingerprinting 방지를 위해 쿠키를 사용하지 않습니다.
+- **DNT 지원**: 브라우저의 Do Not Track 설정을 자동으로 지원합니다.
+
+---
+
+## 7. 문제 해결
+
+### 7-1. CORS 오류
+
+API를 직접 호출하는 경우 CORS 오류가 발생할 수 있습니다. 반드시 프록시 서버를 통해 API를 호출해야 합니다.
+
+### 7-2. 데이터가 표시되지 않는 경우
+
+1. 추적 코드가 대상 사이트에 올바르게 삽입되었는지 확인합니다.
+2. 대상 사이트에 실제 방문자가 있어야 데이터가 수집됩니다.
+3. GoatCounter 대시보드에서 데이터 수신 여부를 확인합니다.
+4. API 키와 사이트 코드가 정확한지 확인합니다.
+
+### 7-3. 테스트 및 디버깅
+
+```javascript
+// 브라우저 개발자 도구에서 테스트
+console.log(goatcounter.count_event('test-event'));
+```
+
+개발자 도구(F12)의 Network 탭에서 `count` 요청이 정상적으로 전송되는지 확인합니다.
+
+---
+
+## 마치며
+
+GoatCounter는 쿠키를 사용하지 않으면서도 강력한 웹 분석 기능을 제공하는 프라이버시 중심 도구입니다. GDPR, CCPA 등 개인정보 보호 규정을 기본으로 준수하며, 가볍고 빠른 스크립트로 사이트 성능에 미치는 영향을 최소화합니다.
+
+API를 활용하면 커스텀 대시보드를 구축하여 자신만의 방식으로 데이터를 시각화할 수 있습니다. Google Analytics의 대안을 찾고 계신다면 GoatCounter를 적극 추천합니다.
+
+---
+
+**참고 링크:**
+
+- [GoatCounter 공식 사이트](https://www.goatcounter.com)
+- [GoatCounter GitHub 저장소](https://github.com/arp242/goatcounter)
+- [GoatCounter API 문서](https://www.goatcounter.com/api-docs)
+- [GoatCounter 대시보드 프로젝트](https://github.com/nchime/goatcounter)
