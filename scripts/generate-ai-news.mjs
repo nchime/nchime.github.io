@@ -26,9 +26,7 @@ function parseRSSItems(text, maxItems = 10) {
         content.match(/<title>(.*?)<\/title>/)?.[1] ||
         ''
       const link =
-        content.match(/<link>(.*?)<\/link>/)?.[1] ||
-        content.match(/<guid>(.*?)<\/guid>/)?.[1] ||
-        ''
+        content.match(/<link>(.*?)<\/link>/)?.[1] || content.match(/<guid>(.*?)<\/guid>/)?.[1] || ''
       const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
       const description =
         content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
@@ -52,7 +50,7 @@ function parseRSSItems(text, maxItems = 10) {
 
 function parseAtomEntries(text, maxItems = 10) {
   const entries = [...text.matchAll(/<entry>([\s\S]*?)<\/entry>/g)]
-  const slicer = maxItems ? items.slice(0, maxItems) : items
+  const slicer = maxItems ? entries.slice(0, maxItems) : entries
   return slicer
     .map(([, content]) => {
       const title =
@@ -210,11 +208,11 @@ const NEWS_SOURCES = [
 const SOURCE_WEIGHT = {
   'The Verge AI': 1.0,
   'VentureBeat AI': 1.6,
-  'GeekNews': 1.5,
-  'AI타임스': 1.4,
-  '지다넷코리아': 1.2,
+  GeekNews: 1.5,
+  AI타임스: 1.4,
+  지다넷코리아: 1.2,
   'ZDNet Korea': 1.1,
-  'AITimes': 1.0,
+  AITimes: 1.0,
   '구글뉴스 AI (한국어)': 1.3,
   'arXiv AI/ML': 1.0,
 }
@@ -235,7 +233,7 @@ const KEYWORDS = [
   '벡터DB',
   'ChatGPT',
   'Claude',
-  'Gemini'
+  'Gemini',
 ]
 
 function computeScore(art) {
@@ -247,7 +245,7 @@ function computeScore(art) {
 
   // 키워드 매치 (제목+요약에 들어있는 키워드 수)
   const text = ((art.title || '') + ' ' + (art.description || '')).toLowerCase()
-  const kwHits = KEYWORDS.filter(k => text.includes(k)).length
+  const kwHits = KEYWORDS.filter((k) => text.includes(k)).length
   const kwScore = Math.min(kwHits * 0.2, 1.0) // 최대 1.0
   score += kwScore * 0.25 // 가중치 25%
 
@@ -324,7 +322,7 @@ ${item.description || '요약 정보가 없습니다.'}
   return `---
 title: '오늘의 AI 소식 - ${dateDisplay}'
 date: '${dateStr}'
-tags: ['AI', '뉴스', '다이제스트']
+tags: ['AI', '뉴스', '다이제스트', '뉴스-다이제스트']
 draft: false
 images: ['/images/ai-news/digest-cover.png']
 summary: 'AI 분야의 최신 뉴스를 요약한 일일 다이제스트입니다. 오늘 수집된 주요 AI/ML 관련 뉴스 ${newsItems.length}건을 엄선하여 소개합니다.'
@@ -374,16 +372,16 @@ async function main() {
 
   // 중복 제거 & 점수 기반 정렬 & 상위 10개 선별
   const seen = new Set()
-  const deduped = allNews.filter(item => {
+  const deduped = allNews.filter((item) => {
     const key = item.title.toLowerCase().trim()
     if (seen.has(key)) return false
     seen.add(key)
     return true
   })
 
-  const scored = deduped.map(item => ({
+  const scored = deduped.map((item) => ({
     ...item,
-    score: computeScore(item)
+    score: computeScore(item),
   }))
   const ranked = scored.sort((a, b) => b.score - a.score)
   const top10 = ranked.slice(0, 10)
@@ -428,8 +426,8 @@ async function main() {
     try {
       execSync('git config user.email', { cwd: projectDir, encoding: 'utf-8' })
     } catch {
-      execSync('git config user.email \"bot@nchime.github.io\"', { cwd: projectDir })
-      execSync('git config user.name \"AI News Bot\"', { cwd: projectDir })
+      execSync('git config user.email "bot@nchime.github.io"', { cwd: projectDir })
+      execSync('git config user.name "AI News Bot"', { cwd: projectDir })
     }
 
     // Stage, commit, push
