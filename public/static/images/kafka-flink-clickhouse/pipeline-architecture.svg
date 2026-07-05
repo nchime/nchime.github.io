@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e293b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="kafkaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="flinkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e44d26;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c43a18;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="clickhouseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#facc15;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#eab308;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="appGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.3"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#60a5fa"/>
+    </marker>
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#fb923c"/>
+    </marker>
+    <marker id="arrowYellow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#facc15"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#34d399"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="500" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- Title -->
+  <text x="600" y="42" text-anchor="middle" fill="#f1f5f9" font-size="22" font-weight="bold">Kafka → Flink → ClickHouse Real-time Analytics Pipeline</text>
+
+  <!-- Producer / App Sources -->
+  <g filter="url(#shadow)">
+    <rect x="30" y="100" width="140" height="80" rx="10" fill="url(#appGrad)"/>
+    <text x="100" y="135" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Web App</text>
+    <text x="100" y="155" text-anchor="middle" fill="#d1fae5" font-size="10">User Events</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="30" y="210" width="140" height="80" rx="10" fill="url(#appGrad)"/>
+    <text x="100" y="245" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Mobile SDK</text>
+    <text x="100" y="265" text-anchor="middle" fill="#d1fae5" font-size="10">Click / Pageview</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="30" y="320" width="140" height="80" rx="10" fill="url(#appGrad)"/>
+    <text x="100" y="355" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">IoT Sensors</text>
+    <text x="100" y="375" text-anchor="middle" fill="#d1fae5" font-size="10">Telemetry Data</text>
+  </g>
+
+  <!-- Arrows: App → Kafka -->
+  <line x1="170" y1="140" x2="240" y2="190" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <line x1="170" y1="250" x2="240" y2="230" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <line x1="170" y1="360" x2="240" y2="270" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+
+  <!-- Kafka Cluster -->
+  <g filter="url(#shadow)">
+    <rect x="250" y="130" width="180" height="220" rx="12" fill="url(#kafkaGrad)" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="340" y="168" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Apache Kafka</text>
+    <text x="340" y="188" text-anchor="middle" fill="#bfdbfe" font-size="10">Event Streaming Platform</text>
+
+    <!-- Partition boxes -->
+    <rect x="270" y="205" width="140" height="28" rx="5" fill="#1e40af" opacity="0.7"/>
+    <text x="340" y="224" text-anchor="middle" fill="#e0f2fe" font-size="10">Partition 0</text>
+    <rect x="270" y="240" width="140" height="28" rx="5" fill="#1e40af" opacity="0.7"/>
+    <text x="340" y="259" text-anchor="middle" fill="#e0f2fe" font-size="10">Partition 1</text>
+    <rect x="270" y="275" width="140" height="28" rx="5" fill="#1e40af" opacity="0.7"/>
+    <text x="340" y="294" text-anchor="middle" fill="#e0f2fe" font-size="10">Partition 2</text>
+    <rect x="270" y="310" width="140" height="28" rx="5" fill="#1e40af" opacity="0.7"/>
+    <text x="340" y="329" text-anchor="middle" fill="#e0f2fe" font-size="10">Partition N</text>
+  </g>
+
+  <!-- Arrow: Kafka → Flink -->
+  <line x1="430" y1="220" x2="500" y2="220" stroke="#fb923c" stroke-width="3" marker-end="url(#arrowOrange)"/>
+  <line x1="430" y1="250" x2="500" y2="250" stroke="#fb923c" stroke-width="3" marker-end="url(#arrowOrange)"/>
+  <line x1="430" y1="280" x2="500" y2="280" stroke="#fb923c" stroke-width="3" marker-end="url(#arrowOrange)"/>
+  <text x="465" y="210" text-anchor="middle" fill="#fdba74" font-size="9">Consumer</text>
+  <text x="465" y="300" text-anchor="middle" fill="#fdba74" font-size="9">Group</text>
+
+  <!-- Flink Cluster -->
+  <g filter="url(#shadow)">
+    <rect x="510" y="100" width="200" height="280" rx="12" fill="url(#flinkGrad)" stroke="#fdba74" stroke-width="1.5"/>
+    <text x="610" y="138" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">Apache Flink</text>
+    <text x="610" y="158" text-anchor="middle" fill="#fed7aa" font-size="10">Stream Processing Engine</text>
+
+    <!-- JobManager -->
+    <rect x="530" y="175" width="160" height="35" rx="6" fill="#7c2d12" opacity="0.6"/>
+    <text x="610" y="198" text-anchor="middle" fill="#fff7ed" font-size="11" font-weight="bold">JobManager</text>
+
+    <!-- TaskManagers -->
+    <rect x="530" y="220" width="160" height="30" rx="5" fill="#9a3412" opacity="0.5"/>
+    <text x="610" y="240" text-anchor="middle" fill="#fff7ed" font-size="10">TaskManager 1</text>
+    <rect x="530" y="256" width="160" height="30" rx="5" fill="#9a3412" opacity="0.5"/>
+    <text x="610" y="276" text-anchor="middle" fill="#fff7ed" font-size="10">TaskManager 2</text>
+    <rect x="530" y="292" width="160" height="30" rx="5" fill="#9a3412" opacity="0.5"/>
+    <text x="610" y="312" text-anchor="middle" fill="#fff7ed" font-size="10">TaskManager N</text>
+
+    <!-- Checkpoint note -->
+    <rect x="530" y="335" width="160" height="28" rx="5" fill="#7c2d12" opacity="0.4" stroke="#fb923c" stroke-width="0.5" stroke-dasharray="3"/>
+    <text x="610" y="353" text-anchor="middle" fill="#fed7aa" font-size="9">Checkpoint / Savepoint</text>
+  </g>
+
+  <!-- Arrow: Flink → ClickHouse -->
+  <line x1="710" y1="220" x2="780" y2="220" stroke="#facc15" stroke-width="3" marker-end="url(#arrowYellow)"/>
+  <line x1="710" y1="260" x2="780" y2="260" stroke="#facc15" stroke-width="3" marker-end="url(#arrowYellow)"/>
+  <text x="745" y="210" text-anchor="middle" fill="#fde047" font-size="9">JDBC Sink</text>
+  <text x="745" y="282" text-anchor="middle" fill="#fde047" font-size="9">Batch Insert</text>
+
+  <!-- ClickHouse Cluster -->
+  <g filter="url(#shadow)">
+    <rect x="790" y="100" width="200" height="280" rx="12" fill="url(#clickhouseGrad)" stroke="#fde047" stroke-width="1.5"/>
+    <text x="890" y="138" text-anchor="middle" fill="#1e293b" font-size="16" font-weight="bold">ClickHouse</text>
+    <text x="890" y="158" text-anchor="middle" fill="#422006" font-size="10">OLAP Columnar Database</text>
+
+    <!-- Shard boxes -->
+    <rect x="810" y="178" width="160" height="55" rx="6" fill="#854d0e" opacity="0.4"/>
+    <text x="890" y="200" text-anchor="middle" fill="#422006" font-size="11" font-weight="bold">Shard 1</text>
+    <text x="890" y="218" text-anchor="middle" fill="#713f12" font-size="9">Replica 1-2</text>
+
+    <rect x="810" y="243" width="160" height="55" rx="6" fill="#854d0e" opacity="0.4"/>
+    <text x="890" y="265" text-anchor="middle" fill="#422006" font-size="11" font-weight="bold">Shard 2</text>
+    <text x="890" y="283" text-anchor="middle" fill="#713f12" font-size="9">Replica 1-2</text>
+
+    <rect x="810" y="308" width="160" height="55" rx="6" fill="#854d0e" opacity="0.4"/>
+    <text x="890" y="330" text-anchor="middle" fill="#422006" font-size="11" font-weight="bold">Shard N</text>
+    <text x="890" y="348" text-anchor="middle" fill="#713f12" font-size="9">Replica 1-2</text>
+  </g>
+
+  <!-- Arrow: ClickHouse → BI -->
+  <line x1="990" y1="220" x2="1060" y2="220" stroke="#34d399" stroke-width="3" marker-end="url(#arrowGreen)"/>
+  <line x1="990" y1="260" x2="1060" y2="260" stroke="#34d399" stroke-width="3" marker-end="url(#arrowGreen)"/>
+  <text x="1025" y="210" text-anchor="middle" fill="#6ee7b7" font-size="9">SQL Query</text>
+  <text x="1025" y="282" text-anchor="middle" fill="#6ee7b7" font-size="9">Aggregation</text>
+
+  <!-- BI / Dashboard -->
+  <g filter="url(#shadow)">
+    <rect x="1070" y="140" width="110" height="110" rx="10" fill="#059669" stroke="#34d399" stroke-width="1.5"/>
+    <text x="1125" y="180" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">Grafana</text>
+    <text x="1125" y="200" text-anchor="middle" fill="#d1fae5" font-size="10">Dashboard</text>
+    <text x="1125" y="215" text-anchor="middle" fill="#a7f3d0" font-size="9">Real-time Charts</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="1070" y="270" width="110" height="90" rx="10" fill="#059669" stroke="#34d399" stroke-width="1.5"/>
+    <text x="1125" y="305" text-anchor="middle" fill="#fff" font-size="13" font-weight="bold">API</text>
+    <text x="1125" y="325" text-anchor="middle" fill="#d1fae5" font-size="10">Analytics Service</text>
+  </g>
+
+  <!-- Legend -->
+  <rect x="30" y="430" width="1140" height="50" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <rect x="50" y="445" width="14" height="14" rx="3" fill="#10b981"/>
+  <text x="70" y="457" fill="#94a3b8" font-size="10">Data Source</text>
+  <rect x="170" y="445" width="14" height="14" rx="3" fill="#2563eb"/>
+  <text x="190" y="457" fill="#94a3b8" font-size="10">Kafka (Ingestion)</text>
+  <rect x="330" y="445" width="14" height="14" rx="3" fill="#e44d26"/>
+  <text x="350" y="457" fill="#94a3b8" font-size="10">Flink (Processing)</text>
+  <rect x="510" y="445" width="14" height="14" rx="3" fill="#facc15"/>
+  <text x="530" y="457" fill="#94a3b8" font-size="10">ClickHouse (Storage)</text>
+  <rect x="690" y="445" width="14" height="14" rx="3" fill="#059669"/>
+  <text x="710" y="457" fill="#94a3b8" font-size="10">Query / Visualization</text>
+  <text x="880" y="457" fill="#64748b" font-size="10">Throughput: ~100K+ events/sec  |  Latency: sub-second  |  Fault-tolerant</text>
+</svg>
