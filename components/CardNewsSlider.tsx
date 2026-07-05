@@ -3,54 +3,54 @@
 import { useState, useRef, useEffect } from 'react'
 
 interface CardItem {
-  icon: string
   title: string
   body: string
-  color: string
+  bgColor: string
+  badgeColor: string
 }
 
 const cards: CardItem[] = [
   {
-    icon: '📮',
     title: 'Kafka',
     body: '이벤트 수집 및 버퍼링\n피크 트래픽 흡수, 데이터 유실 방지\n파티션 기반 병렬 처리',
-    color: '#1e40af',
+    bgColor: '#eff6ff',
+    badgeColor: '#1e40af',
   },
   {
-    icon: '⚙️',
     title: 'Flink',
     body: '실시간 스트림 처리\n상태 기반 계산, Exactly-Once 보장\n이벤트 시간 윈도우 집계',
-    color: '#c2410c',
+    bgColor: '#fff7ed',
+    badgeColor: '#c2410c',
   },
   {
-    icon: '📊',
     title: 'ClickHouse',
     body: '컬럼형 OLAP 분석\n10배 압축으로 스토리지 절감\n초고속 집계 쿼리',
-    color: '#a16207',
+    bgColor: '#fefce8',
+    badgeColor: '#a16207',
   },
   {
-    icon: '🔗',
     title: '역할 분리',
     body: '각 컴포넌트가 하나의 역할에 전문화\n독립적 확장 및 교체 가능\n점진적 도입 지원',
-    color: '#15803d',
+    bgColor: '#f0fdf4',
+    badgeColor: '#15803d',
   },
   {
-    icon: '💰',
     title: '비용',
     body: '오픈소스 무상 라이선스\nManaged Service 월 $100~\n프로덕션 인프라 월 $1,600~',
-    color: '#7c3aed',
+    bgColor: '#faf5ff',
+    badgeColor: '#7c3aed',
   },
   {
-    icon: '🚀',
     title: '추천 시나리오',
     body: '초실시간 분석 필수 시\n이벤트 일수백만 건 이상\n상태 기반 처리 필요 시',
-    color: '#0369a1',
+    bgColor: '#f0f9ff',
+    badgeColor: '#0369a1',
   },
   {
-    icon: '⚠️',
     title: '주의사항',
     body: '3개 시스템 운영 복잡도\n학습 곡선 존재\n최소 구성 리소스 필요',
-    color: '#b91c1c',
+    bgColor: '#fef2f2',
+    badgeColor: '#b91c1c',
   },
 ]
 
@@ -119,9 +119,9 @@ export default function CardNewsSlider() {
   }, [])
 
   return (
-    <div className="my-10 rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-gray-100 p-6 dark:border-gray-700 dark:from-gray-800 dark:to-gray-900">
+    <div className="my-10 rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">📌 핵심 요약 카드</h3>
+        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">핵심 요약 카드</h3>
         <div className="flex gap-2">
           <button
             onClick={handlePrev}
@@ -162,14 +162,23 @@ export default function CardNewsSlider() {
           {cards.map((card, i) => (
             <div key={i} className="min-w-full px-2">
               <div
-                className="flex flex-col items-center rounded-lg p-6 text-white shadow-lg md:flex-row md:gap-6"
-                style={{ backgroundColor: card.color }}
+                className="rounded-lg border p-6 shadow-sm md:flex md:items-start md:gap-6"
+                style={{
+                  backgroundColor: card.bgColor,
+                  borderColor: card.badgeColor + '30',
+                }}
               >
-                <div className="mb-4 text-5xl md:mb-0">{card.icon}</div>
+                <div className="mb-4 md:mb-0">
+                  <span
+                    className="inline-block rounded-full px-3 py-1 text-sm font-semibold text-white"
+                    style={{ backgroundColor: card.badgeColor }}
+                  >
+                    {card.title}
+                  </span>
+                </div>
                 <div className="flex-1 text-center md:text-left">
-                  <h4 className="mb-2 text-xl font-bold">{card.title}</h4>
                   {card.body.split('\n').map((line, j) => (
-                    <p key={j} className="text-sm leading-relaxed opacity-90">
+                    <p key={j} className="text-sm leading-relaxed text-gray-700 dark:text-gray-200">
                       {line}
                     </p>
                   ))}
