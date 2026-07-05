@@ -9,6 +9,7 @@ import TableWrapper from './TableWrapper'
 import InteractiveBox from '@/components/InteractiveBox'
 import AgGridComponent from '@/components/AgGridComponent'
 import EChartComponent from '@/components/EChartComponent'
+import CardNewsSlider from '@/components/CardNewsSlider'
 
 export const components: MDXComponents = {
   Image,
@@ -20,4 +21,5 @@ export const components: MDXComponents = {
   InteractiveBox,
   AgGridComponent,
   EChartComponent,
+  CardNewsSlider,
 }
