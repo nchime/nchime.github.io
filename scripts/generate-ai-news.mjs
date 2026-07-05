@@ -48,6 +48,52 @@ function parseRSSItems(text, maxItems = 10) {
     .filter((item) => item.title && item.link)
 }
 
+function parseAtomEntries(text, maxItems = 10) {
+  const entries = [...text.matchAll(/<entry>([\s\S]*?)<\/entry>/g)]
+  const slicer = maxItems ? entries.slice(0, maxItems) : entries
+  return slicer
+    .map(([, content]) => {
+      const title =
+        content
+          .match(/<title>([\s\S]*?)<\/title>/)?.[1]
+          ?.replace(/<!\[CDATA\[|\]\]>/g, '')
+          .trim() || ''
+      // Find the link with rel="alternate" and type="text/html"
+      const linkMatch = content.match(
+        /<link\s+[^>]*rel\s*=\s*["']alternate["'][^>]*href\s*=\s*["']([^"']+)["'][^>]*\/>/i
+      )
+      const link = linkMatch ? linkMatch[1] : ''
+      // fallback: first <link href="..."> if no rel?
+      const fallbackLink = content.match(/<link\s+[^>]*href\s*=\s*["']([^"']+)["'][^>]*\/>/i)
+      const finalLink = link || (fallbackLink ? fallbackLink[1] : '')
+      const published =
+        content.match(/<published>([^<]+)<\/published>/)?.[1] ||
+        content.match(/<updated>([^<]+)<\/updated>/)?.[1] ||
+        ''
+      const summary =
+        content
+          .match(/<summary>([\s\S]*?)<\/summary>/)?.[1]
+          ?.replace(/<[^>]*>/g, '')
+          .replace(/&[^;]+;/g, ' ')
+          .trim()
+          .slice(0, 300) ||
+        content
+          .match(/<content[^>]*type=["']html["'][^>]*>([\s\S]*?)<\/content>/)?.[1]
+          ?.replace(/<[^>]*>/g, '')
+          .replace(/&[^;]+;/g, ' ')
+          .trim()
+          .slice(0, 300) ||
+        ''
+      return {
+        title,
+        link: finalLink,
+        pubDate: published,
+        description: summary,
+      }
+    })
+    .filter((item) => item.title && item.link)
+}
+
 // ─── 뉴스 소스 ───────────────────────────────────────────────
 
 const NEWS_SOURCES = [
@@ -75,7 +121,7 @@ const NEWS_SOURCES = [
     async fetch() {
       const res = await fetch(this.url)
       const text = await res.text()
-      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
+      return parseAtomEntries(text, 10).map((item) => ({ ...item, source: this.name }))
     },
   },
   {

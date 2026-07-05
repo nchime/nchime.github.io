@@ -14,14 +14,37 @@ import blog__2025021501NextjsmdxMdx from './blog__2025021501-nextjsmdx.mdx.json'
 import blog__20250402HandsonMdx from './blog__20250402-handson.mdx.json' with { type: 'json' }
 import blog__2026_06_11AiNewsDigestMdx from './blog__2026-06-11-ai-news-digest.mdx.json' with { type: 'json' }
 import blog__2026_06_12AiNewsDigestMdx from './blog__2026-06-12-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_13AiNewsDigestMdx from './blog__2026-06-13-ai-news-digest.mdx.json' with { type: 'json' }
 import blog__2026_06_13CiliumVsIstioMdx from './blog__2026-06-13-cilium-vs-istio.mdx.json' with { type: 'json' }
+import blog__2026_06_14AiNewsDigestMdx from './blog__2026-06-14-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_15AiNewsDigestMdx from './blog__2026-06-15-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_16AiNewsDigestMdx from './blog__2026-06-16-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_17AiNewsDigestMdx from './blog__2026-06-17-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_19AiNewsDigestMdx from './blog__2026-06-19-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_20AiNewsDigestMdx from './blog__2026-06-20-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_21AiNewsDigestMdx from './blog__2026-06-21-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_22AiNewsDigestMdx from './blog__2026-06-22-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_24AiNewsDigestMdx from './blog__2026-06-24-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_25AiNewsDigestMdx from './blog__2026-06-25-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_27AiNewsDigestMdx from './blog__2026-06-27-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_28AiNewsDigestMdx from './blog__2026-06-28-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_06_29CliTrendMdx from './blog__2026-06-29-cli-trend.mdx.json' with { type: 'json' }
+import blog__2026_06_30AiNewsDigestMdx from './blog__2026-06-30-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_07_01AiNewsDigestMdx from './blog__2026-07-01-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_07_02AiNewsDigestMdx from './blog__2026-07-02-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_07_03AiNewsDigestMdx from './blog__2026-07-03-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_07_04AiNewsDigestMdx from './blog__2026-07-04-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_07_05AiNewsDigestMdx from './blog__2026-07-05-ai-news-digest.mdx.json' with { type: 'json' }
 import blog__20260503HarnessEngineeringMdx from './blog__20260503-harness-engineering.mdx.json' with { type: 'json' }
 import blog__20260523OntologyServiceMdx from './blog__20260523-ontology-service.mdx.json' with { type: 'json' }
 import blog__20260531HarnessDeveloperEfficiencyMdx from './blog__20260531-harness-developer-efficiency.mdx.json' with { type: 'json' }
 import blog__20260604AiModelEvaluationMdx from './blog__20260604-ai-model-evaluation.mdx.json' with { type: 'json' }
 import blog__20260610AiDeveloperInterviewMdx from './blog__20260610-ai-developer-interview.mdx.json' with { type: 'json' }
+import blog__20260611DemisHassabisAgiPredictionIo_2026Mdx from './blog__20260611-demis-hassabis-agi-prediction-io-2026.mdx.json' with { type: 'json' }
+import blog__20260626Glm52QuantizationGuideMdx from './blog__20260626-glm52-quantization-guide.mdx.json' with { type: 'json' }
+import blog__20260704GoatcounterUsageGuideMdx from './blog__20260704-goatcounter-usage-guide.mdx.json' with { type: 'json' }
 import blog__introducingTailwindNextjsStarterBlogMdx from './blog__introducing-tailwind-nextjs-starter-blog.mdx.json' with { type: 'json' }
 import blog__newfeatureMdx from './blog__newfeature.mdx.json' with { type: 'json' }
-import blog__2026_06_13AiNewsDigestMdx from './blog__2026-06-13-ai-news-digest.mdx.json' with { type: 'json' }
+import blog__2026_07_05KafkaFlinkClickhouseGuideMdx from './blog__2026-07-05-kafka-flink-clickhouse-guide.mdx.json' with { type: 'json' }
 
-export const allBlogs = [blog__20241226GithubactionMdx, blog__20241227NextjsblogMdx, blog__20250101DiscusMdx, blog__20250101GithubpageMdx, blog__20250106GooglenotebooklmMdx, blog__20250107OpengraphMdx, blog__20250116K9sMdx, blog__20250124MyblogMdx, blog__20250209MentomentMdx, blog__20250215ToyprojectMdx, blog__2025021501NextjsmdxMdx, blog__20250402HandsonMdx, blog__2026_06_11AiNewsDigestMdx, blog__2026_06_12AiNewsDigestMdx, blog__2026_06_13CiliumVsIstioMdx, blog__20260503HarnessEngineeringMdx, blog__20260523OntologyServiceMdx, blog__20260531HarnessDeveloperEfficiencyMdx, blog__20260604AiModelEvaluationMdx, blog__20260610AiDeveloperInterviewMdx, blog__introducingTailwindNextjsStarterBlogMdx, blog__newfeatureMdx, blog__2026_06_13AiNewsDigestMdx]
+export const allBlogs = [blog__20241226GithubactionMdx, blog__20241227NextjsblogMdx, blog__20250101DiscusMdx, blog__20250101GithubpageMdx, blog__20250106GooglenotebooklmMdx, blog__20250107OpengraphMdx, blog__20250116K9sMdx, blog__20250124MyblogMdx, blog__20250209MentomentMdx, blog__20250215ToyprojectMdx, blog__2025021501NextjsmdxMdx, blog__20250402HandsonMdx, blog__2026_06_11AiNewsDigestMdx, blog__2026_06_12AiNewsDigestMdx, blog__2026_06_13AiNewsDigestMdx, blog__2026_06_13CiliumVsIstioMdx, blog__2026_06_14AiNewsDigestMdx, blog__2026_06_15AiNewsDigestMdx, blog__2026_06_16AiNewsDigestMdx, blog__2026_06_17AiNewsDigestMdx, blog__2026_06_19AiNewsDigestMdx, blog__2026_06_20AiNewsDigestMdx, blog__2026_06_21AiNewsDigestMdx, blog__2026_06_22AiNewsDigestMdx, blog__2026_06_24AiNewsDigestMdx, blog__2026_06_25AiNewsDigestMdx, blog__2026_06_27AiNewsDigestMdx, blog__2026_06_28AiNewsDigestMdx, blog__2026_06_29CliTrendMdx, blog__2026_06_30AiNewsDigestMdx, blog__2026_07_01AiNewsDigestMdx, blog__2026_07_02AiNewsDigestMdx, blog__2026_07_03AiNewsDigestMdx, blog__2026_07_04AiNewsDigestMdx, blog__2026_07_05AiNewsDigestMdx, blog__20260503HarnessEngineeringMdx, blog__20260523OntologyServiceMdx, blog__20260531HarnessDeveloperEfficiencyMdx, blog__20260604AiModelEvaluationMdx, blog__20260610AiDeveloperInterviewMdx, blog__20260611DemisHassabisAgiPredictionIo_2026Mdx, blog__20260626Glm52QuantizationGuideMdx, blog__20260704GoatcounterUsageGuideMdx, blog__introducingTailwindNextjsStarterBlogMdx, blog__newfeatureMdx, blog__2026_07_05KafkaFlinkClickhouseGuideMdx]
