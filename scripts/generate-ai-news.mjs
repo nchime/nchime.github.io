@@ -26,7 +26,9 @@ function parseRSSItems(text, maxItems = 10) {
         content.match(/<title>(.*?)<\/title>/)?.[1] ||
         ''
       const link =
-        content.match(/<link>(.*?)<\/link>/)?.[1] || content.match(/<guid>(.*?)<\/guid>/)?.[1] || ''
+        content.match(/<link>(.*?)<\/link>/)?.[1] ||
+        content.match(/<guid>(.*?)<\/guid>/)?.[1] ||
+        ''
       const pubDate = content.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || ''
       const description =
         content.match(/<description><!\[CDATA\[(.*?)\]\]>/)?.[1] ||
@@ -50,7 +52,7 @@ function parseRSSItems(text, maxItems = 10) {
 
 function parseAtomEntries(text, maxItems = 10) {
   const entries = [...text.matchAll(/<entry>([\s\S]*?)<\/entry>/g)]
-  const slicer = maxItems ? entries.slice(0, maxItems) : entries
+  const slicer = maxItems ? items.slice(0, maxItems) : items
   return slicer
     .map(([, content]) => {
       const title =
@@ -204,6 +206,68 @@ const NEWS_SOURCES = [
   },
 ]
 
+// ─── 점수 기반 선정 로직 ────────────────────────────────────────
+const SOURCE_WEIGHT = {
+  'The Verge AI': 1.0,
+  'VentureBeat AI': 1.6,
+  'GeekNews': 1.5,
+  'AI타임스': 1.4,
+  '지다넷코리아': 1.2,
+  'ZDNet Korea': 1.1,
+  'AITimes': 1.0,
+  '구글뉴스 AI (한국어)': 1.3,
+  'arXiv AI/ML': 1.0,
+}
+const KEYWORDS = [
+  'AI',
+  '인공지능',
+  'LLM',
+  'GPT',
+  '생성형',
+  '챗봇',
+  '딥러닝',
+  '머신러닝',
+  '멀티모달',
+  '프롬프트',
+  '확산',
+  'Stable Diffusion',
+  'LangChain',
+  '벡터DB',
+  'ChatGPT',
+  'Claude',
+  'Gemini'
+]
+
+function computeScore(art) {
+  let score = 0
+
+  // 출처 가중치 (0~1 사이로 정규화 후 곱)
+  const srcW = SOURCE_WEIGHT[art.source] || 1.0
+  score += srcW * 0.35 // 가중치 비중 35%
+
+  // 키워드 매치 (제목+요약에 들어있는 키워드 수)
+  const text = ((art.title || '') + ' ' + (art.description || '')).toLowerCase()
+  const kwHits = KEYWORDS.filter(k => text.includes(k)).length
+  const kwScore = Math.min(kwHits * 0.2, 1.0) // 최대 1.0
+  score += kwScore * 0.25 // 가중치 25%
+
+  // 최신도 (최근 6시간 이내 → 1, 6~24h → 0.5, 그 외 → 0)
+  const hrsAgo = (Date.now() - new Date(art.pubDate || 0)) / (1000 * 60 * 60)
+  let rec = 0
+  if (hrsAgo <= 6) {
+    rec = 1
+  } else if (hrsAgo <= 24) {
+    rec = 0.5
+  }
+  score += rec * 0.2 // 가중치 20%
+
+  // (선택) 요약 길이가 너무 짧으면 약간 패널티
+  const lenScore = (art.description || '').length >= 120 ? 1 : 0.5
+  score += lenScore * 0.1 // 가중치 10%
+
+  return score
+}
+
 // ─── 유틸리티 ─────────────────────────────────────────────────
 
 function formatDate(date) {
@@ -274,8 +338,7 @@ ${newsList}
 
 ---
 
-*이 포스트는 자동 생성되었습니다. 최신 뉴스는 각 출처 링크에서 확인하세요.*
-`
+*이 포스트는 자동 생성되었습니다. 최신 뉴스는 각 출처 링크에서 확인하세요.*`
 }
 
 // ─── 메인 로직 ───────────────────────────────────────────────
@@ -309,10 +372,21 @@ async function main() {
 
   console.log(`\n📊 총 수집: ${allNews.length}건`)
 
-  // 중복 제거 & 정렬 & 상위 10개 선별
-  const deduped = deduplicateNews(allNews)
-  const sorted = sortByDate(deduped)
-  const top10 = sorted.slice(0, 10)
+  // 중복 제거 & 점수 기반 정렬 & 상위 10개 선별
+  const seen = new Set()
+  const deduped = allNews.filter(item => {
+    const key = item.title.toLowerCase().trim()
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+
+  const scored = deduped.map(item => ({
+    ...item,
+    score: computeScore(item)
+  }))
+  const ranked = scored.sort((a, b) => b.score - a.score)
+  const top10 = ranked.slice(0, 10)
 
   console.log(`📝 선별 후: ${top10.length}건`)
 
@@ -340,7 +414,7 @@ async function main() {
 
   // Git commit & push
   try {
-    console.log('\n📦 Git commit & push 시작...')
+    console.log('\\n📦 Git commit & push 시작...')
     const projectDir = join(process.cwd())
 
     // Check if there are changes
@@ -354,8 +428,8 @@ async function main() {
     try {
       execSync('git config user.email', { cwd: projectDir, encoding: 'utf-8' })
     } catch {
-      execSync('git config user.email "bot@nchime.github.io"', { cwd: projectDir })
-      execSync('git config user.name "AI News Bot"', { cwd: projectDir })
+      execSync('git config user.email \"bot@nchime.github.io\"', { cwd: projectDir })
+      execSync('git config user.name \"AI News Bot\"', { cwd: projectDir })
     }
 
     // Stage, commit, push
