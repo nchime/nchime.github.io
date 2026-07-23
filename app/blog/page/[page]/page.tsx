@@ -3,8 +3,7 @@ import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import { allBlogs } from 'contentlayer/generated'
 
 const POSTS_PER_PAGE = 10
-const isNewsDigest = (post) =>
-  post.tags?.includes('뉴스') && post.tags?.includes('다이제스트')
+const isNewsDigest = (post) => post.tags?.includes('뉴스') && post.tags?.includes('다이제스트')
 
 const filteredBlogs = allBlogs.filter((post) => !isNewsDigest(post))
 

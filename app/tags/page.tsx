@@ -4,8 +4,7 @@ import { slug } from 'github-slugger'
 import tagData from 'app/tag-data.json'
 import { genPageMetadata } from 'app/seo'
 
-const isNewsDigest = (post) =>
-  post.tags?.includes('뉴스') && post.tags?.includes('다이제스트')
+const isNewsDigest = (post) => post.tags?.includes('뉴스') && post.tags?.includes('다이제스트')
 
 export const metadata = genPageMetadata({ title: 'Tags', description: 'Things I blog about' })
 

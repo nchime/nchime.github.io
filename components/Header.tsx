@@ -56,7 +56,7 @@ const Header = () => {
                   {getAbbrev(link.title)}
                 </span>
                 {/* Full title: overlay on hover */}
-                <span className="absolute left-0 top-1/2 z-20 -translate-y-1/2 whitespace-nowrap rounded-md border border-gray-300 bg-white px-2 py-1 shadow-sm invisible group-hover:visible dark:border-gray-600 dark:bg-gray-950">
+                <span className="invisible absolute left-0 top-1/2 z-20 -translate-y-1/2 whitespace-nowrap rounded-md border border-gray-300 bg-white px-2 py-1 shadow-sm group-hover:visible dark:border-gray-600 dark:bg-gray-950">
                   {link.title}
                 </span>
               </Link>

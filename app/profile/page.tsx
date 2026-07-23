@@ -6,10 +6,28 @@ import Link from '@/components/Link'
 export const metadata = genPageMetadata({ title: 'Profile' })
 
 const skills = {
-  frontend: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vue.js', 'MUI', 'Semantic UI', 'Element UI' ],
+  frontend: [
+    'React',
+    'Next.js',
+    'TypeScript',
+    'Tailwind CSS',
+    'Vue.js',
+    'MUI',
+    'Semantic UI',
+    'Element UI',
+  ],
   backend: ['Spring Boot', 'Node.js', 'Python', 'Go', 'PostgreSQL', 'ASP.NET', 'MongoDB', 'Redis'],
   devops: ['Docker', 'Kubernetes', 'AWS', 'Argocd', 'Azure DevOps', 'GitHub Actions'],
-  tools: ['IntelliJ IDEA', 'Visual Studio Code', 'Claude Code', 'Antigravity', 'Git', 'Figma', 'Notion', 'Jira'],
+  tools: [
+    'IntelliJ IDEA',
+    'Visual Studio Code',
+    'Claude Code',
+    'Antigravity',
+    'Git',
+    'Figma',
+    'Notion',
+    'Jira',
+  ],
 }
 
 const experiences = [

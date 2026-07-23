@@ -4,8 +4,7 @@ import { allBlogs } from 'contentlayer/generated'
 import { genPageMetadata } from 'app/seo'
 
 const POSTS_PER_PAGE = 10
-const isNewsDigest = (post) =>
-  post.tags?.includes('뉴스') && post.tags?.includes('다이제스트')
+const isNewsDigest = (post) => post.tags?.includes('뉴스') && post.tags?.includes('다이제스트')
 
 export default function BlogPage() {
   const filteredPosts = allBlogs.filter((post) => !isNewsDigest(post))

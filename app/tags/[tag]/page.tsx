@@ -8,8 +8,7 @@ import { genPageMetadata } from 'app/seo'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-const isNewsDigest = (post) =>
-  post.tags?.includes('뉴스') && post.tags?.includes('다이제스트')
+const isNewsDigest = (post) => post.tags?.includes('뉴스') && post.tags?.includes('다이제스트')
 
 // Custom URL alias → actual tag mapping
 const TAG_ALIASES: Record<string, string> = {
@@ -57,13 +56,11 @@ export default async function TagPage(props: { params: Promise<{ tag: string }> 
   // Map custom URL aliases to actual tags
   const actualTag = TAG_ALIASES[tag] || tag
   // Display title
-  const displayTitle = TAG_TITLES[tag] || (tag[0].toUpperCase() + tag.split(' ').join('-').slice(1))
+  const displayTitle = TAG_TITLES[tag] || tag[0].toUpperCase() + tag.split(' ').join('-').slice(1)
   let filteredPosts
   if (actualTag === '__news_digest__') {
     // IT News page: show all news digest posts
-    filteredPosts = allCoreContent(
-      sortPosts(allBlogs.filter((post) => isNewsDigest(post)))
-    )
+    filteredPosts = allCoreContent(sortPosts(allBlogs.filter((post) => isNewsDigest(post))))
   } else {
     // Other tag pages: exclude news digest posts
     filteredPosts = allCoreContent(
