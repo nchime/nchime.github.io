@@ -6,10 +6,10 @@ import Link from '@/components/Link'
 export const metadata = genPageMetadata({ title: 'Profile' })
 
 const skills = {
-  frontend: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vue.js'],
-  backend: ['Node.js', 'Python', 'Go', 'PostgreSQL', 'MongoDB', 'Redis'],
-  devops: ['Docker', 'Kubernetes', 'AWS', 'CI/CD', 'GitHub Actions'],
-  tools: ['Git', 'Figma', 'Notion', 'Jira'],
+  frontend: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vue.js', 'MUI', 'Semantic UI', 'Element UI' ],
+  backend: ['Spring Boot', 'Node.js', 'Python', 'Go', 'PostgreSQL', 'ASP.NET', 'MongoDB', 'Redis'],
+  devops: ['Docker', 'Kubernetes', 'AWS', 'Argocd', 'Azure DevOps', 'GitHub Actions'],
+  tools: ['IntelliJ IDEA', 'Visual Studio Code', 'Claude Code', 'Antigravity', 'Git', 'Figma', 'Notion', 'Jira'],
 }
 
 const experiences = [
@@ -22,13 +22,13 @@ const experiences = [
   {
     period: '2020 - 2022',
     role: '프론트엔드 엔지니어',
-    company: 'Startup Inc.',
+    company: 'Software House',
     description: 'React 기반 SPA 개발 및 성능 최적화',
   },
   {
-    period: '2018 - 2020',
-    role: '주니어 개발자',
-    company: 'Software House',
+    period: '1999 - 2020',
+    role: '백엔드 엔지니어',
+    company: 'Startup Inc.',
     description: '풀스택 웹 개발 및 API 설계',
   },
 ]
@@ -70,7 +70,7 @@ export default function ProfilePage() {
             </div>
             <div className="text-center md:text-left">
               <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl md:text-5xl">
-                곽채화
+                곽채화(ch.kwak)
               </h1>
               <p className="mt-2 text-lg text-primary-500 dark:text-primary-400">
                 Full-Stack(Frontend/Backend) Engineer
