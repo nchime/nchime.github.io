@@ -4,11 +4,12 @@ import { allBlogs } from 'contentlayer/generated'
 import { genPageMetadata } from 'app/seo'
 
 const POSTS_PER_PAGE = 10
-
-export const metadata = genPageMetadata({ title: 'Blog' })
+const isNewsDigest = (post) =>
+  post.tags?.includes('뉴스') && post.tags?.includes('다이제스트')
 
 export default function BlogPage() {
-  const posts = allCoreContent(sortPosts(allBlogs))
+  const filteredPosts = allBlogs.filter((post) => !isNewsDigest(post))
+  const posts = allCoreContent(sortPosts(filteredPosts))
   const pageNumber = 1
   const initialDisplayPosts = posts.slice(
     POSTS_PER_PAGE * (pageNumber - 1),
