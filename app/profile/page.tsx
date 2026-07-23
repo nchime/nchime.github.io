@@ -223,7 +223,7 @@ export default function ProfilePage() {
               새로운 프로젝트나 협업 기회가 있으시다면 언제든 연락주세요.
             </p>
             <Link
-              href="mailto:your@email.com"
+              href="mailto:nchime@gmail.com"
               className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-primary-600 transition-colors hover:bg-gray-100"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
