@@ -61,32 +61,21 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               </div>
             </Link>
           </div> */}
-          <header className="pm-0 pt-1 xl:pb-6">
-            <div className="space-y-1 text-center">
-              <dl className="space-y-10">
-                <div style={{ textAlign: 'right' }}>
+          <header className="pb-6 pt-4 xl:pb-8">
+            <div className="space-y-3 text-center">
+              <dl>
+                <div>
                   <dt className="sr-only">Published on</dt>
-                  <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400">
-                    <time dateTime={date}>
-                      {new Date(date).getFullYear()}-
-                      {(new Date(date).getMonth() + 1).toString().padStart(2, '0')}-
-                      {new Date(date).getDate().toString().padStart(2, '0')}
+                  <dd className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    <time dateTime={date} suppressHydrationWarning>
+                      {date ? date.slice(0, 10) : ''}
                     </time>
                   </dd>
                 </div>
               </dl>
-              {/* {images ? (
-                <div className="mt-6">
-                  <div className="flex flex-wrap">
-                    <img src={images[1]} />
-                  </div>
-                </div>
-              ) : (
-                <div style={{ textAlign: 'left' }}>
-                  <PageTitle>{title}</PageTitle>
-                </div>
-              )} */}
-              <PageTitle>{title}</PageTitle>
+              <div className="mx-auto max-w-3xl">
+                <PageTitle>{title}</PageTitle>
+              </div>
             </div>
           </header>
           <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">

@@ -42,10 +42,8 @@ export default function Home({ posts }) {
 
                       <dd className="ml-5 mr-5 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                         <div className="hidden xl:block">
-                          <time dateTime={date}>
-                            {new Date(date).getFullYear()}-
-                            {(new Date(date).getMonth() + 1).toString().padStart(2, '0')}-
-                            {new Date(date).getDate().toString().padStart(2, '0')}
+                          <time dateTime={date} suppressHydrationWarning>
+                            {date ? date.slice(0, 10) : ''}
                           </time>
                         </div>
 
