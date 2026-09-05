@@ -98,24 +98,6 @@ function parseAtomEntries(text, maxItems = 10) {
 
 const NEWS_SOURCES = [
   {
-    name: 'The Verge AI',
-    url: 'https://www.theverge.com/ai-artificial-intelligence/rss/index.xml',
-    async fetch() {
-      const res = await fetch(this.url)
-      const text = await res.text()
-      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
-    },
-  },
-  {
-    name: 'VentureBeat AI',
-    url: 'https://venturebeat.com/category/ai/feed/',
-    async fetch() {
-      const res = await fetch(this.url)
-      const text = await res.text()
-      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
-    },
-  },
-  {
     name: 'GeekNews',
     url: 'https://news.hada.io/rss/news',
     async fetch() {
@@ -202,12 +184,19 @@ const NEWS_SOURCES = [
       return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
     },
   },
+  {
+    name: '구글뉴스 AI (한국어)',
+    url: 'https://news.google.com/rss/search?q=AI&hl=ko&gl=KR&ceid=KR:ko',
+    async fetch() {
+      const res = await fetch(this.url)
+      const text = await res.text()
+      return parseRSSItems(text, 10).map((item) => ({ ...item, source: this.name }))
+    },
+  },
 ]
 
 // ─── 점수 기반 선정 로직 ────────────────────────────────────────
 const SOURCE_WEIGHT = {
-  'The Verge AI': 1.0,
-  'VentureBeat AI': 1.6,
   GeekNews: 1.5,
   AI타임스: 1.4,
   지다넷코리아: 1.2,
@@ -216,6 +205,7 @@ const SOURCE_WEIGHT = {
   '구글뉴스 AI (한국어)': 1.3,
   'arXiv AI/ML': 1.0,
 }
+
 const KEYWORDS = [
   'AI',
   '인공지능',

@@ -1,0 +1,263 @@
+---
+title: 'ELK에서 ClickHouse로: 대규모 로그·이벤트 분석 아키텍처 전환 이유와 비교 분석'
+date: '2026-09-05'
+tags: ['ClickHouse', 'Elasticsearch', 'ELK', 'LogAnalysis', 'OLAP', 'DataEngineering', 'Architecture', 'FinOps']
+draft: false
+images: ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop']
+summary: '오랜 기간 로그 및 이벤트 분석의 표준이었던 ELK 스택에서 최근 ClickHouse로 전환하는 기업들이 급증하는 기술적 이유(스토리지 압축비, 집계 성능, JVM 힙 관리, 비용 절감)를 심층 비교하고 현실적인 트레이드오프를 분석합니다.'
+---
+
+서버 로그, 분산 추적, 감사 로그, 사용자 행동 이벤트 분석 영역에서 Elasticsearch를 중심으로 한 ELK(Elasticsearch, Logstash, Kibana) 스택은 지난 10년이 넘는 시간 동안 업계의 사실상 표준(De facto standard)으로 군림해 왔습니다. 친숙한 쿼리 문법, 자유로운 JSON 인덱싱, 키바나의 직관적인 Discover 화면은 수많은 개발자와 운영팀의 표준 관측성 플랫폼으로 자리 잡았습니다.
+
+하지만 최근 수년간 우버(Uber), 클라우드플레어(Cloudflare), 이베이(eBay), 깃랩(GitLab)을 비롯한 글로벌 테크 기업은 물론, 국내 유수의 이커머스 및 핀테크 엔지니어링 팀들이 대규모 로그 저장소를 Elasticsearch에서 ClickHouse로 전격 마이그레이션하거나 새로운 파이프라인의 핵심 엔진으로 채택하는 사례가 가파르게 증가하고 있습니다.
+
+수많은 조직이 익숙하고 검증된 ELK를 뒤로하고 왜 컬럼형 OLAP 데이터베이스인 ClickHouse로 전환하고 있을까요? 이 글에서는 두 기술의 아키텍처 패러다임 차이부터 시작하여 전환을 이끄는 5가지 핵심 이유, 상세한 벤치마크 및 기능 비교, 그리고 실제 도입 시 반드시 검토해야 할 트레이드오프까지 종합적으로 정리해 보겠습니다.
+
+---
+
+## 1. 검색 엔진(Lucene) vs 분석형 데이터베이스(OLAP): 패러다임의 차이
+
+ELK와 ClickHouse의 근본적인 차이는 탄생 목적과 핵심 저장 아키텍처에서 비롯됩니다.
+
+### 1-1. 역색인(Inverted Index) 기반 검색 엔진
+
+Elasticsearch는 아파치 루씬(Apache Lucene) 엔진을 기반으로 구축되었습니다. 루씬의 핵심은 비정형 텍스트를 형태소나 단어 단위의 토큰(Token)으로 쪼갠 뒤, 특정 토큰이 어떤 문서(Document ID)들에 위치하는지를 사전처럼 기록해 두는 역색인(Inverted Index) 구조입니다.
+
+이 구조는 웹 검색, 전자상거래 쇼핑몰 상품 검색, 위키피디아 본문 검색처럼 형태소 분석, 유사도 랭킹 점수(BM25/TF-IDF), 오타 교정, 동의어 확장이 필요한 자연어 전문 검색(Full-text Search)에 최적화되어 있습니다.
+
+### 1-2. 컬럼 지향 저장소(Columnar Storage) 기반의 OLAP
+
+반면 ClickHouse는 대규모 데이터 분석 및 실시간 집계를 위해 탄생한 컬럼형 OLAP(Online Analytical Processing) 관계형 데이터베이스입니다. 데이터를 한 행(Row)씩 통째로 모아서 디스크에 기록하는 행 기반 RDBMS나 문서 기반 NoSQL과 달리, ClickHouse는 각 컬럼 데이터를 디스크의 물리적으로 독립된 파일에 연속된 블록 형태로 저장합니다.
+
+동일한 컬럼에 속한 값들은 데이터 타입이 모두 같고 값의 분포 패턴이 유사하므로 압축 효율이 극대화됩니다. 또한 쿼리가 실행될 때 전체 데이터셋 중 조건절과 집계 대상에 포함된 극소수의 컬럼만 디스크에서 읽어 들이므로, I/O 대역폭 낭비가 거의 발생하지 않습니다.
+
+### 1-3. 현대 로그·이벤트 쿼리의 실질적 워크로드
+
+여기서 가장 중요한 현실적 질문이 발생합니다.
+
+> "우리가 매일 시스템과 서비스에서 수집하는 테라바이트 단위의 로그 데이터 중, 순수한 자연어 전문 검색을 수행하는 비율은 과연 얼마나 될까요?"
+
+실제 대규모 운영 환경에서 로그를 조회하고 대시보드를 구성하는 패턴을 분석해 보면 다음과 같은 결과가 나타납니다:
+
+- 시간 범위 필터링: `timestamp >= NOW() - INTERVAL 1 HOUR`
+- 구조화된 속성 매칭: `service_name = 'payment-api' AND env = 'prod' AND status_code >= 500`
+- 대규모 통계 및 집계: 분당 에러 발생 빈도 계산, URI별 p95/p99 응답 시간 집계, 고유 사용자 수(`uniqCombined`) 산출
+
+실제 엔지니어링 팀이 수행하는 로그 쿼리의 90% 이상은 집계, 필터링, 정렬이며, 전문 검색 엔진의 기능이 필요한 경우는 메시지 문자열에 특정 에러 코드나 주문 번호가 포함되어 있는지 확인하는 단순 부분 문자열(Substring) 매칭 수준에 불과합니다.
+
+즉, 대다수의 조직이 집계와 스캔 위주의 분석 워크로드를 처리하기 위해 불필요하게 무거운 역색인 검색 엔진을 운영하고 있었던 셈이며, 이것이 바로 패러다임 전환의 출발점이 되었습니다.
+
+---
+
+## 2. ELK에서 ClickHouse로 전환하는 5가지 핵심 이유
+
+엔지니어링 팀들이 프로덕션 환경의 로그 파이프라인을 ClickHouse로 전환하면서 얻게 되는 기술적, 경제적 이점은 명확합니다.
+
+### 2-1. 압축률과 스토리지 비용의 극적인 절감 (FinOps)
+
+로그 데이터의 양이 일일 수백 기가바이트에서 수십 테라바이트로 폭증할 때 가장 먼저 맞닥뜨리는 장벽은 디스크 비용입니다.
+
+Elasticsearch는 원본 JSON 문자열을 보존하는 `_source` 필드 외에도, 빠른 검색을 위한 역색인(Inverted Index), 정렬과 집계를 위한 컬럼형 필드 데이터인 `doc_values`를 모두 별도로 빌드하여 디스크에 저장합니다. 그 결과 인덱싱을 거치고 나면 디스크 점유 용량이 원본 순수 로그 텍스트보다 1.2배에서 심한 경우 2배 이상 팽창합니다.
+
+반면 ClickHouse는 컬럼형 특성을 백분 활용하여 컬럼의 타입과 카디널리티에 특화된 정교한 압축 코덱을 적용합니다:
+
+- 일반적인 문자열: LZ4, ZSTD 압축
+- 서비스 이름, 리전, HTTP 메서드 등 카디널리티가 낮은 컬럼: LowCardinality 딕셔너리 인코딩
+- 타임스탬프 및 연속적인 숫자형 시계열: DoubleDelta, T64, Gorilla 인코딩
+
+그 결과 ClickHouse는 원본 텍스트 대비 5배에서 10배, 상황에 따라 15배 이상의 압축률을 보여줍니다. Elasticsearch와 비교하면 동일한 양의 로그를 보관하는 데 필요한 디스크 용량이 4분의 1에서 7분의 1 수준으로 줄어듭니다.
+
+또한 ClickHouse는 스토리지 볼륨 정책을 통해 로컬 NVMe SSD에는 최근 3일 치 데이터만 두고, 그 이전의 콜드 데이터는 Amazon S3나 Google Cloud Storage 같은 저렴한 오브젝트 스토리지로 자동으로 계층화(Tiering)하는 기능을 기본 제공합니다. 쿼리 실행기 입장에서는 데이터가 SSD에 있든 S3에 있든 투명하게 동일한 SQL로 조회할 수 있어 비용 절감 효과가 극대화됩니다.
+
+### 2-2. 대규모 데이터 스캔 및 집계(Aggregation) 성능 격차
+
+대규모 로그 대시보드나 실시간 메트릭 모니터링에서 Elasticsearch는 잦은 병목을 일으킵니다.
+
+Elasticsearch에서 수억 건의 문서에 대해 날짜별 히스토그램이나 복합 Group By 집계를 수행하면, 다수의 샤드에서 doc_values를 읽어 힙 메모리에 로드하고 병합하는 과정에서 엄청난 CPU 및 메모리 부하가 발생합니다.
+
+ClickHouse는 하드웨어의 한계까지 성능을 쥐어짜 내는 아키텍처로 설계되었습니다:
+
+- SIMD(Single Instruction Multiple Data) 벡터화 쿼리 실행: CPU의 벡터 레지스터를 활용해 단일 명령어로 여러 데이터 포인트를 동시에 연산합니다.
+- 멀티코어 병렬 처리: 단일 쿼리라도 사용 가능한 모든 CPU 코어를 적극적으로 할당하여 파티션 블록을 병렬로 스캔합니다.
+- 선택적 I/O: 100개의 컬럼이 정의된 테이블이라도 쿼리에서 `timestamp`와 `status_code` 2개만 요구한다면 디스크에서는 오직 해당 2개 컬럼의 압축 블록만 읽어옵니다.
+
+실제 수십억 건의 로그를 대상으로 한 집계 쿼리에서 Elasticsearch가 타임아웃에 걸리거나 수십 초가 소요되는 작업을 ClickHouse는 수백 밀리초에서 1~2초 이내에 완료하는 성능 격차를 흔히 볼 수 있습니다.
+
+### 2-3. 인제스천(Ingestion) 처리량과 쓰기 증폭 억제
+
+로그는 읽기보다 쓰기(Ingest) 빈도가 압도적으로 높은 시계열 데이터입니다.
+
+Elasticsearch에 문서를 삽입할 때, 루씬은 들어오는 모든 문서의 필드를 파싱하여 메모리 버퍼에서 토큰화한 뒤 세그먼트 파일로 플러시하고 이를 다시 백그라운드에서 병합합니다. 초당 인제스트 수량이 초당 수만, 수십만 건을 넘어서면 역색인을 갱신하는 과정에서 쓰기 증폭(Write Amplification)과 극심한 CPU 스파이크가 발생하여 `es_rejected_execution_exception`(큐 적체) 현상이 자주 발생합니다.
+
+ClickHouse는 LSM 트리와 유사한 원리로 작동하는 `MergeTree` 엔진 제품군을 사용합니다. 클라이언트에서 대량의 배치(예: 10,000건~100,000건 단위)로 데이터를 Insert하면 ClickHouse는 해당 블록을 정렬된 상태의 파트(Part) 파일로 순차 쓰기(Sequential Write)하여 디스크에 즉시 내려씁니다. 이후 백그라운드 스레드가 백그라운드에서 이 파트들을 점진적으로 병합(Merge)합니다.
+
+이 단순하고 효율적인 구조 덕분에 단일 ClickHouse 노드에서도 초당 수십만 건에서 100만 건 이상의 로그 라인을 안정적으로 소화할 수 있습니다.
+
+### 2-4. JVM 힙 관리의 악몽에서 벗어나는 운영 안정성
+
+Elasticsearch를 프로덕션 환경에서 대규모로 운영해 본 엔지니어라면 누구나 JVM(Java Virtual Machine) 힙 튜닝의 고통을 겪어보았을 것입니다.
+
+루씬의 포인터 압축(Compressed OOPs) 메커니즘으로 인해 Elasticsearch 노드는 일반적으로 최대 31GB까지만 힙 메모리를 할당할 수 있습니다. 아무리 128GB나 256GB의 고사양 메모리를 장착한 서버를 도입하더라도 하나의 노드에 대용량 힙을 줄 수 없어 다수의 노드를 쪼개어 배포해야 합니다.
+
+또한 다음과 같은 운영 이슈가 일상적으로 발생합니다:
+
+- 대량 집계나 무거운 쿼리가 들어올 때 서킷 브레이커가 작동하거나 OutOfMemoryError로 노드가 갑작스럽게 다운되는 현상
+- 가비지 컬렉터(GC) 동작에 의한 수 초간의 Stop-the-world 정지 현상
+- 클러스터 내 샤드(Shard) 수가 과도하게 많아질 때 마스터 노드의 클러스터 상태(Cluster State) 업데이트 병목으로 클러스터 상태가 Yellow 또는 Red로 빠지는 위험
+
+ClickHouse는 C++로 작성된 네이티브 바이너리 애플리케이션입니다. 가비지 컬렉터 자체가 존재하지 않으며, 쿼리별 메모리 사용량 제한(`max_memory_usage`)이 엄격하게 지켜지고 초과 시 해당 쿼리만 안전하게 중단됩니다. 64GB든 512GB든 호스트 머신의 전체 메모리를 운영체제 페이지 캐시 및 버퍼 풀과 함께 아무런 제약 없이 유연하게 활용할 수 있어 인프라 운영의 피로도가 획기적으로 낮아집니다.
+
+### 2-5. 라이선스 분기와 개방형 생태계의 신뢰
+
+2021년 Elastic이 Elasticsearch와 Kibana의 오픈소스 라이선스를 아파치 2.0에서 독자적인 SSPL(Server Side Public License) 및 Elastic License로 변경하면서 기술 생태계에 큰 파장이 일었습니다. 클라우드 서비스 제공업체에 대한 제한이 주된 목적이었으나, 많은 기업에서는 라이선스 준수 리스크와 벤더 종속(Vendor Lock-in)에 대한 우려를 품게 되었습니다. 이로 인해 AWS 진영은 OpenSearch를 포크하여 생태계가 둘로 쪼개졌습니다.
+
+반면 ClickHouse는 가장 순수하고 관대한 아파치 2.0 라이선스를 일관되게 고수하고 있습니다. 또한 Grafana의 공식 ClickHouse 플러그인, 클라우드 네이티브 원격 측정 표준인 OpenTelemetry(OTel) Collector의 네이티브 ClickHouse 익스포터, 그리고 Vector와 Fluent Bit 같은 최신 초고속 데이터 수집기들과 완벽하게 연동되면서 현대적인 옵저버빌리티(Modern Observability) 아키텍처의 중심 축으로 확고히 자리 잡았습니다.
+
+---
+
+## 3. ELK vs ClickHouse 아키텍처 및 특성 비교
+
+전형적인 파이프라인의 데이터 흐름 구조와 두 시스템의 세부적인 사양을 구조도와 비교표를 통해 한눈에 살펴보겠습니다.
+
+### 3-1. 데이터 파이프라인 아키텍처 구조도
+
+```
+[전통적인 ELK 아키텍처]
+애플리케이션 로그
+      │
+      ▼
+Logstash / Filebeat (무거운 파이프라인 / JVM)
+      │
+      ▼
+Elasticsearch (루씬 기반 역색인 + doc_values 생성 / 31GB 힙 제한)
+      │
+      ▼
+Kibana (Discover, 쿼리 시각화, APM 대시보드)
+
+
+[현대적인 ClickHouse 기반 로그 아키텍처]
+애플리케이션 로그
+      │
+      ▼
+Vector / Fluent Bit / OTel Collector (C/Rust 기반 초경량 에이전트)
+      │
+      ▼ (대용량 버퍼링 및 스트리밍)
+Apache Kafka
+      │ (배치 인제스천)
+      ▼
+ClickHouse (C++ 엔진 / 컬럼 압축 / MergeTree / S3 계층화 저장)
+      │
+      ▼
+Grafana / 사내 BI / ClickHouse Web Console
+```
+
+### 3-2. 핵심 지표 및 사양 상세 비교
+
+| 비교 항목 | Elasticsearch (ELK) | ClickHouse |
+| :--- | :--- | :--- |
+| 주 저장 모델 | 문서 지향 (JSON Document) | 컬럼 지향 관계형 (Columnar Relational) |
+| 핵심 인덱싱 구조 | 역색인(Inverted Index), BKD 트리 | 기본 키 희소 인덱스(Sparse Index), Skip Index |
+| 쿼리 언어 | Lucene Query Syntax, ES Query DSL, ES|QL | 표준 SQL (ANSI SQL 확장 함수 다수 제공) |
+| 디스크 압축률 | 원본 텍스트 대비 1.2배~2배 팽창 (인덱스 오버헤드) | 원본 텍스트 대비 5배~10배 압축 (LZ4, ZSTD 등) |
+| 대규모 집계 성능 | 보통 (메모리 로드 및 샤드 병합 오버헤드 존재) | 압도적 초고속 (SIMD 벡터 연산 및 멀티코어 병렬화) |
+| 자연어 전문 검색 | 매우 우수 (토크나이저, 형태소 분석, 유사도 랭킹) | 기본 수준 (문자열 매칭, 최근 역색인 기능 확장 중) |
+| 단일 레코드 수정/삭제 | 실시간 지원 (문서 단위 Update/Delete 가능) | 원칙적 불가 (비동기 Mutation 방식, 성능 비용 큼) |
+| 런타임 플랫폼 | Java Virtual Machine (JVM 기반) | C++ 네이티브 바이너리 |
+| 노드 메모리 한계 | 노드당 최대 31GB 힙 권장 (Compressed OOPs) | 호스트 물리 메모리 전량(수백 GB 이상) 활용 가능 |
+| 오브젝트 스토리지 연동 | 스냅샷 백업 위주 (최근 Searchable Snapshot 도입) | 테이블 엔진 레벨에서 S3/GCS 투명한 계층화 지원 |
+| 라이선스 | SSPL / Elastic License (또는 OpenSearch Apache 2.0) | Apache License 2.0 (ClickHouse 오픈소스) |
+
+---
+
+## 4. 모든 경우에 ClickHouse가 정답일까? 트레이드오프와 고려사항
+
+ClickHouse가 비용과 성능 면에서 혁신적인 장점을 제공하지만, 기존의 모든 ELK 파이프라인을 무조건 ClickHouse로 대체할 수 있는 것은 아닙니다. 도입 전 반드시 검토해야 할 기술적 제약과 트레이드오프가 존재합니다.
+
+### 4-1. 전문 검색(Full-text Search)과 형태소 분석의 부재
+
+Elasticsearch의 진정한 가치는 단순 필터링이 아닌 인간의 언어를 이해하고 검색하는 능력에 있습니다.
+
+만약 서비스의 주 목적이 사용자 검색창의 형태소 분석(한글 Nori 분석기 등), 오타 자동 수정(Fuzzy Search), 동의어 사전 처리, BM25 기반 관련도 점수 랭킹이라면 ClickHouse는 적합하지 않습니다. ClickHouse는 정형화된 메트릭 및 로그의 필터링에 특화되어 있으며, 텍스트 분석에 있어서는 문자열 포함 검색이나 정규식 검색, 토큰 블룸 필터 수준을 주로 지원합니다.
+
+### 4-2. 단일 건 수정 및 삭제(Point Mutation)의 한계
+
+ClickHouse는 추가 전용(Append-only) 시계열 데이터 처리에 맞춰진 엔진입니다.
+
+특정 로그 한 건의 상태를 변경하거나 사용자의 개인정보 삭제 요청으로 특정 사용자 ID의 로그 몇 건을 즉시 지워야 할 때, ClickHouse의 `ALTER TABLE ... UPDATE/DELETE` 명령은 일반적인 RDBMS의 트랜잭션과 완전히 다릅니다. 이 명령은 해당 조건이 포함된 수 기가바이트 크기의 파트 파일 전체를 백그라운드에서 다시 작성하는 무거운 뮤테이션(Mutation) 작업으로 처리됩니다. 빈번한 업데이트나 단일 행 삭제가 발생하는 워크로드에서는 시스템 성능이 급격히 저하될 수 있습니다.
+
+### 4-3. 스키마 관리와 동적 JSON 처리
+
+Elasticsearch는 사전 정의 없는 임의의 JSON 데이터를 인덱싱할 수 있는 유연한 동적 매핑(Dynamic Mapping)을 지원합니다. 비록 이 기능이 필드 폭발(Field Explosion) 문제를 일으키기도 하지만, 다양한 마이크로서비스가 제각각의 포맷으로 로그를 쏠 때는 매우 편리합니다.
+
+ClickHouse는 강력한 정적 스키마 기반 데이터베이스입니다. 최근 버전에서 실험적/정식 기능으로 `JSON` 데이터 타입 및 동적 서브컬럼 분할 기능이 대폭 강화되었으나, 여전히 높은 쿼리 성능과 압축률을 얻기 위해서는 데이터 엔지니어가 테이블의 DDL과 컬럼 타입, 기본 키를 사전에 명확하게 설계하는 과정이 요구됩니다.
+
+### 4-4. 즉시 사용 가능한 올인원 UI 경험의 차이
+
+Kibana는 설치 직후 별도의 쿼리 작성 없이도 직관적으로 로그를 검색하고, 타임라인을 드래그하여 필터링하며, APM 추적 그래프를 확인할 수 있는 턴키(Turnkey) 솔루션입니다.
+
+ClickHouse는 순수한 데이터베이스 엔진이므로, 이를 활용하려면 Grafana를 연동하여 대시보드를 직접 구축하거나 SigNoz, HyperDX, Uptrace와 같은 ClickHouse 기반의 오픈소스 관측성 플랫폼을 별도로 도입해야 합니다. 또한 운영자와 개발자가 표준 SQL 문법에 익숙해져야 하는 학습 곡선이 수반됩니다.
+
+---
+
+## 5. 단계별 마이그레이션 아키텍처 및 전환 가이드
+
+기존에 안정적으로 운영되던 ELK 클러스터를 하루아침에 ClickHouse로 완전히 전환하는 것은 위험도가 높습니다. 대다수의 엔지니어링 팀은 다음과 같은 단계적 병행 운영(Dual-write) 전략을 채택합니다.
+
+### 5-1. Kafka 및 수집기를 활용한 듀얼 라이팅 구성
+
+로그 파이프라인의 중심에 Apache Kafka나 초경량 수집기(Vector, Fluent Bit)를 완충 계층으로 배치합니다.
+
+1. 로그 수집기에서 발행되는 로그 스트림을 Kafka 토픽으로 발행합니다.
+2. 기존 Logstash 컨슈머 파이프라인을 유지하여 Elasticsearch로 데이터를 계속 흘려보냅니다.
+3. 동시에 별도의 ClickHouse 컨슈머 파이프라인(Vector Sink 또는 ClickHouse Kafka Engine)을 구성하여 동일한 로그를 ClickHouse에 병렬 적재합니다.
+4. Grafana에서 ClickHouse 데이터소스를 연결하여 기존 Kibana 대시보드와 동일한 패널들을 구현하고, 데이터 정합성과 집계 결과를 수일에서 수주 간 상호 검증합니다.
+5. 운영팀의 모니터링 트래픽이 완전히 이전되면 기존 ELK 파이프라인을 단계적으로 축소 및 종료합니다.
+
+### 5-2. ClickHouse의 최신 텍스트 검색 기능 활용 팁
+
+ClickHouse 23.x 및 24.x 이후 버전부터는 로그 내 특정 에러 메시지나 콜스택 검색을 가속하기 위한 강력한 스킵 인덱스(Data Skipping Index) 기능이 지원됩니다.
+
+```sql
+CREATE TABLE app_logs (
+    timestamp DateTime64(3, 'UTC'),
+    service_name LowCardinality(String),
+    environment LowCardinality(String),
+    level LowCardinality(String),
+    trace_id String,
+    message String,
+    INDEX idx_message_token message TYPE tokenbf_v1(30720, 2, 0) GRANULARITY 1,
+    INDEX idx_trace_id trace_id TYPE bloom_filter() GRANULARITY 1
+)
+ENGINE = MergeTree()
+PARTITION BY toYYYYMM(timestamp)
+ORDER BY (environment, service_name, level, timestamp);
+```
+
+위 스키마와 같이:
+- 자주 필터링되는 카테고리성 속성은 `LowCardinality(String)`을 적용하여 메모리와 디스크를 절약합니다.
+- `ORDER BY` 절의 선두에 가장 빈번한 필터 조건들을 배치하여 블록 프루닝(Block Pruning)을 극대화합니다.
+- 긴 문자열 필드인 `message`에는 `tokenbf_v1`(토큰 블룸 필터) 또는 최근 도입된 `inverted`(역색인 스킵 인덱스)를 설정하여 부분 문자열 검색 시 불필요한 데이터 블록의 로딩을 효과적으로 건너뜁니다.
+
+### 5-3. 올바른 파티셔닝 전략
+
+많은 초심자들이 테이블을 생성할 때 `PARTITION BY toDate(timestamp)`처럼 일(Day) 단위로 파티션을 과도하게 잘게 쪼개는 실수를 범합니다.
+
+ClickHouse에서 파티션이 너무 많아지면 디스크 상의 파트 파일 수가 기하급수적으로 늘어나 파일 디스크립터 고갈 및 백그라운드 머지 부하가 가중됩니다. 하루 데이터 발생량이 수 테라바이트 수준의 초대규모가 아니라면 `PARTITION BY toYYYYMM(timestamp)`과 같이 월 단위로 파티셔닝하고, 일 단위의 시간 정렬은 `ORDER BY`의 타임스탬프로 처리하는 것이 시스템 안정성에 훨씬 유리합니다.
+
+---
+
+## 6. 마치며
+
+ELK에서 ClickHouse로의 전환 흐름은 단순히 하나의 유행을 좇는 트렌드가 아닙니다. 이는 폭발적으로 늘어나는 데이터 볼륨 앞에서 시스템 엔지니어들이 스토리지 비용 절감, JVM 힙 관리의 한계 극복, 초고속 실시간 집계라는 현실적인 엔지니어링 문제를 해결하기 위해 내린 실용주의적 선택의 결과입니다.
+
+- 전체 텍스트에 대한 고도의 자연어 검색, 형태소 분석, 유사도 기반 추천이 시스템의 핵심 가치라면 Elasticsearch는 여전히 최고의 선택지입니다.
+- 수백 기가바이트에서 수십 테라바이트에 달하는 시계열 로그와 이벤트를 보관하며, 빠른 대시보드 렌더링과 통계 집계, 스토리지 인프라 비용 절감이 최우선 목표라면 ClickHouse는 비교할 수 없는 뛰어난 가성비와 성능을 제공합니다.
+
+현재 운영 중인 ELK 클러스터의 디스크 비용이 감당하기 힘들거나, Kibana 대시보드의 느린 집계 속도와 JVM OOM 장애로 고통받고 있다면, 수집 파이프라인의 완충 레이어를 활용해 ClickHouse를 병행 도입해 보는 것을 적극적으로 검토해 보시길 권합니다.
+
+참고 링크:
+- [ClickHouse 공식 웹사이트 및 아키텍처 문서](https://clickhouse.com/docs)
+- [Uber 엔지니어링 블로그: Logging at Uber Scale with ClickHouse](https://www.uber.com/blog/logging/)
+- [Cloudflare 블로그: How Cloudflare Analyzes Log Data with ClickHouse](https://blog.cloudflare.com/how-cloudflare-analyzes-clickhouse-logs/)
+- [Grafana ClickHouse 공식 데이터소스 플러그인](https://grafana.com/grafana/plugins/grafana-clickhouse-datasource/)
+- [Vector.dev 초고속 로그 수집기 공식 문서](https://vector.dev/)
