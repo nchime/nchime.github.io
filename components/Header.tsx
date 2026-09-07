@@ -21,9 +21,9 @@ const Header = () => {
 
   return (
     <header className={headerClass}>
-      <Link href="/" aria-label={siteMetadata.headerTitle}>
-        <div className="p-l:12 flex items-center justify-between">
-          <div className="animate__animated animate__heartBeat mr-3">
+      <div className="p-l:12 flex items-center justify-between">
+        <Link href="/profile" aria-label="Profile">
+          <div className="animate__animated animate__heartBeat mr-3 cursor-pointer">
             <Image
               src="/static/images/nchime_avatar.png"
               alt="nchime avatar"
@@ -32,6 +32,8 @@ const Header = () => {
               priority
             />
           </div>
+        </Link>
+        <Link href="/" aria-label={siteMetadata.headerTitle}>
           {typeof siteMetadata.headerTitle === 'string' ? (
             <div className="font-semibold sm:leading-10 md:text-2xl md:leading-14">
               {siteMetadata.headerTitle}
@@ -39,8 +41,8 @@ const Header = () => {
           ) : (
             siteMetadata.headerTitle
           )}
-        </div>
-      </Link>
+        </Link>
+      </div>
       <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
         <div className="hidden items-center space-x-1 sm:flex sm:space-x-2">
           {headerNavLinks
