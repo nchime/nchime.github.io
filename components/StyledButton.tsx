@@ -13,7 +13,7 @@ const StyledButton: React.FC<StyledButtonProps & { images: string[] }> = ({ imag
         <img
           key={index}
           src={image}
-          alt={`Gallery image ${index + 1}`}
+          alt={`Gallery item ${index + 1}`}
           className="w-1/4 transform-gpu cursor-pointer p-2 transition-transform duration-100 ease-in-out hover:scale-150"
         />
       ))}
