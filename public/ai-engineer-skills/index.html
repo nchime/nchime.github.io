@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI 엔지니어가 갖춰야 할 기술 스킬 9가지 — LLM 앱, RAG, 임베딩, 워크플로우, API, 서빙, 클라우드, K8S, MLOps">
+<title>AI Engineer — 갖춰야 할 기술 스킬 9가지</title>
+<style>
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root{--bg:#17121f;--panel:#211a2c;--line:#342a40;--text:#f2ecf5;--muted:#a99cb6;--dim:#7d6c90;
+ --coral:#ff8a6b;--coral-d:#d4604a;--cream:#efe8f2;--pad:clamp(2rem,4.5vw,4.2rem)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic','Nanum Gothic',sans-serif;
+ scroll-snap-type:y mandatory;overflow-y:scroll;height:100vh;word-break:keep-all}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.progress-bar{position:fixed;top:0;left:0;right:0;height:3px;background:#0f0b15;z-index:99}
+.progress-fill{height:100%;background:var(--coral);width:0;transition:width .2s}
+.slide{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;
+ padding:var(--pad);position:relative;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:.78rem;letter-spacing:.18em;font-weight:700;text-transform:uppercase;margin-bottom:.9rem}
+.eyebrow.coral{color:var(--coral)} .eyebrow.cream{color:var(--muted)}
+.coral-t{color:var(--coral)} .big{font-size:clamp(1.3rem,2.8vw,2rem);font-weight:800;line-height:1.5;color:var(--coral)} .small-q{display:block;font-size:.62em;font-weight:500;color:var(--muted);margin-top:.4rem}
+.content-title{font-size:clamp(1.5rem,3.3vw,2.4rem);font-weight:800;line-height:1.3;text-wrap:balance}
+.bar{height:3px;width:64px;background:var(--coral);margin:1rem 0 1.3rem;border-radius:2px}
+.lead{color:var(--muted);font-size:clamp(.95rem,1.7vw,1.12rem);line-height:1.7;margin-bottom:1.1rem;max-width:62rem}
+.foot-note{color:var(--muted);font-size:clamp(.86rem,1.5vw,1rem);line-height:1.7;margin-top:1.2rem;max-width:66rem}
+.foot-note b,.lead b,.after b,.stat-l b{color:var(--cream)}
+.cover{background:radial-gradient(1200px 600px at 50% 0%,#2a1d38 0%,#17121f 70%)}
+.cover-wrap{max-width:62rem}
+.cover-title{font-size:clamp(3rem,8vw,5.6rem);font-weight:800;line-height:1.05;letter-spacing:-.01em}
+.cover-title.end{font-size:clamp(2.4rem,6vw,4.2rem)}
+.cover-sub{color:var(--cream);font-size:clamp(1.05rem,2.1vw,1.5rem);margin-top:.8rem;line-height:1.45}
+.cover-quote{font-size:clamp(1rem,1.9vw,1.3rem);line-height:1.7;margin:.2rem 0 .6rem}
+.cover-by{color:var(--muted);font-size:clamp(.85rem,1.5vw,1rem);line-height:1.6}
+.cover-meta{display:flex;gap:1.4rem;flex-wrap:wrap;color:var(--dim);font-size:.9rem;margin-top:1.8rem}
+.motif{width:min(420px,80%);height:auto;margin:1.4rem 0}
+.corner{position:absolute;width:26px;height:26px;border:2px solid var(--coral-d);opacity:.5}
+.corner.tl{top:26px;left:26px;border-right:0;border-bottom:0}.corner.tr{top:26px;right:26px;border-left:0;border-bottom:0}
+.corner.bl{bottom:26px;left:26px;border-right:0;border-top:0}.corner.br{bottom:26px;right:26px;border-left:0;border-top:0}
+.div{background:linear-gradient(120deg,#2a1d38 0%,#17121f 65%)}
+.div-wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:2.4rem;align-items:center}
+.div-title{font-size:clamp(2rem,4.6vw,3.3rem);font-weight:800;line-height:1.2;margin:.2rem 0 .9rem;text-wrap:balance}
+.div-sub{color:var(--muted);font-size:clamp(.95rem,1.7vw,1.15rem);line-height:1.7;max-width:40rem}
+.div-ch{list-style:none;padding:0;border-left:3px solid var(--coral);padding-left:1.2rem}
+.div-ch li{font-size:clamp(1rem,1.7vw,1.2rem);line-height:2;color:var(--cream)}
+.grid{display:grid;gap:1rem}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.2rem}
+.card-num{color:var(--coral);font-size:.8rem;font-weight:700;margin-bottom:.5rem}
+.card-h{font-weight:700;font-size:clamp(1rem,1.7vw,1.18rem);line-height:1.4;margin-bottom:.45rem}
+.card-sub{color:var(--muted);font-size:clamp(.85rem,1.4vw,.98rem);line-height:1.6}
+.bigq{border-left:4px solid var(--coral);padding:.4rem 0 .4rem 1.4rem;margin:.6rem 0 1rem;
+ font-size:clamp(1.15rem,2.5vw,1.8rem);line-height:1.6;font-weight:600;max-width:64rem}
+.q-src{color:var(--dim);font-size:.92rem;line-height:1.6;margin-bottom:.9rem;max-width:64rem}
+.after{color:var(--muted);font-size:clamp(.9rem,1.6vw,1.06rem);line-height:1.7;max-width:62rem}
+.deck-table{border-collapse:collapse;width:100%;max-width:74rem;margin:.4rem 0}
+.deck-table th,.deck-table td{border:1px solid var(--line);padding:.6rem .85rem;text-align:left;
+ font-size:clamp(.82rem,1.4vw,1.02rem);line-height:1.55;vertical-align:top}
+.deck-table th{background:var(--panel);color:var(--coral);font-weight:700}
+.big-list{padding-left:1.3rem;max-width:66rem}.big-list li{font-size:clamp(.95rem,1.75vw,1.2rem);line-height:1.75;margin:.5rem 0}
+.big-list b{color:var(--cream)}
+.stat-row{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));max-width:74rem}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.3rem}
+.stat-n{color:var(--coral);font-size:clamp(1.6rem,3.4vw,2.5rem);font-weight:800;line-height:1.1;margin-bottom:.5rem}
+.stat-l{color:var(--muted);font-size:clamp(.85rem,1.4vw,1rem);line-height:1.6}
+.deck-fig{margin:.2rem auto 0;width:100%;max-width:74rem;text-align:center}
+.deck-fig svg{display:block;margin:0 auto;width:100%;height:auto;border:1px solid var(--line);
+ border-radius:12px;background:#1b1526;padding:6px}
+.deck-fig figcaption{color:var(--dim);font-size:.88rem;margin-top:.6rem}
+.easy{margin-top:1.3rem;max-width:66rem;background:#2a1d38;border:1px solid #4a3a5e;border-left:4px solid var(--coral);
+ border-radius:10px;padding:.85rem 1.1rem;font-size:clamp(.95rem,1.7vw,1.14rem);line-height:1.65;color:var(--text)}
+.easy-k{display:inline-block;color:var(--coral);font-weight:800;font-size:.8em;letter-spacing:.06em;margin-right:.7rem}
+.page-num{position:absolute;top:1.5rem;right:1.8rem;color:var(--dim);font-size:.8rem}
+.page-section{position:absolute;top:1.5rem;left:1.8rem;color:var(--dim);font-size:.8rem;letter-spacing:.08em}
+.page-footer{position:absolute;bottom:1.2rem;left:1.8rem;right:1.8rem;display:flex;justify-content:space-between;gap:1rem;color:#5a4d68;font-size:.75rem}
+.cover .page-num{top:3.5rem;right:3.6rem}.cover .page-section{top:3.5rem;left:3.6rem}.cover .page-footer{bottom:3.2rem;left:3.6rem;right:3.6rem}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:1fr}.div-wrap{grid-template-columns:1fr}
+ .page-footer{display:none}.slide{min-height:auto;padding:2.4rem 1.1rem 3rem}.deck-table{display:block;overflow-x:auto}}
+@media print{body{height:auto;overflow:visible;background:#fff;color:#111}
+ .slide{page-break-after:always;min-height:auto;border:none;background:#fff!important;color:#111}
+ .card,.stat,.deck-table th{background:#f6f1f7!important;border-color:#ccc!important}
+ .content-title,.card-h,.div-title,.cover-title{color:#111}.card-sub,.lead,.foot-note,.div-sub,.after{color:#444}.easy{background:#fdf3ef!important;color:#111;border-color:#e8c9bd!important}.progress-bar{display:none}}
+</style></head><body><div class="progress-bar"><div class="progress-fill" id="progress"></div></div><main>
+
+<section class="slide cover" id="s1" data-n="1">
+<div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+<div class="cover-wrap">
+  <div class="eyebrow coral">기술 역량 시리즈</div>
+  <h1 class="cover-title">AI <span class="coral-t">Engineer</span></h1>
+  <p class="cover-sub">갖춰야 할 기술 스킬 — 모델에서 인프라까지, 한 줄로 잇는 아홉 가지</p>
+  <svg class="motif" viewBox="0 0 420 60" aria-hidden="true"><line x1="0" y1="30" x2="420" y2="30" stroke="#4a3a5e" stroke-width="2"/><circle cx="4" cy="30" r="4" fill="#4a3a5e"/><circle cx="416" cy="30" r="4" fill="#4a3a5e"/><line x1="110" y1="30" x2="310" y2="30" stroke="#ff8a6b" stroke-width="3"/><circle cx="110" cy="30" r="16" fill="none" stroke="#ff8a6b" stroke-width="3"/><circle cx="210" cy="30" r="8" fill="#ffb199"/><rect x="294" y="14" width="32" height="32" fill="none" stroke="#ff8a6b" stroke-width="3"/></svg>
+  <p class="cover-quote">"프롬프트를 잘 쓰는 일과, 그 모델을 굴리는 일은 다른 기술이다."</p>
+  <p class="cover-by">— 아홉 개를 나열하면 외우기 어렵지만, 파이프라인 위에 놓으면 네 덩어리로 접힌다</p>
+  <div class="cover-meta"><span>20분 발표</span><span class="mono">nchime/ai-engineer-skills · v1.0.0</span></div>
+</div>
+<div class="page-num mono">001 / 021</div><div class="page-section mono">OPENING / 01</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s2" data-n="2">
+<div class="eyebrow cream">먼저 질문 하나</div>
+<h2 class="content-title">오늘은 이 질문 하나로 시작합니다</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">"프롬프트를 잘 쓰는 사람"과 "AI 엔지니어"는<br><span class="coral-t">도대체 어디서 갈라지는가?</span></blockquote>
+<p class="after">아홉 개의 스킬을 순서대로 나열하는 대신, 각 스킬이 <b>파이프라인의 어느 지점</b>을 담당하는지부터 확인합니다. 무엇을 잇는 기술인지가 보여야 무엇을 기워야 할지도 보입니다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>AI 엔지니어는 <b>요리사가 아니라 식당 전체를 돌리는 사람</b>이다. 재료 고르기(모델), 레시피(파이프라인), 주문 창구(API), 주방 설비(인프라)까지 한 사람이 만진다.</div>
+<div class="page-num mono">002 / 021</div><div class="page-section mono">OPENING / 02</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s3" data-n="3">
+<div class="eyebrow cream">결론부터</div>
+<h2 class="content-title">아홉 스킬을 한 장에 펼쳐 놓으면 이렇습니다</h2>
+<div class="bar small"></div>
+<div class="grid grid-3">
+<div class="card"><div class="card-num mono">01</div><div class="card-h">LLM 애플리케이션 개발</div><div class="card-sub">벤더를 바꿔도 도는 앱을 만든다</div></div>
+<div class="card"><div class="card-num mono">02</div><div class="card-h">RAG 설계</div><div class="card-sub">외부 데이터를 모델 옆에 둔다</div></div>
+<div class="card"><div class="card-num mono">03</div><div class="card-h">임베딩 · Vector DB</div><div class="card-sub">문장을 숫자로 바꿔 찾는다</div></div>
+<div class="card"><div class="card-num mono">04</div><div class="card-h">워크플로우 프레임워크</div><div class="card-sub">여러 호출을 하나의 흐름으로</div></div>
+<div class="card"><div class="card-num mono">05</div><div class="card-h">백엔드 API</div><div class="card-sub">계약과 스트리밍을 설계한다</div></div>
+<div class="card"><div class="card-num mono">06</div><div class="card-h">서빙 최적화 엔진</div><div class="card-sub">싸고 빠르게 굴리는 엔진</div></div>
+<div class="card"><div class="card-num mono">07</div><div class="card-h">퍼블릭 클라우드</div><div class="card-sub">GPU 인프라를 짓고 통제한다</div></div>
+<div class="card"><div class="card-num mono">08</div><div class="card-h">Kubernetes</div><div class="card-sub">대규모 컨테이너를 자동으로</div></div>
+<div class="card"><div class="card-num mono">09</div><div class="card-h">MLOps 파이프라인</div><div class="card-sub">학습 · 배포 · 관측을 자동화한다</div></div>
+</div>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>음식점으로 치면 ①메뉴 개발 ②재료 관리 ③주문 창구 ④주방 설비 ⑤배달 시스템이다. <b>메뉴만 안다고 장사가 되지 않는다.</b></div>
+<div class="page-num mono">003 / 021</div><div class="page-section mono">OPENING / 03</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s4" data-n="4">
+<div class="eyebrow cream">순서</div>
+<h2 class="content-title">오늘 이야기의 순서</h2>
+<div class="bar small"></div>
+<ul class="big-list">
+<li><b>1. 모델을 다루는 기술</b> — LLM 앱 개발 · RAG · 임베딩/Vector DB · 워크플로우 프레임워크</li>
+<li><b>2. 모델을 서비스로 내보내는 기술</b> — 백엔드 API 설계 · 서빙 최적화 엔진</li>
+<li><b>3. 인프라를 떠받치는 기술</b> — 퍼블릭 클라우드 · K8S · MLOps 파이프라인</li>
+<li><b>4. 정리</b> — 아홉 스킬을 잇는 한 장짜리 지도와, 기르는 순서</li>
+</ul>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>진료 순서와 같다. <b>뭘 다루나</b>(1) → <b>어떻게 내나</b>(2) → <b>무엇 위에 굴리나</b>(3) → <b>그래서 어디부터 시작하나</b>(4).</div>
+<div class="page-num mono">004 / 021</div><div class="page-section mono">OPENING / 04</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide div" id="s5" data-n="5">
+  <div class="div-wrap">
+    <div>
+      <div class="eyebrow coral">PART 1</div>
+      <h2 class="div-title">모델을 다루는 기술</h2>
+      <p class="div-sub">결론에 보태는 것 — 앞의 네 스킬은 전부 '모델 안쪽'의 문제다. 프롬프트가 아니라 구조로 푼다.</p>
+      <svg class="motif" viewBox="0 0 420 60" aria-hidden="true"><line x1="0" y1="30" x2="420" y2="30" stroke="#4a3a5e" stroke-width="2"/><circle cx="4" cy="30" r="4" fill="#4a3a5e"/><circle cx="416" cy="30" r="4" fill="#4a3a5e"/><line x1="110" y1="30" x2="310" y2="30" stroke="#ff8a6b" stroke-width="3"/><circle cx="110" cy="30" r="16" fill="none" stroke="#ff8a6b" stroke-width="3"/><circle cx="210" cy="30" r="8" fill="#ffb199"/><rect x="294" y="14" width="32" height="32" fill="none" stroke="#ff8a6b" stroke-width="3"/></svg>
+    </div>
+    <ul class="div-ch"><li>1장. LLM 애플리케이션 개발</li><li>2장. RAG 설계</li><li>3장. 임베딩과 Vector DB</li><li>4장. 워크플로우 프레임워크</li></ul>
+  </div><div class="page-num mono">005 / 021</div><div class="page-section mono">PART 1 / 01</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s6" data-n="6">
+<div class="eyebrow cream">스킬 01</div>
+<h2 class="content-title">LLM을 활용한 애플리케이션 개발 능력</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">OpenAI · Anthropic · 오픈소스 모델을 <span class="coral-t">하나의 인터페이스로</span> 다룬다</blockquote>
+<div class="grid grid-3">
+<div class="card"><div class="card-num mono">01</div><div class="card-h">제공자 추상화</div><div class="card-sub">벤더를 바꿔도 앱이 살아남는 경계를 만든다. 종속은 선택이지, 기본값이 아니다.</div></div>
+<div class="card"><div class="card-num mono">02</div><div class="card-h">토큰 · 비용 · 지연</div><div class="card-sub">컨텍스트 길이, 스트리밍, 재시도, rate limit. 화면보다 청구서가 먼저 깨진다.</div></div>
+<div class="card"><div class="card-num mono">03</div><div class="card-h">안전장치</div><div class="card-sub">출력 스키마 검증, 환각 억제, 남용 차단. 사용자와 모델 사이에 검사를 둔다.</div></div>
+</div>
+<p class="foot-note">오픈소스 모델(Llama, Qwen, Gemma 등)은 로컬 배포와 비용 통제의 열쇠가 된다. 다만 <b>의무가 아니라 선택지</b>다 — 워크로드가 정해지면 그때 고른다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span><b>번역가 고르기</b>다. 번역가(모델)가 바뀌어도 우리 말(비즈니스 로직)은 그대로여야 한다.</div>
+<div class="page-num mono">006 / 021</div><div class="page-section mono">PART 1 / 02</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s7" data-n="7">
+<div class="eyebrow cream">스킬 02</div>
+<h2 class="content-title">RAG 설계 — 외부 데이터를 모델과 결합하는 능력</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">모델에게 사실을 가르치는 대신, <span class="coral-t">그 순간 옆에 둔다</span></blockquote>
+<div class="grid grid-3">
+<div class="card"><div class="card-num mono">01</div><div class="card-h">청킹</div><div class="card-sub">문서를 어떻게 자르느냐가 품질의 대부분을 정한다. 표 · 코드 · 중첩 제목은 각자 규칙이 다르다.</div></div>
+<div class="card"><div class="card-num mono">02</div><div class="card-h">검색</div><div class="card-sub">하이브리드(키워드+벡터), 쿼리 확장, 리랭킹. 못 찾은 답은 곧바로 환각이 된다.</div></div>
+<div class="card"><div class="card-num mono">03</div><div class="card-h">합성</div><div class="card-sub">인용 표기, 근거 없는 답변 거부, 컨텍스트 압축. 답의 출처를 반드시 남긴다.</div></div>
+</div>
+<p class="foot-note">RAG는 모델 싸움이 아니라 <b>검색 품질 싸움</b>이다. 재현 가능한 평가셋 없이 '느낌에 개선'한 결과는 배포 후에야 틀린 것으로 드러난다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>시험 볼 때 <b>교과서를 책상 위에 두는 것</b>. 문제를 다 외우게 하는 게 아니라, 필요한 장을 펼쳐볼 수 있게 한다.</div>
+<div class="page-num mono">007 / 021</div><div class="page-section mono">PART 1 / 03</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s8" data-n="8">
+<div class="eyebrow cream">스킬 03</div>
+<h2 class="content-title">텍스트 임베딩과 Vector DB 활용 기술</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">문장을 숫자로 바꾸고, <span class="coral-t">가까운 숫자를 찾는다</span></blockquote>
+<div class="stat-row">
+<div class="stat"><div class="stat-n">1536</div><div class="stat-l">차원 — 공개 임베딩 모델의 전형적 크기. 높을수록 표현력은 늘지만 <b>유사도 신뢰는 떨어진다</b></div></div>
+<div class="stat"><div class="stat-n">3단계</div><div class="stat-l">벡터 검색의 기본 흐름 — 인덱싱 → top-k 검색 → <b>리랭킹</b></div></div>
+<div class="stat"><div class="stat-n">4종</div><div class="stat-l">자주 쓰는 Vector DB — pgvector · Qdrant · Pinecone · Weaviate</div></div>
+</div>
+<p class="foot-note">선택 기준은 벤마크 점수가 아니라 <b>이미 쓰는 DB에 벡터가 있나</b>(pgvector), 필터 조합이 되나, 운영 비용이 얼마인가다. 축소 · 양자화는 데이터가 커질 때 다시 본다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>도서관의 <b>색인 카드</b>다. 책 전체를 읽는 대신, 주제가 비슷한 책 자리로 먼저 안내한다.</div>
+<div class="page-num mono">008 / 021</div><div class="page-section mono">PART 1 / 04</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s9" data-n="9">
+<div class="eyebrow cream">스킬 04</div>
+<h2 class="content-title">LLM 기반 워크플로우 프레임워크 숙련도</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">LangChain은 편리하지만, <span class="coral-t">추상화 비용을 먼저 계산한다</span></blockquote>
+<table class="deck-table">
+<thead><tr><th>구분</th><th>내용</th></tr></thead>
+<tbody>
+<tr><td>해주는 것</td><td>여러 모델 호출 연결, 상태 관리, 도구 호출, 재시도 · 평가 훅, 표준 컴포넌트 재사용</td></tr>
+<tr><td>가져가는 것</td><td>디버깅 난이도, 프레임워크 버전 추종, 벤더 API와의 간극, 감추어진 토큰 비용</td></tr>
+<tr><td>잘 쓰는 신호</td><td>그래프 · 체인 구조를 직접 그릴 수 있고, 프레임워크 없이도 같은 흐름을 짤 수 있다</td></tr>
+<tr><td>잘못 쓰는 신호</td><td>코드 여기저기에 프롬프트가 흩어져 있고, 왜 이 순서인지 아무도 설명하지 못한다</td></tr>
+</tbody></table>
+<p class="foot-note">LangChain · LlamaIndex · Haystack · Semantic Kernel 등. 다만 숙련도는 <b>라이브러리 암기</b>가 아니라 <b>흐름을 설계하는 능력</b>으로 평가한다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span><b>조리도구</b>다. 도구가 좋으면 손은 빨라지지만, 레시피(설계)를 모르면 도구만 쌓인다.</div>
+<div class="page-num mono">009 / 021</div><div class="page-section mono">PART 1 / 05</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide div" id="s10" data-n="10">
+  <div class="div-wrap">
+    <div>
+      <div class="eyebrow coral">PART 2</div>
+      <h2 class="div-title">모델을 서비스로 내보내는 기술</h2>
+      <p class="div-sub">결론에 보태는 것 — 앞의 네 스킬은 개발용품, 이 두 스킬은 운영용품이다. 경계는 '첫 사용자'다.</p>
+      <svg class="motif" viewBox="0 0 420 60" aria-hidden="true"><line x1="0" y1="30" x2="420" y2="30" stroke="#4a3a5e" stroke-width="2"/><circle cx="4" cy="30" r="4" fill="#4a3a5e"/><circle cx="416" cy="30" r="4" fill="#4a3a5e"/><line x1="110" y1="30" x2="310" y2="30" stroke="#ff8a6b" stroke-width="3"/><circle cx="110" cy="30" r="16" fill="none" stroke="#ff8a6b" stroke-width="3"/><circle cx="210" cy="30" r="8" fill="#ffb199"/><rect x="294" y="14" width="32" height="32" fill="none" stroke="#ff8a6b" stroke-width="3"/></svg>
+    </div>
+    <ul class="div-ch"><li>5장. 백엔드 API와 서비스화</li><li>6장. 모델 경량화 · 서빙 최적화</li></ul>
+  </div><div class="page-num mono">010 / 021</div><div class="page-section mono">PART 2 / 01</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s11" data-n="11">
+<div class="eyebrow cream">스킬 05</div>
+<h2 class="content-title">백엔드 API와 RESTful · gRPC 설계 능력</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">모델이 아니라, <span class="coral-t">모델 앞의 계약</span>을 설계한다</blockquote>
+<div class="grid grid-3">
+<div class="card"><div class="card-num mono">01</div><div class="card-h">비동기 · 스트리밍</div><div class="card-sub">첫 토큰까지의 시간(TTFT)이 체감 품질이다. SSE · WebSocket으로 토큰을 흘려보낸다.</div></div>
+<div class="card"><div class="card-num mono">02</div><div class="card-h">계약의 형태</div><div class="card-sub">공개 · 내부용은 REST(JSON), 내부 고부하 호출은 gRPC. 버전과 오류 스키마를 문서로 고정한다.</div></div>
+<div class="card"><div class="card-num mono">03</div><div class="card-h">운영 접점</div><div class="card-sub">인증 · 쿼터 · 로깅 · 트레이싱 · 회귀 테스트. 비결정적 출력에는 평가 스프린트가 붙는다.</div></div>
+</div>
+<p class="foot-note">FastAPI는 타입 힌트 · 비동기 · OpenAPI 자동 문서가 맞물려 LLM 서비스의 기본 선택이 됐다. 여기에 스트리밍과 배치 엔드포인트를 함께 두는 편이 실무적이다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>음식점의 <b>주문 창구</b>다. 주방(모델)이 아무리 좋아도 줄 서는 규칙(계약)이 없으면 문 앞이 막힌다.</div>
+<div class="page-num mono">011 / 021</div><div class="page-section mono">PART 2 / 02</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s12" data-n="12">
+<div class="eyebrow cream">스킬 06</div>
+<h2 class="content-title">모델 경량화 · 서빙 최적화 엔진 사용 경험</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">같은 GPU에서 몇 배를 더 내느냐는 <span class="coral-t">엔진이 정한다</span></blockquote>
+<div class="stat-row">
+<div class="stat"><div class="stat-n">vLLM</div><div class="stat-l">PagedAttention으로 KV 캐시를 페이지 단위로 관리하고, 요청을 배치로 묶어 <b>동시 처리량</b>을 끌어올린 오픈소스 엔진</div></div>
+<div class="stat"><div class="stat-n">FP8</div><div class="stat-l">양자화(quantization) — GPTQ · AWQ · FP8. <b>GPU 메모리↓ · 지연↓ · 정확도↓</b>를 저울에 올리는 일</div></div>
+<div class="stat"><div class="stat-n">TTFT</div><div class="stat-l">첫 토큰까지 시간. 사용자가 "느려졌다"고 느끼는 지점. 스트리밍과 함께 <b>반드시</b> 재야 할 지표</div></div>
+</div>
+<p class="foot-note">추가 옵션 — TensorRT-LLM · ONNX Runtime · llama.cpp(엣지) · 사전학습(Prefix Caching) · Speculative Decoding. 골랐다는 증거는 스킬명이 아니라 <b>전후 비교 숫자</b>다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span><b>같은 주방에서 몇 테이블까지 받을지</b> 정하는 일. 조리법(모델)을 바꾸지 않고도 손님 회전율을 늘릴 수 있다.</div>
+<div class="page-num mono">012 / 021</div><div class="page-section mono">PART 2 / 03</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide div" id="s13" data-n="13">
+  <div class="div-wrap">
+    <div>
+      <div class="eyebrow coral">PART 3</div>
+      <h2 class="div-title">인프라를 떠받치는 기술</h2>
+      <p class="div-sub">결론에 보태는 것 — 마지막 세 스킬은 '한 번 띄우는' 기술이 아니라 '계속 띄워 두는' 기술이다.</p>
+      <svg class="motif" viewBox="0 0 420 60" aria-hidden="true"><line x1="0" y1="30" x2="420" y2="30" stroke="#4a3a5e" stroke-width="2"/><circle cx="4" cy="30" r="4" fill="#4a3a5e"/><circle cx="416" cy="30" r="4" fill="#4a3a5e"/><line x1="110" y1="30" x2="310" y2="30" stroke="#ff8a6b" stroke-width="3"/><circle cx="110" cy="30" r="16" fill="none" stroke="#ff8a6b" stroke-width="3"/><circle cx="210" cy="30" r="8" fill="#ffb199"/><rect x="294" y="14" width="32" height="32" fill="none" stroke="#ff8a6b" stroke-width="3"/></svg>
+    </div>
+    <ul class="div-ch"><li>7장. 퍼블릭 클라우드 AI 인프라</li><li>8장. K8S로 대규모 컨테이너 운영</li><li>9장. MLOps 파이프라인 자동화</li></ul>
+  </div><div class="page-num mono">013 / 021</div><div class="page-section mono">PART 3 / 01</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s14" data-n="14">
+<div class="eyebrow cream">스킬 07</div>
+<h2 class="content-title">퍼블릭 클라우드에서 AI 인프라를 구축하고 관리하는 능력</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">GPU는 사고 파는 자산이 아니라, <span class="coral-t">빌려 쓰는 시간</span>이다</blockquote>
+<div class="grid grid-3">
+<div class="card"><div class="card-num mono">01</div><div class="card-h">컴퓨트 선택</div><div class="card-sub">범용 VM · GPU 인스턴스 · 매니지드 엔드포인트(Bedrock, Vertex, SageMaker). 워크로드마다 답이 다르다.</div></div>
+<div class="card"><div class="card-num mono">02</div><div class="card-h">비용 통제</div><div class="card-sub">예약 · 스팟 · autoscaling · GPU 사용률 대시보드. 쓰지 않는 GPU가 가장 비싼 비용이다.</div></div>
+<div class="card"><div class="card-num mono">03</div><div class="card-h">설계 원칙</div><div class="card-sub">리전 · 가용영역 분리, 데이터 레지던시, 시크릿 관리, 네트워크 격리. 학습 데이터가 새지 않게 한다.</div></div>
+</div>
+<p class="foot-note">매니지드 서비스는 관리 비용을 대신 내주지만, 벤더 종속의 이식 비용이 따라온다. <b>종속은 실패가 아니라 선택</b>이다 — 다만 그 가격표를 미리 적어 둔다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span><b>부동산이 아니라 렌터카</b>다. 사 두면 방치 비용이 크고, 필요한 만큼만 빌려 쓰되 계약 조건(리전 · 약정 · 스팟)을 봐야 한다.</div>
+<div class="page-num mono">014 / 021</div><div class="page-section mono">PART 3 / 02</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s15" data-n="15">
+<div class="eyebrow cream">스킬 08</div>
+<h2 class="content-title">K8S — 대규모 컨테이너 관리를 위한 활용 능력</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">사람이 못 쉬는 서버를 <span class="coral-t">대신 쉬게 한다</span></blockquote>
+<div class="grid grid-3">
+<div class="card"><div class="card-num mono">01</div><div class="card-h">올바른 추상화</div><div class="card-sub">LLM 서빙은 stateful(GPU · 캐시)다. Deployment로 퉁치지 말고 워크로드 성격에 맞는 자원을 고른다.</div></div>
+<div class="card"><div class="card-num mono">02</div><div class="card-h">필요한 자원</div><div class="card-sub">HPA로 동시 요청에 따라 복제, node affinity · taint로 GPU 노드 분리, readiness로 콜드 스타트 방지.</div></div>
+<div class="card"><div class="card-num mono">03</div><div class="card-h">여덟 글자</div><div class="card-sub">requests / limits. 상한이 없는 GPU · 메모리는 긴 컨텍스트 한 번에 노드 하나를 쓰러뜨린다.</div></div>
+</div>
+<p class="foot-note">K8S만으로는 부족하다. GPU 투여(device plugin · GPU Operator), 모델 가중치 로딩 시간, 세션 유지까지 같이 봐야 <b>실제 서빙</b>이 된다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span><b>아파트 관리조합</b>이다. 세대(GPU)가 늘어나도 입주 · 퇴거 · 공과금(자원) 규칙이 있어야 건물이 무너지지 않는다.</div>
+<div class="page-num mono">015 / 021</div><div class="page-section mono">PART 3 / 03</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s16" data-n="16">
+<div class="eyebrow cream">스킬 09</div>
+<h2 class="content-title">MLOps 파이프라인 — 학습 · 배포 · 모니터링 자동화</h2>
+<div class="bar small"></div>
+<blockquote class="bigq">모델은 한 번 만들지만, <span class="coral-t">신뢰는 매일 다시 만든다</span></blockquote>
+<table class="deck-table">
+<thead><tr><th>단계</th><th>하는 일</th><th>자주 쓰는 도구</th></tr></thead>
+<tbody>
+<tr><td>데이터 · 학습</td><td>데이터 버전 관리, 학습 재현, 실험 추적</td><td>MLflow · DVC · Kubeflow Pipelines</td></tr>
+<tr><td>평가 · 검증</td><td>정량 평가셋, 프롬프트 · 모델 레그레션 게이트</td><td>평가 스위트 · 자체 홀드아웃셋</td></tr>
+<tr><td>배포</td><td>재현 가능한 빌드, 카나리 · 블루그린, 롤백</td><td>Argo · GitHub Actions · Kubeflow</td></tr>
+<tr><td>모니터링</td><td>지연 · 오류 · 비용, 드리프트, 사용자 피드백</td><td>Grafana · Prometheus · 드리프트 감지</td></tr>
+</tbody></table>
+<p class="foot-note">LLM 파이프라인의 새 항목 — <b>프롬프트와 평가셋도 버전 관리 대상</b>이다. 코드만 커밋하면 재현이 안 된다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>수돗물(모델)이 매일 깨끗한지 확인하고, 문제가 생기면 자동으로 밸브를 잠그는 <b>급수 체계</b>다. 한 번 수리를 해서 끝나는 일이 아니다.</div>
+<div class="page-num mono">016 / 021</div><div class="page-section mono">PART 3 / 04</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s17" data-n="17">
+<div class="eyebrow cream">한 장으로</div>
+<h2 class="content-title">아홉 스킬은 하나의 파이프라인 위에 놓인다</h2>
+<div class="bar small"></div>
+<figure class="deck-fig" style="max-width:60rem">
+<svg viewBox="0 0 960 340" role="img" aria-label="아홉 스킬을 네 단계 파이프라인으로 배열한 그림">
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ff8a6b"/></marker></defs>
+  <g font-family="-apple-system, sans-serif">
+    <rect x="16" y="40" width="212" height="200" rx="12" fill="#211a2c" stroke="#342a40"/>
+    <text x="34" y="74" fill="#ff8a6b" font-size="15" font-weight="700">1. 데이터와 결합</text>
+    <rect x="32" y="94" width="180" height="56" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="46" y="118" fill="#efe8f2" font-size="14" font-weight="700">RAG 설계</text>
+    <text x="46" y="139" fill="#a99cb6" font-size="12">청킹 · 검색 · 인용</text>
+    <rect x="32" y="162" width="180" height="56" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="46" y="186" fill="#efe8f2" font-size="14" font-weight="700">임베딩 · Vector DB</text>
+    <text x="46" y="207" fill="#a99cb6" font-size="12">숫자로 바꾸고 찾기</text>
+
+    <rect x="256" y="40" width="212" height="200" rx="12" fill="#211a2c" stroke="#342a40"/>
+    <text x="274" y="74" fill="#ff8a6b" font-size="15" font-weight="700">2. 모델 다루기</text>
+    <rect x="272" y="94" width="180" height="56" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="286" y="118" fill="#efe8f2" font-size="14" font-weight="700">LLM 앱 개발</text>
+    <text x="286" y="139" fill="#a99cb6" font-size="12">벤더 추상화 · 비용</text>
+    <rect x="272" y="162" width="180" height="56" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="286" y="186" fill="#efe8f2" font-size="14" font-weight="700">워크플로우 프레임워크</text>
+    <text x="286" y="207" fill="#a99cb6" font-size="12">LangChain · 그래프</text>
+
+    <rect x="496" y="40" width="212" height="200" rx="12" fill="#211a2c" stroke="#342a40"/>
+    <text x="514" y="74" fill="#ff8a6b" font-size="15" font-weight="700">3. 서비스로 내보내기</text>
+    <rect x="512" y="94" width="180" height="56" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="526" y="118" fill="#efe8f2" font-size="14" font-weight="700">백엔드 API</text>
+    <text x="526" y="139" fill="#a99cb6" font-size="12">FastAPI · REST · gRPC</text>
+    <rect x="512" y="162" width="180" height="56" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="526" y="186" fill="#efe8f2" font-size="14" font-weight="700">서빙 최적화 엔진</text>
+    <text x="526" y="207" fill="#a99cb6" font-size="12">vLLM · 양자화 · TTFT</text>
+
+    <rect x="736" y="40" width="208" height="200" rx="12" fill="#211a2c" stroke="#342a40"/>
+    <text x="754" y="74" fill="#ff8a6b" font-size="15" font-weight="700">4. 계속 굴리기</text>
+    <rect x="752" y="94" width="176" height="38" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="766" y="118" fill="#efe8f2" font-size="14" font-weight="700">퍼블릭 클라우드</text>
+    <rect x="752" y="140" width="176" height="38" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="766" y="164" fill="#efe8f2" font-size="14" font-weight="700">Kubernetes</text>
+    <rect x="752" y="186" width="176" height="38" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="766" y="210" fill="#efe8f2" font-size="14" font-weight="700">MLOps 파이프라인</text>
+
+    <line x1="230" y1="140" x2="252" y2="140" stroke="#ff8a6b" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="470" y1="140" x2="492" y2="140" stroke="#ff8a6b" stroke-width="3" marker-end="url(#ar)"/>
+    <line x1="710" y1="140" x2="732" y2="140" stroke="#ff8a6b" stroke-width="3" marker-end="url(#ar)"/>
+
+    <text x="480" y="284" text-anchor="middle" fill="#7d6c90" font-size="14" letter-spacing="4">9 SKILLS → 4 STAGES</text>
+    <text x="480" y="312" text-anchor="middle" fill="#a99cb6" font-size="13">데이터 → 모델 → 서비스 → 운영 — 왼쪽이 무너지면 오른쪽은 의미가 없다</text>
+  </g>
+</svg>
+<figcaption>그림 1. 아홉 스킬을 네 단계 파이프라인으로 배열하면 겹치는 부분이 보인다</figcaption>
+</figure>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>물류 창고 같다. <b>입고(1) → 가공(2) → 포장(3) → 배송·재고관리(4)</b>. 한 공정만 잘해도 되는 일이 없다.</div>
+<div class="page-num mono">017 / 021</div><div class="page-section mono">정리 / 01</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s18" data-n="18">
+<div class="eyebrow cream">어떻게 기를까</div>
+<h2 class="content-title">아홉 스킬을 기르는 순서</h2>
+<div class="bar small"></div>
+<ul class="big-list">
+<li><b>1. 모델 감 빼기</b> — 하나의 LLM으로 앱 하나를 끝까지 만들어 본다 — 스킬 01</li>
+<li><b>2. 검색 붙이기</b> — 자기 문서 100개로 RAG를 직접 짜고, 평가셋을 손으로 만든다 — 스킬 02 · 03</li>
+<li><b>3. 흐름 정리</b> — 여러 호출을 그래프로 그리고, 프레임워크 없이도 같은 흐름을 짤 수 있게 된다 — 스킬 04</li>
+<li><b>4. 창구 세우기</b> — FastAPI로 스트리밍 엔드포인트를 열고, 계약 문서를 직접 쓴다 — 스킬 05</li>
+<li><b>5. 비용 재기</b> — 같은 GPU에서 처리량을 재며 엔진과 양자화를 비교한다 — 스킬 06</li>
+<li><b>6. 계속 굴리기</b> — 컨테이너에 담아 K8S에 올리고, 파이프라인으로 재배포한다 — 스킬 07 · 08 · 09</li>
+</ul>
+<p class="foot-note">순서는 정답이 아니다. 다만 앞 다섯을 건너뛰면 <b>무엇을 굴리는지 모른 채 굴리게</b> 된다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>운전면허 같다. 작은 차로 거리를 익힌 뒤 대형 차를 몬다. <b>인프라부터 타면 사고가 크다.</b></div>
+<div class="page-num mono">018 / 021</div><div class="page-section mono">정리 / 02</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s19" data-n="19">
+<div class="eyebrow cream">무엇을 보면 '됐다'고 할까</div>
+<h2 class="content-title">스킬마다 남기는 증거</h2>
+<div class="bar small"></div>
+<div class="grid grid-3">
+<div class="card"><div class="card-num mono">01</div><div class="card-h">만들었다</div><div class="card-sub">스트리밍 챗봇, 인용이 붙은 RAG QA, 벤더를 바꿔도 그대로 도는 앱. 코드로 보여 준다.</div></div>
+<div class="card"><div class="card-num mono">02</div><div class="card-h">굴렸다</div><div class="card-sub">p95 지연 · 토큰 비용 대시보드, 카나리 배포 이력, 장애 복구 기록. 운영의 흔적을 남긴다.</div></div>
+<div class="card"><div class="card-num mono">03</div><div class="card-h">줄였다</div><div class="card-sub">GPU 한 장으로 처리량 2배, 검색 정확도 리포트, 배포 소요 시간 단축. 숫자로 말한다.</div></div>
+</div>
+<p class="foot-note">'학습 중'이 아니라 <b>줄어든 숫자</b>로 말할 수 있어야 한다. 앞 장의 아홉 스킬이 모두 마지막에 이 문장으로 수렴한다.</p>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>자격증이 아니라 <b>작업물</b>이다. "할 수 있다" 대신 "이렇게 만들고, 이렇게 굴리고, 이렇게 줄였다"를 보여 준다.</div>
+<div class="page-num mono">019 / 021</div><div class="page-section mono">정리 / 03</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide content" id="s20" data-n="20">
+<div class="eyebrow cream">한 장으로 전체 보기</div>
+<h2 class="content-title">오늘 구성 전체 — 21장, 6개 섹션, 아홉 스킬</h2>
+<div class="bar small"></div>
+<figure class="deck-fig" style="max-width:60rem">
+<svg viewBox="0 0 960 380" role="img" aria-label="발표 전체 구성 인포그래픽 — 6개 섹션 타임라인과 9개 스킬 4단계">
+  <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ff8a6b"/></marker></defs>
+  <g font-family="-apple-system, 'Apple SD Gothic Neo', sans-serif">
+    <text x="0" y="12" fill="#7d6c90" font-size="11.5" letter-spacing="2.5">DECK 구조 — 21장 · 6개 섹션</text>
+
+    <rect x="0" y="22" width="169" height="68" rx="8" fill="#211a2c" stroke="#342a40"/>
+    <rect x="0" y="22" width="169" height="4" fill="#4a3a5e"/>
+    <text x="14" y="48" fill="#efe8f2" font-size="14" font-weight="700">OPENING</text>
+    <text x="14" y="65" fill="#a99cb6" font-size="11">시작과 결론</text>
+    <text x="14" y="81" fill="#ff8a6b" font-size="10.5" font-family="ui-monospace, Menlo, monospace">001–004</text>
+
+    <rect x="175" y="22" width="211" height="68" rx="8" fill="#211a2c" stroke="#342a40"/>
+    <rect x="175" y="22" width="211" height="4" fill="#ff8a6b"/>
+    <text x="189" y="48" fill="#efe8f2" font-size="14" font-weight="700">PART 1</text>
+    <text x="189" y="65" fill="#a99cb6" font-size="11">모델 다루기</text>
+    <text x="189" y="81" fill="#ff8a6b" font-size="10.5" font-family="ui-monospace, Menlo, monospace">005–009</text>
+
+    <rect x="392" y="22" width="127" height="68" rx="8" fill="#211a2c" stroke="#342a40"/>
+    <rect x="392" y="22" width="127" height="4" fill="#ff8a6b"/>
+    <text x="406" y="48" fill="#efe8f2" font-size="14" font-weight="700">PART 2</text>
+    <text x="406" y="65" fill="#a99cb6" font-size="11">서비스화</text>
+    <text x="406" y="81" fill="#ff8a6b" font-size="10.5" font-family="ui-monospace, Menlo, monospace">010–012</text>
+
+    <rect x="525" y="22" width="169" height="68" rx="8" fill="#211a2c" stroke="#342a40"/>
+    <rect x="525" y="22" width="169" height="4" fill="#ff8a6b"/>
+    <text x="539" y="48" fill="#efe8f2" font-size="14" font-weight="700">PART 3</text>
+    <text x="539" y="65" fill="#a99cb6" font-size="11">인프라 운영</text>
+    <text x="539" y="81" fill="#ff8a6b" font-size="10.5" font-family="ui-monospace, Menlo, monospace">013–016</text>
+
+    <rect x="700" y="22" width="169" height="68" rx="8" fill="#211a2c" stroke="#342a40"/>
+    <rect x="700" y="22" width="169" height="4" fill="#4a3a5e"/>
+    <text x="714" y="48" fill="#efe8f2" font-size="14" font-weight="700">정리</text>
+    <text x="714" y="65" fill="#a99cb6" font-size="11">지도와 로드맵</text>
+    <text x="714" y="81" fill="#ff8a6b" font-size="10.5" font-family="ui-monospace, Menlo, monospace">017–020</text>
+
+    <rect x="875" y="22" width="85" height="68" rx="8" fill="#211a2c" stroke="#342a40"/>
+    <rect x="875" y="22" width="85" height="4" fill="#4a3a5e"/>
+    <text x="887" y="48" fill="#efe8f2" font-size="12" font-weight="700">CLOSING</text>
+    <text x="887" y="65" fill="#a99cb6" font-size="11">마침</text>
+    <text x="887" y="81" fill="#ff8a6b" font-size="10.5" font-family="ui-monospace, Menlo, monospace">021</text>
+
+    <line x1="169" y1="56" x2="173" y2="56" stroke="#7d6c90" stroke-width="2"/>
+    <line x1="386" y1="56" x2="390" y2="56" stroke="#7d6c90" stroke-width="2"/>
+    <line x1="519" y1="56" x2="523" y2="56" stroke="#7d6c90" stroke-width="2"/>
+    <line x1="694" y1="56" x2="698" y2="56" stroke="#7d6c90" stroke-width="2"/>
+    <line x1="869" y1="56" x2="873" y2="56" stroke="#7d6c90" stroke-width="2"/>
+
+    <text x="0" y="118" fill="#7d6c90" font-size="11.5" letter-spacing="2.5">본문에서 다룬 9개 스킬 → 4단계</text>
+
+    <rect x="0" y="130" width="210" height="244" rx="12" fill="#211a2c" stroke="#342a40"/>
+    <text x="16" y="156" fill="#ff8a6b" font-size="14" font-weight="700">1. 데이터와 결합</text>
+    <rect x="8" y="168" width="194" height="94" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="22" y="198" fill="#efe8f2" font-size="14" font-weight="700">RAG 설계</text>
+    <text x="22" y="222" fill="#a99cb6" font-size="11">청킹 · 검색 · 인용</text>
+    <text x="22" y="244" fill="#7d6c90" font-size="11">스킬 02</text>
+    <rect x="8" y="270" width="194" height="94" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="22" y="300" fill="#efe8f2" font-size="14" font-weight="700">임베딩 · Vector DB</text>
+    <text x="22" y="324" fill="#a99cb6" font-size="11">숫자로 바꾸고 찾기</text>
+    <text x="22" y="346" fill="#7d6c90" font-size="11">스킬 03</text>
+
+    <rect x="250" y="130" width="210" height="244" rx="12" fill="#211a2c" stroke="#342a40"/>
+    <text x="266" y="156" fill="#ff8a6b" font-size="14" font-weight="700">2. 모델 다루기</text>
+    <rect x="258" y="168" width="194" height="94" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="272" y="198" fill="#efe8f2" font-size="14" font-weight="700">LLM 앱 개발</text>
+    <text x="272" y="222" fill="#a99cb6" font-size="11">벤더 추상화 · 비용 · 안전</text>
+    <text x="272" y="244" fill="#7d6c90" font-size="11">스킬 01</text>
+    <rect x="258" y="270" width="194" height="94" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="272" y="300" fill="#efe8f2" font-size="14" font-weight="700">워크플로우 프레임워크</text>
+    <text x="272" y="324" fill="#a99cb6" font-size="11">LangChain 등 · 흐름 설계</text>
+    <text x="272" y="346" fill="#7d6c90" font-size="11">스킬 04</text>
+
+    <rect x="500" y="130" width="210" height="244" rx="12" fill="#211a2c" stroke="#342a40"/>
+    <text x="516" y="156" fill="#ff8a6b" font-size="14" font-weight="700">3. 서비스로 내보내기</text>
+    <rect x="508" y="168" width="194" height="94" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="522" y="198" fill="#efe8f2" font-size="14" font-weight="700">백엔드 API</text>
+    <text x="522" y="222" fill="#a99cb6" font-size="11">FastAPI · REST · gRPC</text>
+    <text x="522" y="244" fill="#7d6c90" font-size="11">스킬 05</text>
+    <rect x="508" y="270" width="194" height="94" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="522" y="300" fill="#efe8f2" font-size="14" font-weight="700">서빙 최적화 엔진</text>
+    <text x="522" y="324" fill="#a99cb6" font-size="11">vLLM · 양자화 · TTFT</text>
+    <text x="522" y="346" fill="#7d6c90" font-size="11">스킬 06</text>
+
+    <rect x="750" y="130" width="210" height="244" rx="12" fill="#211a2c" stroke="#342a40"/>
+    <text x="766" y="156" fill="#ff8a6b" font-size="14" font-weight="700">4. 계속 굴리기</text>
+    <rect x="758" y="168" width="194" height="62" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="772" y="194" fill="#efe8f2" font-size="13.5" font-weight="700">퍼블릭 클라우드</text>
+    <text x="772" y="216" fill="#a99cb6" font-size="11">스킬 07 · GPU 인프라 · 비용</text>
+    <rect x="758" y="236" width="194" height="62" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="772" y="262" fill="#efe8f2" font-size="13.5" font-weight="700">Kubernetes</text>
+    <text x="772" y="284" fill="#a99cb6" font-size="11">스킬 08 · 대규모 컨테이너</text>
+    <rect x="758" y="304" width="194" height="62" rx="8" fill="#2a1d38" stroke="#4a3a5e"/>
+    <text x="772" y="330" fill="#efe8f2" font-size="13.5" font-weight="700">MLOps 파이프라인</text>
+    <text x="772" y="352" fill="#a99cb6" font-size="11">스킬 09 · MLflow · 관측</text>
+
+    <line x1="214" y1="252" x2="246" y2="252" stroke="#ff8a6b" stroke-width="3" marker-end="url(#ar2)"/>
+    <line x1="464" y1="252" x2="496" y2="252" stroke="#ff8a6b" stroke-width="3" marker-end="url(#ar2)"/>
+    <line x1="714" y1="252" x2="746" y2="252" stroke="#ff8a6b" stroke-width="3" marker-end="url(#ar2)"/>
+  </g>
+</svg>
+<figcaption>그림 2. 발표 전체 구성 — 앞의 섹션이 뒤의 섹션을 설명한다</figcaption>
+</figure>
+<div class="easy"><span class="easy-k">쉽게 말하면</span>전체 목차다. 앞 장을 건너뛰면 뒷 장이 왜 있는지 모른다.</div>
+<div class="page-num mono">020 / 021</div><div class="page-section mono">정리 / 04</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+<section class="slide cover" id="s21" data-n="21">
+<div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+<div class="cover-wrap">
+  <div class="eyebrow coral">CLOSING</div>
+  <h1 class="cover-title end">코드는 모델이 짠다.<br><span class="coral-t">굴리는 사람은 따로 있다.</span></h1>
+  <p class="cover-sub">AI 엔지니어의 기술 스킬 — 아홉 개를 파이프라인 위에 놓으면 네 덩어리다</p>
+  <p class="cover-quote">"모델은 점점 싸진다. 비싸지는 것은 그 위에 계약과 인프라와 신뢰를 얹는 일이다."</p>
+  <p class="cover-by">— 그래서 마지막 세 스킬이 앞의 여섯 스킬을 값지게 만든다</p>
+  <div class="cover-meta"><span>nchime.github.io</span><span class="mono">ai-engineer-skills · v1.0.0</span></div>
+</div>
+<div class="page-num mono">021 / 021</div><div class="page-section mono">CLOSING / 01</div>
+<div class="page-footer"><span>AI Engineer — 갖춰야 할 기술 스킬</span><span>nchime · ai-engineer-skills</span></div></section>
+
+</main><script>
+const slides=[...document.querySelectorAll('.slide')],fill=document.getElementById('progress');let cur=0;
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){cur=slides.indexOf(e.target);
+fill.style.width=((cur+1)/slides.length*100)+'%';}}),{threshold:.55});slides.forEach(s=>io.observe(s));
+function go(i){i=Math.max(0,Math.min(slides.length-1,i));slides[i].scrollIntoView({behavior:'smooth',block:'start'});}
+addEventListener('keydown',e=>{if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(cur+1);}
+if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1);}
+if(e.key==='Home'){e.preventDefault();go(0);}if(e.key==='End'){e.preventDefault();go(slides.length-1);}});
+</script></body></html>
