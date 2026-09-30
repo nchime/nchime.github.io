@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Element Plus — Vue 3를 위한 UI 컴포넌트 라이브러리</title>
+<style>
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root{--bg:#17121f;--panel:#211a2c;--line:#342a40;--text:#f2ecf5;--muted:#a99cb6;--dim:#7d6c90;
+ --coral:#ff8a6b;--coral-d:#d4604a;--cream:#efe8f2;--pad:clamp(2rem,4.5vw,4.2rem)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic','Nanum Gothic',sans-serif;
+ scroll-snap-type:y mandatory;overflow-y:scroll;height:100vh;word-break:keep-all}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.progress-bar{position:fixed;top:0;left:0;right:0;height:3px;background:#0f0b15;z-index:99}
+.progress-fill{height:100%;background:var(--coral);width:0;transition:width .2s}
+.slide{min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;
+ padding:var(--pad);position:relative;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:.78rem;letter-spacing:.18em;font-weight:700;text-transform:uppercase;margin-bottom:.9rem}
+.eyebrow.coral{color:var(--coral)} .eyebrow.cream{color:var(--muted)}
+.coral-t{color:var(--coral)} .big{font-size:clamp(1.3rem,2.8vw,2rem);font-weight:800;line-height:1.5;color:var(--coral)} .small-q{display:block;font-size:.62em;font-weight:500;color:var(--muted);margin-top:.4rem}
+.content-title{font-size:clamp(1.5rem,3.3vw,2.4rem);font-weight:800;line-height:1.3;text-wrap:balance}
+.bar{height:3px;width:64px;background:var(--coral);margin:1rem 0 1.3rem;border-radius:2px}
+.lead{color:var(--muted);font-size:clamp(.95rem,1.7vw,1.12rem);line-height:1.7;margin-bottom:1.1rem;max-width:62rem}
+.foot-note{color:var(--muted);font-size:clamp(.86rem,1.5vw,1rem);line-height:1.7;margin-top:1.2rem;max-width:66rem}
+.foot-note b,.lead b,.after b,.stat-l b{color:var(--cream)}
+.cover{background:radial-gradient(1200px 600px at 50% 0%,#2a1d38 0%,#17121f 70%)}
+.cover-wrap{max-width:62rem}
+.cover-title{font-size:clamp(3rem,8vw,5.6rem);font-weight:800;line-height:1.05;letter-spacing:-.01em}
+.cover-title.end{font-size:clamp(2.4rem,6vw,4.2rem)}
+.cover-sub{color:var(--cream);font-size:clamp(1.05rem,2.1vw,1.5rem);margin-top:.8rem;line-height:1.45}
+.cover-quote{font-size:clamp(1rem,1.9vw,1.3rem);line-height:1.7;margin:.2rem 0 .6rem}
+.cover-by{color:var(--muted);font-size:clamp(.85rem,1.5vw,1rem);line-height:1.6}
+.cover-meta{display:flex;gap:1.4rem;flex-wrap:wrap;color:var(--dim);font-size:.9rem;margin-top:1.8rem}
+.motif{width:min(420px,80%);height:auto;margin:1.4rem 0}
+.corner{position:absolute;width:26px;height:26px;border:2px solid var(--coral-d);opacity:.5}
+.corner.tl{top:26px;left:26px;border-right:0;border-bottom:0}.corner.tr{top:26px;right:26px;border-left:0;border-bottom:0}
+.corner.bl{bottom:26px;left:26px;border-right:0;border-top:0}.corner.br{bottom:26px;right:26px;border-left:0;border-top:0}
+.div{background:linear-gradient(120deg,#2a1d38 0%,#17121f 65%)}
+.div-wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:2.4rem;align-items:center}
+.div-title{font-size:clamp(2rem,4.6vw,3.3rem);font-weight:800;line-height:1.2;margin:.2rem 0 .9rem;text-wrap:balance}
+.div-sub{color:var(--muted);font-size:clamp(.95rem,1.7vw,1.15rem);line-height:1.7;max-width:40rem}
+.div-ch{list-style:none;padding:0;border-left:3px solid var(--coral);padding-left:1.2rem}
+.div-ch li{font-size:clamp(1rem,1.7vw,1.2rem);line-height:2;color:var(--cream)}
+.grid{display:grid;gap:1rem}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.2rem}
+.card-num{color:var(--coral);font-size:.8rem;font-weight:700;margin-bottom:.5rem}
+.card-h{font-weight:700;font-size:clamp(1rem,1.7vw,1.18rem);line-height:1.4;margin-bottom:.45rem}
+.card-sub{color:var(--muted);font-size:clamp(.85rem,1.4vw,.98rem);line-height:1.6}
+.bigq{border-left:4px solid var(--coral);padding:.4rem 0 .4rem 1.4rem;margin:.6rem 0 1rem;
+ font-size:clamp(1.15rem,2.5vw,1.8rem);line-height:1.6;font-weight:600;max-width:64rem}
+.q-src{color:var(--dim);font-size:.92rem;line-height:1.6;margin-bottom:.9rem;max-width:64rem}
+.after{color:var(--muted);font-size:clamp(.9rem,1.6vw,1.06rem);line-height:1.7;max-width:62rem}
+.deck-table{border-collapse:collapse;width:100%;max-width:74rem;margin:.4rem 0}
+.deck-table th,.deck-table td{border:1px solid var(--line);padding:.6rem .85rem;text-align:left;
+ font-size:clamp(.82rem,1.4vw,1.02rem);line-height:1.55;vertical-align:top}
+.deck-table th{background:var(--panel);color:var(--coral);font-weight:700}
+.big-list{padding-left:1.3rem;max-width:66rem}.big-list li{font-size:clamp(.95rem,1.75vw,1.2rem);line-height:1.75;margin:.5rem 0}
+.big-list b{color:var(--cream)}
+.stat-row{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));max-width:74rem}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.3rem}
+.stat-n{color:var(--coral);font-size:clamp(1.6rem,3.4vw,2.5rem);font-weight:800;line-height:1.1;margin-bottom:.5rem}
+.stat-l{color:var(--muted);font-size:clamp(.85rem,1.4vw,1rem);line-height:1.6}
+.deck-fig{margin:.2rem auto 0;width:100%;max-width:74rem;text-align:center}
+.deck-fig svg{display:block;margin:0 auto;width:100%;height:auto;border:1px solid var(--line);
+ border-radius:12px;background:#1b1526;padding:6px}
+.deck-fig figcaption{color:var(--dim);font-size:.88rem;margin-top:.6rem}
+.easy{margin-top:1.3rem;max-width:66rem;background:#2a1d38;border:1px solid #4a3a5e;border-left:4px solid var(--coral);
+ border-radius:10px;padding:.85rem 1.1rem;font-size:clamp(.95rem,1.7vw,1.14rem);line-height:1.65;color:var(--text)}
+.easy-k{display:inline-block;color:var(--coral);font-weight:800;font-size:.8em;letter-spacing:.06em;margin-right:.7rem}
+.icon-sym{width:clamp(80px,12vw,120px);height:auto;margin-bottom:1.2rem;opacity:.9}
+.page-num{position:absolute;top:1.5rem;right:1.8rem;color:var(--dim);font-size:.8rem}
+.page-section{position:absolute;top:1.5rem;left:1.8rem;color:var(--dim);font-size:.8rem;letter-spacing:.08em}
+.page-footer{position:absolute;bottom:1.2rem;left:1.8rem;right:1.8rem;display:flex;justify-content:space-between;gap:1rem;color:#5a4d68;font-size:.75rem}
+.cover .page-num{top:3.5rem;right:3.6rem}.cover .page-section{top:3.5rem;left:3.6rem}.cover .page-footer{bottom:3.2rem;left:3.6rem;right:3.6rem}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:1fr}.div-wrap{grid-template-columns:1fr}
+ .page-footer{display:none}.slide{min-height:auto;padding:2.4rem 1.1rem 3rem}.deck-table{display:block;overflow-x:auto}}
+@media print{body{height:auto;overflow:visible;background:#fff;color:#111}
+ .slide{page-break-after:always;min-height:auto;border:none;background:#fff!important;color:#111}
+ .card,.stat,.deck-table th{background:#f6f1f7!important;border-color:#ccc!important}
+ .content-title,.card-h,.div-title,.cover-title{color:#111}.card-sub,.lead,.foot-note,.div-sub,.after{color:#444}.easy{background:#fdf3ef!important;color:#111;border-color:#e8c9bd!important}.progress-bar{display:none}}
+</style>
+</head>
+<body>
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+<main>
+
+<!-- 001: 표지 -->
+<section class="slide cover" id="s1" data-n="1">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+  <div class="cover-wrap">
+    <div class="eyebrow coral">VUE.JS UI FRAMEWORK</div>
+    <h1 class="cover-title">Element <span class="coral-t">Plus</span></h1>
+    <p class="cover-sub">Vue 3를 위한 엔터프라이즈급 UI 컴포넌트 라이브러리</p>
+    <svg class="motif" viewBox="0 0 420 60">
+      <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff8a6b"/><stop offset="100%" stop-color="#d4604a"/></linearGradient></defs>
+      <rect x="0" y="28" width="420" height="4" rx="2" fill="url(#g1)" opacity=".4"/>
+      <circle cx="40" cy="30" r="8" fill="#ff8a6b"/><circle cx="210" cy="30" r="8" fill="#ff8a6b"/><circle cx="380" cy="30" r="8" fill="#ff8a6b"/>
+    </svg>
+    <p class="cover-quote">"80+ 고품질 컴포넌트로 빠르게 구축하는 Vue 애플리케이션"</p>
+    <p class="cover-by">— Element UI의 Vue 3 후속작</p>
+    <div class="cover-meta"><span>소개 및 특장점/단점 분석</span><span class="mono">v2.8+</span></div>
+  </div>
+  <div class="page-num mono">001 / 019</div>
+  <div class="page-section mono">OPENING / 01</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 002: Element Plus란? -->
+<section class="slide content" id="s2" data-n="2">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <defs><linearGradient id="epGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#409eff"/><stop offset="100%" stop-color="#79bbff"/></linearGradient></defs>
+    <rect x="10" y="30" width="100" height="60" rx="8" fill="none" stroke="url(#epGrad)" stroke-width="4"/>
+    <circle cx="35" cy="60" r="12" fill="#409eff"/><circle cx="60" cy="60" r="12" fill="#67c23a"/><circle cx="85" cy="60" r="12" fill="#e6a23c"/>
+    <text x="60" y="108" text-anchor="middle" fill="#409eff" font-size="14" font-weight="700">Element+</text>
+  </svg>
+  <div class="eyebrow cream">INTRODUCTION</div>
+  <h2 class="content-title">Element Plus는 Vue 3 전용 UI 컴포넌트 라이브러리이다</h2>
+  <div class="bar"></div>
+  <p class="lead">Element UI의 정신적 후속작으로, <b>Vue 3 Composition API</b>와 <b>TypeScript</b>를 기반으로 완전히 재작성되었다. 중국 개발팀이 주도하며, 전 세계적으로 가장 많이 사용되는 Vue UI 프레임워크 중 하나이다.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-n mono">80+</div><div class="stat-l">제공 컴포넌트 수</div></div>
+    <div class="stat"><div class="stat-n mono">24K+</div><div class="stat-l">GitHub Stars</div></div>
+    <div class="stat"><div class="stat-n mono">500+</div><div class="stat-l">기여자 수</div></div>
+    <div class="stat"><div class="stat-n mono">2020</div><div class="stat-l">첫 릴리즈 연도</div></div>
+  </div>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span>Vue 3로 웹앱을 만들 때 <b>버튼, 테이블, 폼, 다이얼로그</b> 같은 UI를 직접 만들지 않고 가져다 쓸 수 있는 <b>부품 세트</b>이다.</div>
+  <div class="page-num mono">002 / 019</div>
+  <div class="page-section mono">OPENING / 02</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 003: 설치 조건 및 공식 사이트 -->
+<section class="slide content" id="s3" data-n="3">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <rect x="20" y="20" width="80" height="80" rx="8" fill="#211a2c" stroke="#409eff" stroke-width="3"/>
+    <text x="60" y="52" text-anchor="middle" fill="#409eff" font-size="28" font-weight="700">npm</text>
+    <rect x="35" y="65" width="50" height="20" rx="4" fill="#67c23a"/>
+    <text x="60" y="80" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">install</text>
+    <circle cx="95" cy="30" r="15" fill="#42d392"/>
+    <path d="M89 30 L93 34 L101 26" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </svg>
+  <div class="eyebrow cream">GETTING STARTED</div>
+  <h2 class="content-title">Element Plus 설치 조건과 시작하기</h2>
+  <div class="bar"></div>
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="card-num mono">REQUIREMENT</div>
+      <div class="card-h">설치 조건</div>
+      <div class="card-sub">
+        • Vue 3.2 이상<br>
+        • Node.js 16 이상<br>
+        • TypeScript 4.7+ (선택)
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-num mono">INSTALL</div>
+      <div class="card-h">설치 명령어</div>
+      <div class="card-sub" style="font-family:ui-monospace,monospace;font-size:.85em">
+        npm install element-plus<br>
+        <span style="color:var(--dim)">// 또는</span><br>
+        pnpm add element-plus
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-num mono">OFFICIAL</div>
+      <div class="card-h">공식 사이트</div>
+      <div class="card-sub">
+        <b>element-plus.org</b><br>
+        문서, 컴포넌트 데모,<br>
+        Playground 제공
+      </div>
+    </div>
+  </div>
+  <p class="foot-note"><b>Vite + Vue 3</b> 조합이 권장된다. unplugin-vue-components로 자동 import 설정 시 별도 import 문 없이 컴포넌트를 바로 사용할 수 있다.</p>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span><b>npm install element-plus</b> 한 줄이면 설치 끝. Vue 3 프로젝트에서 바로 <b>&lt;el-button&gt;</b> 같은 컴포넌트를 쓸 수 있다.</div>
+  <div class="page-num mono">003 / 019</div>
+  <div class="page-section mono">OPENING / 03</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 004: UI 프레임워크 비교 1 - 완전한 UI 라이브러리 -->
+<section class="slide content" id="s4" data-n="4">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <rect x="5" y="35" width="28" height="55" rx="4" fill="#409eff"/>
+    <text x="19" y="67" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">EP</text>
+    <rect x="37" y="40" width="28" height="50" rx="4" fill="#1976d2"/>
+    <text x="51" y="70" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">MUI</text>
+    <rect x="69" y="38" width="28" height="52" rx="4" fill="#1890ff"/>
+    <text x="83" y="68" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">Ant</text>
+    <path d="M10 105 L110 105" stroke="#342a40" stroke-width="2"/>
+    <text x="60" y="118" text-anchor="middle" fill="#a99cb6" font-size="9">Complete UI Libraries</text>
+  </svg>
+  <div class="eyebrow cream">COMPARISON 1</div>
+  <h2 class="content-title">완전한 UI 라이브러리 비교: Element Plus vs MUI vs Ant Design</h2>
+  <div class="bar"></div>
+  <table class="deck-table">
+    <thead>
+      <tr><th>항목</th><th>Element Plus</th><th>MUI (Material UI)</th><th>Ant Design</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>프레임워크</b></td>
+        <td>Vue 3 전용</td>
+        <td>React 전용</td>
+        <td>React (Vue: Ant Design Vue)</td>
+      </tr>
+      <tr>
+        <td><b>디자인 시스템</b></td>
+        <td>자체 (Admin 특화)</td>
+        <td>Google Material Design</td>
+        <td>Ant Design System</td>
+      </tr>
+      <tr>
+        <td><b>컴포넌트 수</b></td>
+        <td>82개</td>
+        <td>50+개</td>
+        <td>60+개</td>
+      </tr>
+      <tr>
+        <td><b>장점</b></td>
+        <td>Vue 최적화, 풍부한 폼</td>
+        <td>Material 생태계, 유연성</td>
+        <td>엔터프라이즈급 품질</td>
+      </tr>
+      <tr>
+        <td><b>단점</b></td>
+        <td>중국어 커뮤니티 중심</td>
+        <td>번들 사이즈 큼</td>
+        <td>번들 무거움, 학습 곡선</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span><b>Vue → Element Plus</b>, React → MUI 또는 Ant Design. 세 라이브러리 모두 <b>"설치 즉시 사용 가능한"</b> 완성된 컴포넌트를 제공한다.</div>
+  <div class="page-num mono">004 / 019</div>
+  <div class="page-section mono">OPENING / 04</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 005: UI 프레임워크 비교 2 - 유틸리티/헤드리스 -->
+<section class="slide content" id="s5" data-n="5">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <rect x="5" y="35" width="28" height="55" rx="4" fill="#409eff"/>
+    <text x="19" y="67" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">EP</text>
+    <rect x="37" y="45" width="28" height="45" rx="4" fill="#38bdf8"/>
+    <text x="51" y="72" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">TW</text>
+    <rect x="69" y="42" width="28" height="48" rx="4" fill="#18181b"/>
+    <text x="83" y="70" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">shad</text>
+    <path d="M10 105 L110 105" stroke="#342a40" stroke-width="2"/>
+    <text x="60" y="118" text-anchor="middle" fill="#a99cb6" font-size="9">Utility / Headless</text>
+  </svg>
+  <div class="eyebrow cream">COMPARISON 2</div>
+  <h2 class="content-title">유틸리티/헤드리스 비교: Element Plus vs Tailwind CSS vs Shadcn UI</h2>
+  <div class="bar"></div>
+  <table class="deck-table">
+    <thead>
+      <tr><th>항목</th><th>Element Plus</th><th>Tailwind CSS</th><th>Shadcn UI</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>유형</b></td>
+        <td>완전한 컴포넌트 라이브러리</td>
+        <td>유틸리티 CSS 프레임워크</td>
+        <td>복사-붙여넣기 컴포넌트</td>
+      </tr>
+      <tr>
+        <td><b>프레임워크</b></td>
+        <td>Vue 3 전용</td>
+        <td>프레임워크 무관</td>
+        <td>React (Next.js 최적화)</td>
+      </tr>
+      <tr>
+        <td><b>커스터마이징</b></td>
+        <td>CSS 변수로 테마 변경</td>
+        <td>완전한 자유도</td>
+        <td>소스 코드 직접 수정</td>
+      </tr>
+      <tr>
+        <td><b>장점</b></td>
+        <td>즉시 사용, 일관된 UX</td>
+        <td>경량, 무한한 유연성</td>
+        <td>소유권, 완전한 제어</td>
+      </tr>
+      <tr>
+        <td><b>단점</b></td>
+        <td>고정된 디자인 언어</td>
+        <td>직접 컴포넌트 구축 필요</td>
+        <td>React 전용, 수동 업데이트</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span><b>빠른 개발 → Element Plus</b>, 완전한 디자인 자유 → Tailwind, 소스 소유권 → Shadcn. <b>접근 방식이 근본적으로 다르다.</b></div>
+  <div class="page-num mono">005 / 019</div>
+  <div class="page-section mono">OPENING / 05</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 006: PART 1 간지 - 특장점 -->
+<section class="slide div" id="s6" data-n="6">
+  <div class="div-wrap">
+    <div>
+      <div class="eyebrow coral">PART 1</div>
+      <h2 class="div-title">Element Plus의 특장점</h2>
+      <p class="div-sub">생산성과 품질을 동시에 잡는 강력한 기능들</p>
+      <svg class="motif" viewBox="0 0 420 60">
+        <defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff8a6b"/><stop offset="100%" stop-color="#d4604a"/></linearGradient></defs>
+        <rect x="0" y="28" width="420" height="4" rx="2" fill="url(#g2)" opacity=".4"/>
+      </svg>
+    </div>
+    <ul class="div-ch">
+      <li>1. 풍부한 컴포넌트</li>
+      <li>2. TypeScript 완벽 지원</li>
+      <li>3. 테마 커스터마이징</li>
+      <li>4. 국제화(i18n) 내장</li>
+      <li>5. Pinia 연동 캐싱</li>
+    </ul>
+  </div>
+  <div class="page-num mono">006 / 019</div>
+  <div class="page-section mono">PART 1 / 01</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 007: 특장점 1 - 풍부한 컴포넌트 -->
+<section class="slide content" id="s7" data-n="7">
+  <div class="eyebrow cream">STRENGTH 01</div>
+  <h2 class="content-title">80개 이상의 프로덕션 레디 컴포넌트를 제공한다</h2>
+  <div class="bar"></div>
+  <figure class="deck-fig" style="max-width:66rem">
+    <svg viewBox="0 0 960 360">
+      <defs>
+        <linearGradient id="elBtn" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#409eff"/><stop offset="100%" stop-color="#337ecc"/></linearGradient>
+        <linearGradient id="elSuccess" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#67c23a"/><stop offset="100%" stop-color="#529b2e"/></linearGradient>
+        <linearGradient id="elWarn" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e6a23c"/><stop offset="100%" stop-color="#b88230"/></linearGradient>
+        <linearGradient id="elDanger" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f56c6c"/><stop offset="100%" stop-color="#c45656"/></linearGradient>
+      </defs>
+      <text x="120" y="30" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">BASIC (12)</text>
+      <text x="360" y="30" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">FORM (25)</text>
+      <text x="600" y="30" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">DATA (23)</text>
+      <text x="840" y="30" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">FEEDBACK (10)</text>
+      <rect x="20" y="50" width="200" height="130" rx="8" fill="#211a2c" stroke="#342a40"/>
+      <rect x="35" y="70" width="70" height="28" rx="4" fill="url(#elBtn)"/>
+      <text x="70" y="89" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Primary</text>
+      <rect x="115" y="70" width="70" height="28" rx="4" fill="url(#elSuccess)"/>
+      <text x="150" y="89" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Success</text>
+      <rect x="35" y="108" width="70" height="28" rx="4" fill="url(#elWarn)"/>
+      <text x="70" y="127" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Warning</text>
+      <rect x="115" y="108" width="70" height="28" rx="4" fill="url(#elDanger)"/>
+      <text x="150" y="127" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Danger</text>
+      <text x="120" y="160" text-anchor="middle" fill="#a99cb6" font-size="10">Button, Link, Icon, Space...</text>
+      <rect x="260" y="50" width="200" height="130" rx="8" fill="#211a2c" stroke="#342a40"/>
+      <rect x="275" y="68" width="170" height="32" rx="4" fill="#1b1526" stroke="#409eff"/>
+      <text x="285" y="89" fill="#a99cb6" font-size="11">Please input...</text>
+      <rect x="275" y="110" width="170" height="32" rx="4" fill="#1b1526" stroke="#342a40"/>
+      <text x="285" y="131" fill="#f2ecf5" font-size="11">Select option</text>
+      <path d="M430 122 L435 128 L440 122" stroke="#a99cb6" fill="none" stroke-width="2"/>
+      <text x="360" y="160" text-anchor="middle" fill="#a99cb6" font-size="10">Input, Select, DatePicker, Upload...</text>
+      <rect x="500" y="50" width="200" height="130" rx="8" fill="#211a2c" stroke="#342a40"/>
+      <rect x="515" y="65" width="170" height="22" rx="2" fill="#2a1d38"/>
+      <text x="545" y="80" fill="#409eff" font-size="10" font-weight="600">Name</text>
+      <text x="625" y="80" fill="#409eff" font-size="10" font-weight="600">Status</text>
+      <line x1="515" y1="87" x2="685" y2="87" stroke="#342a40"/>
+      <text x="545" y="102" fill="#f2ecf5" font-size="10">John Doe</text>
+      <rect x="615" y="92" width="50" height="16" rx="8" fill="#67c23a" opacity=".2"/>
+      <text x="640" y="104" text-anchor="middle" fill="#67c23a" font-size="9">Active</text>
+      <line x1="515" y1="112" x2="685" y2="112" stroke="#342a40"/>
+      <text x="545" y="127" fill="#f2ecf5" font-size="10">Jane Smith</text>
+      <rect x="615" y="117" width="50" height="16" rx="8" fill="#e6a23c" opacity=".2"/>
+      <text x="640" y="129" text-anchor="middle" fill="#e6a23c" font-size="9">Pending</text>
+      <text x="600" y="160" text-anchor="middle" fill="#a99cb6" font-size="10">Table, Tree, Pagination, Tag...</text>
+      <rect x="740" y="50" width="200" height="130" rx="8" fill="#211a2c" stroke="#342a40"/>
+      <rect x="760" y="65" width="160" height="90" rx="6" fill="#1b1526" stroke="#409eff"/>
+      <rect x="760" y="65" width="160" height="24" rx="6 6 0 0" fill="#2a1d38"/>
+      <text x="775" y="82" fill="#f2ecf5" font-size="11" font-weight="600">Dialog Title</text>
+      <text x="905" y="82" fill="#a99cb6" font-size="14">×</text>
+      <text x="775" y="108" fill="#a99cb6" font-size="10">Dialog content here...</text>
+      <rect x="845" y="130" width="60" height="20" rx="3" fill="url(#elBtn)"/>
+      <text x="875" y="144" text-anchor="middle" fill="#fff" font-size="9">Confirm</text>
+      <text x="840" y="160" text-anchor="middle" fill="#a99cb6" font-size="10">Dialog, Message, Notification...</text>
+      <text x="120" y="205" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">NAVIGATION (9)</text>
+      <text x="360" y="205" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">CONFIG (1)</text>
+      <text x="600" y="205" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">OTHERS (2)</text>
+      <text x="840" y="205" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">총 82개</text>
+      <rect x="20" y="220" width="200" height="110" rx="8" fill="#211a2c" stroke="#342a40"/>
+      <rect x="35" y="235" width="170" height="28" rx="4" fill="#2a1d38"/>
+      <rect x="35" y="235" width="50" height="28" rx="4 0 0 4" fill="#409eff"/>
+      <text x="60" y="254" text-anchor="middle" fill="#fff" font-size="10">Home</text>
+      <text x="110" y="254" text-anchor="middle" fill="#a99cb6" font-size="10">Users</text>
+      <text x="160" y="254" text-anchor="middle" fill="#a99cb6" font-size="10">Settings</text>
+      <text x="40" y="290" fill="#a99cb6" font-size="10">▸ Dashboard</text>
+      <text x="40" y="308" fill="#409eff" font-size="10">▸ Analytics</text>
+      <text x="120" y="290" fill="#a99cb6" font-size="10">▸ Reports</text>
+      <rect x="260" y="220" width="200" height="110" rx="8" fill="#211a2c" stroke="#342a40"/>
+      <text x="360" y="258" text-anchor="middle" fill="#f2ecf5" font-size="12" font-weight="600">&lt;el-config-provider&gt;</text>
+      <text x="360" y="280" text-anchor="middle" fill="#a99cb6" font-size="10">locale="ko"</text>
+      <text x="360" y="298" text-anchor="middle" fill="#a99cb6" font-size="10">size="large"</text>
+      <text x="360" y="316" text-anchor="middle" fill="#a99cb6" font-size="10">전역 설정 관리</text>
+      <rect x="500" y="220" width="200" height="110" rx="8" fill="#211a2c" stroke="#342a40"/>
+      <line x1="520" y1="260" x2="680" y2="260" stroke="#409eff" stroke-dasharray="4"/>
+      <text x="600" y="265" text-anchor="middle" fill="#409eff" font-size="10" font-weight="600">Divider</text>
+      <text x="530" y="295" fill="#342a40" font-size="9" opacity=".5" transform="rotate(-15 530 295)">Watermark</text>
+      <text x="580" y="310" fill="#342a40" font-size="9" opacity=".5" transform="rotate(-15 580 310)">Watermark</text>
+      <text x="630" y="295" fill="#342a40" font-size="9" opacity=".5" transform="rotate(-15 630 295)">Watermark</text>
+      <rect x="740" y="220" width="200" height="110" rx="8" fill="#2a1d38" stroke="#ff8a6b"/>
+      <text x="840" y="260" text-anchor="middle" fill="#ff8a6b" font-size="32" font-weight="800">82</text>
+      <text x="840" y="285" text-anchor="middle" fill="#f2ecf5" font-size="12">Production-Ready</text>
+      <text x="840" y="305" text-anchor="middle" fill="#a99cb6" font-size="11">Components</text>
+    </svg>
+    <figcaption>그림 1. Element Plus 컴포넌트 카테고리별 구성 (출처: element-plus.org/en-US/component/overview)</figcaption>
+  </figure>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span><b>레고 블록 세트</b>처럼 다양한 부품이 준비되어 있어서, 조립만 하면 관리자 페이지나 대시보드를 빠르게 만들 수 있다.</div>
+  <div class="page-num mono">007 / 019</div>
+  <div class="page-section mono">PART 1 / 02</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 008: 특장점 2 - TypeScript 지원 -->
+<section class="slide content" id="s8" data-n="8">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <rect x="10" y="10" width="100" height="100" rx="12" fill="#3178c6"/>
+    <text x="60" y="78" text-anchor="middle" fill="#fff" font-size="48" font-weight="700" font-family="ui-monospace,monospace">TS</text>
+    <circle cx="95" cy="25" r="12" fill="#42d392" stroke="#fff" stroke-width="2"/>
+    <path d="M89 25 L93 29 L101 21" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <div class="eyebrow cream">STRENGTH 02</div>
+  <h2 class="content-title">TypeScript를 네이티브로 완벽 지원한다</h2>
+  <div class="bar"></div>
+  <blockquote class="bigq">모든 컴포넌트가 TypeScript로 작성되어<br><span class="coral-t">타입 추론과 자동완성이 즉시 동작한다</span></blockquote>
+  <p class="after">별도의 @types 패키지 설치가 필요 없다. IDE에서 props, events, slots의 타입이 자동으로 표시되어 <b>런타임 에러를 사전에 방지</b>할 수 있다.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-n">100%</div><div class="stat-l">TypeScript 커버리지</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">추가 타입 패키지 필요</div></div>
+  </div>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span>코드를 작성할 때 <b>맞춤법 검사기</b>처럼 IDE가 실시간으로 오류를 잡아준다. 배포 전에 버그를 미리 발견할 수 있다.</div>
+  <div class="page-num mono">008 / 019</div>
+  <div class="page-section mono">PART 1 / 03</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 009: 특장점 3 - 테마 커스터마이징 -->
+<section class="slide content" id="s9" data-n="9">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <circle cx="40" cy="50" r="25" fill="#409eff"/>
+    <circle cx="80" cy="50" r="25" fill="#67c23a"/>
+    <circle cx="60" cy="80" r="25" fill="#e6a23c"/>
+    <circle cx="60" cy="60" r="12" fill="#f2ecf5"/>
+    <path d="M55 20 L60 10 L65 20 M55 20 L65 20 L60 35 Z" fill="#ff8a6b"/>
+    <rect x="52" y="35" width="16" height="30" rx="3" fill="#ff8a6b"/>
+  </svg>
+  <div class="eyebrow cream">STRENGTH 03</div>
+  <h2 class="content-title">CSS 변수와 SCSS로 유연한 테마 커스터마이징이 가능하다</h2>
+  <div class="bar"></div>
+  <div class="grid grid-3">
+    <div class="card"><div class="card-num mono">01</div><div class="card-h">CSS Variables</div><div class="card-sub">런타임에 동적으로 테마 변경 가능</div></div>
+    <div class="card"><div class="card-num mono">02</div><div class="card-h">SCSS Override</div><div class="card-sub">빌드 타임에 변수 오버라이드</div></div>
+    <div class="card"><div class="card-num mono">03</div><div class="card-h">Dark Mode</div><div class="card-sub">다크 모드 내장 지원</div></div>
+  </div>
+  <p class="foot-note"><b>--el-color-primary</b> 등 200개 이상의 CSS 변수를 제공하여, JavaScript 없이도 테마를 변경할 수 있다.</p>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span>기본 디자인이 마음에 안 들면 <b>색상 팔레트만 바꿔서</b> 회사 브랜드에 맞는 디자인으로 쉽게 변경할 수 있다.</div>
+  <div class="page-num mono">009 / 019</div>
+  <div class="page-section mono">PART 1 / 04</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 010: 특장점 4 - 국제화 -->
+<section class="slide content" id="s10" data-n="10">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="45" fill="none" stroke="#409eff" stroke-width="4"/>
+    <ellipse cx="60" cy="60" rx="20" ry="45" fill="none" stroke="#409eff" stroke-width="3"/>
+    <line x1="15" y1="60" x2="105" y2="60" stroke="#409eff" stroke-width="3"/>
+    <line x1="60" y1="15" x2="60" y2="105" stroke="#409eff" stroke-width="3"/>
+    <text x="25" y="40" fill="#ff8a6b" font-size="14" font-weight="700">KO</text>
+    <text x="75" y="40" fill="#67c23a" font-size="14" font-weight="700">EN</text>
+    <text x="25" y="90" fill="#e6a23c" font-size="14" font-weight="700">中</text>
+    <text x="78" y="90" fill="#f56c6c" font-size="14" font-weight="700">日</text>
+  </svg>
+  <div class="eyebrow cream">STRENGTH 04</div>
+  <h2 class="content-title">50개 이상 언어의 국제화(i18n)를 기본 제공한다</h2>
+  <div class="bar"></div>
+  <p class="lead">컴포넌트 내부의 모든 텍스트(버튼 레이블, 플레이스홀더, 에러 메시지 등)가 다국어로 번역되어 있다.</p>
+  <div class="grid grid-4">
+    <div class="card"><div class="card-h">한국어</div><div class="card-sub">ko</div></div>
+    <div class="card"><div class="card-h">영어</div><div class="card-sub">en</div></div>
+    <div class="card"><div class="card-h">중국어</div><div class="card-sub">zh-cn, zh-tw</div></div>
+    <div class="card"><div class="card-h">일본어</div><div class="card-sub">ja</div></div>
+  </div>
+  <p class="foot-note">ConfigProvider 컴포넌트로 앱 전체의 언어를 한 번에 설정할 수 있다.</p>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span>글로벌 서비스를 만들 때 <b>"확인", "OK", "確認"</b> 같은 번역을 직접 하지 않아도 된다. 언어만 바꾸면 자동으로 전환된다.</div>
+  <div class="page-num mono">010 / 019</div>
+  <div class="page-section mono">PART 1 / 05</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 011: 특장점 5 - Pinia 캐싱 -->
+<section class="slide content" id="s11" data-n="11">
+  <div class="eyebrow cream">STRENGTH 05</div>
+  <h2 class="content-title">Pinia와 연동하여 페이지 데이터를 캐싱하고 빠르게 재조회할 수 있다</h2>
+  <div class="bar"></div>
+  <figure class="deck-fig" style="max-width:62rem">
+    <svg viewBox="0 0 900 280">
+      <defs>
+        <linearGradient id="piniaGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#42d392"/><stop offset="100%" stop-color="#35a86e"/></linearGradient>
+        <linearGradient id="apiGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#409eff"/><stop offset="100%" stop-color="#337ecc"/></linearGradient>
+        <marker id="arrowG" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#42d392"/></marker>
+        <marker id="arrowB" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#409eff"/></marker>
+        <marker id="arrowR" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#ff8a6b"/></marker>
+      </defs>
+      <!-- First Request Flow -->
+      <text x="450" y="25" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">첫 번째 요청: API 호출 후 Pinia Store에 캐싱</text>
+      <rect x="30" y="45" width="140" height="60" rx="8" fill="#211a2c" stroke="#409eff" stroke-width="2"/>
+      <text x="100" y="72" text-anchor="middle" fill="#f2ecf5" font-size="12" font-weight="600">Vue Component</text>
+      <text x="100" y="90" text-anchor="middle" fill="#a99cb6" font-size="10">el-table, el-form...</text>
+      <line x1="170" y1="75" x2="250" y2="75" stroke="#409eff" stroke-width="2" marker-end="url(#arrowB)"/>
+      <text x="210" y="68" text-anchor="middle" fill="#409eff" font-size="10">1. 조회 요청</text>
+      <rect x="260" y="45" width="160" height="60" rx="8" fill="#211a2c" stroke="url(#piniaGrad)" stroke-width="2"/>
+      <text x="340" y="68" text-anchor="middle" fill="#42d392" font-size="12" font-weight="700">🍍 Pinia Store</text>
+      <text x="340" y="88" text-anchor="middle" fill="#a99cb6" font-size="10">캐시 확인 → 없음</text>
+      <line x1="420" y1="75" x2="500" y2="75" stroke="#409eff" stroke-width="2" marker-end="url(#arrowB)"/>
+      <text x="460" y="68" text-anchor="middle" fill="#409eff" font-size="10">2. API 호출</text>
+      <rect x="510" y="45" width="120" height="60" rx="8" fill="#211a2c" stroke="#7d6c90" stroke-width="1"/>
+      <text x="570" y="72" text-anchor="middle" fill="#f2ecf5" font-size="12" font-weight="600">Backend API</text>
+      <text x="570" y="90" text-anchor="middle" fill="#a99cb6" font-size="10">/api/users</text>
+      <line x1="570" y1="105" x2="570" y2="125" stroke="#42d392" stroke-width="2"/>
+      <line x1="570" y1="125" x2="340" y2="125" stroke="#42d392" stroke-width="2" marker-end="url(#arrowG)"/>
+      <text x="455" y="118" text-anchor="middle" fill="#42d392" font-size="10">3. 응답 저장</text>
+      <rect x="680" y="45" width="180" height="60" rx="8" fill="#2a1d38" stroke="#42d392" stroke-width="1"/>
+      <text x="770" y="68" text-anchor="middle" fill="#42d392" font-size="11" font-weight="600">Store State</text>
+      <text x="770" y="88" text-anchor="middle" fill="#a99cb6" font-size="10">users: [...], cached: true</text>
+      <!-- Second Request Flow -->
+      <text x="450" y="165" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">재방문 시: Store에서 즉시 반환 (API 호출 생략)</text>
+      <rect x="30" y="185" width="140" height="60" rx="8" fill="#211a2c" stroke="#409eff" stroke-width="2"/>
+      <text x="100" y="212" text-anchor="middle" fill="#f2ecf5" font-size="12" font-weight="600">Vue Component</text>
+      <text x="100" y="230" text-anchor="middle" fill="#a99cb6" font-size="10">페이지 재진입</text>
+      <line x1="170" y1="215" x2="250" y2="215" stroke="#409eff" stroke-width="2" marker-end="url(#arrowB)"/>
+      <text x="210" y="208" text-anchor="middle" fill="#409eff" font-size="10">1. 조회 요청</text>
+      <rect x="260" y="185" width="160" height="60" rx="8" fill="#2a1d38" stroke="url(#piniaGrad)" stroke-width="2"/>
+      <text x="340" y="208" text-anchor="middle" fill="#42d392" font-size="12" font-weight="700">🍍 Pinia Store</text>
+      <text x="340" y="228" text-anchor="middle" fill="#42d392" font-size="10">캐시 HIT!</text>
+      <line x1="260" y1="215" x2="180" y2="215" stroke="#ff8a6b" stroke-width="2" stroke-dasharray="5" marker-end="url(#arrowR)"/>
+      <text x="220" y="232" text-anchor="middle" fill="#ff8a6b" font-size="10">2. 즉시 반환</text>
+      <rect x="510" y="185" width="120" height="60" rx="8" fill="#211a2c" stroke="#342a40" stroke-width="1" opacity=".4"/>
+      <text x="570" y="212" text-anchor="middle" fill="#7d6c90" font-size="12">Backend API</text>
+      <text x="570" y="230" text-anchor="middle" fill="#7d6c90" font-size="10">호출 안 함</text>
+      <line x1="420" y1="215" x2="500" y2="215" stroke="#7d6c90" stroke-width="1" stroke-dasharray="3" opacity=".4"/>
+      <text x="460" y="208" text-anchor="middle" fill="#7d6c90" font-size="9">× 스킵</text>
+      <rect x="680" y="185" width="180" height="60" rx="8" fill="#2a1d38" stroke="#ff8a6b" stroke-width="2"/>
+      <text x="770" y="205" text-anchor="middle" fill="#ff8a6b" font-size="16" font-weight="800">~0ms</text>
+      <text x="770" y="228" text-anchor="middle" fill="#f2ecf5" font-size="11">즉시 렌더링</text>
+    </svg>
+    <figcaption>그림 2. Pinia Store를 활용한 페이지 데이터 캐싱 흐름</figcaption>
+  </figure>
+  <p class="foot-note">Element Plus의 <b>el-table</b>과 <b>el-pagination</b>을 Pinia Store와 연동하면, 목록 페이지에서 상세 페이지로 이동 후 뒤로가기 시 <b>API 재호출 없이 즉시 표시</b>된다.</p>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span>한 번 불러온 데이터를 <b>브라우저 메모리에 저장</b>해두고, 다시 방문할 때 서버에 물어보지 않고 <b>바로 보여준다</b>. 사용자 체감 속도가 확 빨라진다.</div>
+  <div class="page-num mono">011 / 019</div>
+  <div class="page-section mono">PART 1 / 06</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 012: PART 2 간지 - 단점 -->
+<section class="slide div" id="s12" data-n="12">
+  <div class="div-wrap">
+    <div>
+      <div class="eyebrow coral">PART 2</div>
+      <h2 class="div-title">Element Plus의 단점과 고려사항</h2>
+      <p class="div-sub">도입 전 반드시 검토해야 할 제약사항들</p>
+      <svg class="motif" viewBox="0 0 420 60">
+        <defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff8a6b"/><stop offset="100%" stop-color="#d4604a"/></linearGradient></defs>
+        <rect x="0" y="28" width="420" height="4" rx="2" fill="url(#g3)" opacity=".4"/>
+      </svg>
+    </div>
+    <ul class="div-ch">
+      <li>1. 번들 사이즈</li>
+      <li>2. 디자인 제약</li>
+      <li>3. 문서/커뮤니티 이슈</li>
+    </ul>
+  </div>
+  <div class="page-num mono">012 / 019</div>
+  <div class="page-section mono">PART 2 / 01</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 013: 단점 1 - 번들 사이즈 -->
+<section class="slide content" id="s13" data-n="13">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <rect x="20" y="35" width="80" height="70" rx="6" fill="none" stroke="#e6a23c" stroke-width="4"/>
+    <path d="M20 55 L60 75 L100 55" stroke="#e6a23c" stroke-width="4" fill="none"/>
+    <line x1="60" y1="75" x2="60" y2="105" stroke="#e6a23c" stroke-width="4"/>
+    <rect x="35" y="15" width="50" height="25" rx="4" fill="#f56c6c"/>
+    <text x="60" y="33" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">2MB</text>
+    <circle cx="95" cy="25" r="15" fill="#ff8a6b"/>
+    <text x="95" y="30" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">!</text>
+  </svg>
+  <div class="eyebrow cream">WEAKNESS 01</div>
+  <h2 class="content-title">전체 번들 사이즈가 상당히 크다</h2>
+  <div class="bar"></div>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-n">~2MB</div><div class="stat-l">전체 CSS+JS (미압축)</div></div>
+    <div class="stat"><div class="stat-n">~600KB</div><div class="stat-l">Gzip 압축 후</div></div>
+    <div class="stat"><div class="stat-n">필수</div><div class="stat-l">Tree-shaking 적용</div></div>
+  </div>
+  <p class="after">전체 라이브러리를 import하면 초기 로딩 시간이 길어진다. <b>unplugin-vue-components</b>와 <b>unplugin-auto-import</b>를 사용한 자동 온디맨드 import가 필수이다.</p>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span>백화점 전체를 배송받는 것과 같다. 필요한 물건만 <b>골라서 주문</b>하는 설정(Tree-shaking)을 해야 배송비(로딩 시간)가 줄어든다.</div>
+  <div class="page-num mono">013 / 019</div>
+  <div class="page-section mono">PART 2 / 02</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 014: 단점 2 - 디자인 제약 -->
+<section class="slide content" id="s14" data-n="14">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <rect x="35" y="20" width="50" height="70" rx="4" fill="#342a40"/>
+    <rect x="40" y="30" width="40" height="10" rx="2" fill="#409eff"/>
+    <rect x="40" y="45" width="40" height="35" fill="#211a2c" stroke="#342a40"/>
+    <line x1="40" y1="55" x2="80" y2="55" stroke="#342a40"/>
+    <line x1="40" y1="65" x2="80" y2="65" stroke="#342a40"/>
+    <line x1="40" y1="75" x2="80" y2="75" stroke="#342a40"/>
+    <circle cx="85" cy="100" r="15" fill="#f56c6c" opacity=".8"/>
+    <path d="M80 95 L90 105 M90 95 L80 105" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+    <text x="60" y="110" text-anchor="middle" fill="#a99cb6" font-size="10">Admin Only</text>
+  </svg>
+  <div class="eyebrow cream">WEAKNESS 02</div>
+  <h2 class="content-title">독창적인 디자인을 원하면 오히려 제약이 된다</h2>
+  <div class="bar"></div>
+  <blockquote class="bigq">Element Plus는 "관리자 대시보드" 스타일에 최적화되어 있어<br><span class="coral-t">소비자향 서비스에는 다소 딱딱하게 느껴질 수 있다</span></blockquote>
+  <table class="deck-table">
+    <thead><tr><th>적합한 경우</th><th>부적합한 경우</th></tr></thead>
+    <tbody>
+      <tr><td>백오피스/어드민 패널</td><td>브랜드 아이덴티티가 강한 서비스</td></tr>
+      <tr><td>내부 ERP/CRM 시스템</td><td>마케팅 랜딩 페이지</td></tr>
+      <tr><td>B2B SaaS 대시보드</td><td>게임/엔터테인먼트 앱</td></tr>
+    </tbody>
+  </table>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span><b>정장</b> 같은 느낌이다. 비즈니스 미팅에는 완벽하지만, 캐주얼한 파티에는 어울리지 않을 수 있다.</div>
+  <div class="page-num mono">014 / 019</div>
+  <div class="page-section mono">PART 2 / 03</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 015: 단점 3 - 문서/커뮤니티 -->
+<section class="slide content" id="s15" data-n="15">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <rect x="15" y="25" width="60" height="80" rx="4" fill="#211a2c" stroke="#e6a23c" stroke-width="3"/>
+    <line x1="25" y1="40" x2="65" y2="40" stroke="#e6a23c" stroke-width="2"/>
+    <line x1="25" y1="52" x2="55" y2="52" stroke="#7d6c90" stroke-width="2"/>
+    <line x1="25" y1="64" x2="60" y2="64" stroke="#7d6c90" stroke-width="2"/>
+    <line x1="25" y1="76" x2="50" y2="76" stroke="#7d6c90" stroke-width="2"/>
+    <line x1="25" y1="88" x2="58" y2="88" stroke="#7d6c90" stroke-width="2"/>
+    <circle cx="90" cy="60" r="25" fill="#f56c6c"/>
+    <text x="90" y="55" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">中</text>
+    <text x="90" y="72" text-anchor="middle" fill="#fff" font-size="10">文</text>
+  </svg>
+  <div class="eyebrow cream">WEAKNESS 03</div>
+  <h2 class="content-title">중국어 중심 커뮤니티로 정보 접근에 장벽이 있다</h2>
+  <div class="bar"></div>
+  <div class="grid grid-3">
+    <div class="card"><div class="card-num mono">DOCS</div><div class="card-h">문서 품질</div><div class="card-sub">영문 문서는 있으나 중국어 대비 업데이트가 늦음</div></div>
+    <div class="card"><div class="card-num mono">ISSUES</div><div class="card-h">GitHub 이슈</div><div class="card-sub">상당수 이슈가 중국어로 작성됨</div></div>
+    <div class="card"><div class="card-num mono">COMMUNITY</div><div class="card-h">커뮤니티</div><div class="card-sub">WeChat, 知乎 중심의 중국 커뮤니티</div></div>
+  </div>
+  <p class="foot-note">공식 Discord 채널이 있으나 활성도가 높지 않다. <b>Stack Overflow</b>보다 GitHub Issues를 검색하는 것이 효과적이다.</p>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span>설명서의 <b>원본은 중국어</b>이다. 영어 번역은 있지만, 최신 정보나 깊은 토론은 중국어 자료를 참고해야 할 때가 있다.</div>
+  <div class="page-num mono">015 / 019</div>
+  <div class="page-section mono">PART 2 / 04</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 016: 정리 - 언제 사용하면 좋을까 -->
+<section class="slide content" id="s16" data-n="16">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <rect x="20" y="15" width="80" height="95" rx="6" fill="#211a2c" stroke="#409eff" stroke-width="3"/>
+    <circle cx="38" cy="38" r="8" fill="#67c23a"/><path d="M34 38 L37 41 L43 35" stroke="#fff" stroke-width="2" fill="none"/>
+    <line x1="55" y1="38" x2="90" y2="38" stroke="#67c23a" stroke-width="3"/>
+    <circle cx="38" cy="58" r="8" fill="#67c23a"/><path d="M34 58 L37 61 L43 55" stroke="#fff" stroke-width="2" fill="none"/>
+    <line x1="55" y1="58" x2="85" y2="58" stroke="#67c23a" stroke-width="3"/>
+    <circle cx="38" cy="78" r="8" fill="#67c23a"/><path d="M34 78 L37 81 L43 75" stroke="#fff" stroke-width="2" fill="none"/>
+    <line x1="55" y1="78" x2="80" y2="78" stroke="#67c23a" stroke-width="3"/>
+    <circle cx="38" cy="98" r="8" fill="#67c23a"/><path d="M34 98 L37 101 L43 95" stroke="#fff" stroke-width="2" fill="none"/>
+    <line x1="55" y1="98" x2="88" y2="98" stroke="#67c23a" stroke-width="3"/>
+  </svg>
+  <div class="eyebrow cream">SUMMARY</div>
+  <h2 class="content-title">Element Plus는 이런 프로젝트에 적합하다</h2>
+  <div class="bar"></div>
+  <ul class="big-list">
+    <li><b>1. 관리자 대시보드</b> — 테이블, 폼, 차트가 많은 백오피스 시스템</li>
+    <li><b>2. B2B SaaS</b> — 빠른 개발 속도가 중요한 엔터프라이즈 애플리케이션</li>
+    <li><b>3. 내부 도구</b> — 디자인보다 기능이 우선인 사내 시스템</li>
+    <li><b>4. 프로토타입</b> — MVP를 빠르게 검증해야 할 때</li>
+  </ul>
+  <p class="foot-note">반대로 <b>소비자향 서비스, 독창적 UX가 필요한 프로젝트</b>에는 Headless UI(Radix, Headless UI)나 Tailwind 기반 컴포넌트를 고려하라.</p>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span><b>"빠르게 기능 구현"</b>이 목표면 Element Plus, <b>"독특한 브랜드 경험"</b>이 목표면 다른 선택지를 고려하자.</div>
+  <div class="page-num mono">016 / 019</div>
+  <div class="page-section mono">정리 / 01</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 017: 핵심 요약 -->
+<section class="slide content" id="s17" data-n="17">
+  <svg class="icon-sym" viewBox="0 0 120 120">
+    <circle cx="60" cy="45" r="35" fill="none" stroke="#ff8a6b" stroke-width="4"/>
+    <path d="M60 20 L60 10 M40 25 L35 17 M80 25 L85 17 M30 45 L20 45 M90 45 L100 45" stroke="#ff8a6b" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="60" cy="45" r="18" fill="#ff8a6b"/>
+    <rect x="52" y="80" width="16" height="25" rx="4" fill="#ff8a6b"/>
+    <rect x="45" y="105" width="30" height="8" rx="2" fill="#d4604a"/>
+    <text x="60" y="52" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">!</text>
+  </svg>
+  <div class="eyebrow cream">KEY TAKEAWAYS</div>
+  <h2 class="content-title">기억해야 할 핵심 포인트</h2>
+  <div class="bar"></div>
+  <div class="grid grid-3">
+    <div class="card"><div class="card-num mono">01</div><div class="card-h">Vue 3 전용</div><div class="card-sub">Composition API + TypeScript 네이티브 지원</div></div>
+    <div class="card"><div class="card-num mono">02</div><div class="card-h">80+ 컴포넌트</div><div class="card-sub">엔터프라이즈급 프로덕션 레디</div></div>
+    <div class="card"><div class="card-num mono">03</div><div class="card-h">테마 유연성</div><div class="card-sub">CSS 변수로 쉬운 커스터마이징</div></div>
+    <div class="card"><div class="card-num mono">04</div><div class="card-h">Pinia 캐싱</div><div class="card-sub">페이지 재방문 시 즉시 렌더링</div></div>
+    <div class="card"><div class="card-num mono">05</div><div class="card-h">Admin 특화</div><div class="card-sub">관리자 대시보드에 최적</div></div>
+    <div class="card"><div class="card-num mono">06</div><div class="card-h">번들 최적화 필수</div><div class="card-sub">Tree-shaking 설정 권장</div></div>
+  </div>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span>Element Plus는 <b>"빠른 개발 + 안정성"</b>이 필요한 B2B/백오피스 프로젝트의 <b>최고의 선택지 중 하나</b>이다.</div>
+  <div class="page-num mono">017 / 019</div>
+  <div class="page-section mono">정리 / 02</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 018: 인포그래픽 -->
+<section class="slide content" id="s18" data-n="18">
+  <div class="eyebrow cream">OVERVIEW</div>
+  <h2 class="content-title">Element Plus 도입 결정 플로우</h2>
+  <div class="bar"></div>
+  <figure class="deck-fig" style="max-width:60rem">
+    <svg viewBox="0 0 960 340">
+      <defs>
+        <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2a1d38"/><stop offset="100%" stop-color="#211a2c"/></linearGradient>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#ff8a6b"/></marker>
+      </defs>
+      <rect x="380" y="10" width="200" height="50" rx="8" fill="url(#boxGrad)" stroke="#ff8a6b" stroke-width="2"/>
+      <text x="480" y="42" text-anchor="middle" fill="#f2ecf5" font-size="16" font-weight="700">Vue 3 프로젝트인가?</text>
+      <line x1="580" y1="35" x2="700" y2="35" stroke="#7d6c90" stroke-width="2"/>
+      <rect x="700" y="10" width="180" height="50" rx="8" fill="#342a40" stroke="#7d6c90" stroke-width="1"/>
+      <text x="790" y="42" text-anchor="middle" fill="#a99cb6" font-size="14">Vue 2 → Element UI</text>
+      <text x="640" y="28" fill="#7d6c90" font-size="12">No</text>
+      <line x1="480" y1="60" x2="480" y2="90" stroke="#ff8a6b" stroke-width="2" marker-end="url(#arrow)"/>
+      <text x="495" y="80" fill="#ff8a6b" font-size="12">Yes</text>
+      <rect x="330" y="100" width="300" height="50" rx="8" fill="url(#boxGrad)" stroke="#ff8a6b" stroke-width="2"/>
+      <text x="480" y="132" text-anchor="middle" fill="#f2ecf5" font-size="16" font-weight="700">관리자/B2B 대시보드인가?</text>
+      <line x1="630" y1="125" x2="750" y2="125" stroke="#7d6c90" stroke-width="2"/>
+      <rect x="750" y="100" width="180" height="50" rx="8" fill="#342a40" stroke="#7d6c90" stroke-width="1"/>
+      <text x="840" y="125" text-anchor="middle" fill="#a99cb6" font-size="13">Headless UI 고려</text>
+      <text x="840" y="140" text-anchor="middle" fill="#7d6c90" font-size="11">(Radix, Tailwind)</text>
+      <text x="690" y="118" fill="#7d6c90" font-size="12">No</text>
+      <line x1="480" y1="150" x2="480" y2="180" stroke="#ff8a6b" stroke-width="2" marker-end="url(#arrow)"/>
+      <text x="495" y="170" fill="#ff8a6b" font-size="12">Yes</text>
+      <rect x="330" y="190" width="300" height="50" rx="8" fill="url(#boxGrad)" stroke="#ff8a6b" stroke-width="2"/>
+      <text x="480" y="222" text-anchor="middle" fill="#f2ecf5" font-size="16" font-weight="700">빠른 개발이 우선인가?</text>
+      <line x1="630" y1="215" x2="750" y2="215" stroke="#7d6c90" stroke-width="2"/>
+      <rect x="750" y="190" width="180" height="50" rx="8" fill="#342a40" stroke="#7d6c90" stroke-width="1"/>
+      <text x="840" y="215" text-anchor="middle" fill="#a99cb6" font-size="13">PrimeVue, Vuetify</text>
+      <text x="840" y="230" text-anchor="middle" fill="#7d6c90" font-size="11">등 비교 검토</text>
+      <text x="690" y="208" fill="#7d6c90" font-size="12">No</text>
+      <line x1="480" y1="240" x2="480" y2="270" stroke="#ff8a6b" stroke-width="2" marker-end="url(#arrow)"/>
+      <text x="495" y="260" fill="#ff8a6b" font-size="12">Yes</text>
+      <rect x="330" y="280" width="300" height="50" rx="8" fill="#ff8a6b" stroke="#d4604a" stroke-width="2"/>
+      <text x="480" y="312" text-anchor="middle" fill="#17121f" font-size="18" font-weight="800">Element Plus 도입!</text>
+      <rect x="30" y="100" width="220" height="130" rx="8" fill="url(#boxGrad)" stroke="#342a40" stroke-width="1"/>
+      <text x="140" y="130" text-anchor="middle" fill="#ff8a6b" font-size="14" font-weight="700">도입 시 필수 설정</text>
+      <text x="50" y="155" fill="#a99cb6" font-size="12">• unplugin-vue-components</text>
+      <text x="50" y="175" fill="#a99cb6" font-size="12">• unplugin-auto-import</text>
+      <text x="50" y="195" fill="#a99cb6" font-size="12">• Pinia Store 캐싱 구성</text>
+      <text x="50" y="215" fill="#a99cb6" font-size="12">• i18n locale 설정</text>
+    </svg>
+    <figcaption>그림 3. Element Plus 도입 의사결정 흐름도</figcaption>
+  </figure>
+  <div class="easy"><span class="easy-k">쉽게 말하면</span>세 가지 질문에 <b>모두 Yes</b>라면 Element Plus가 최적의 선택이다.</div>
+  <div class="page-num mono">018 / 019</div>
+  <div class="page-section mono">정리 / 03</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+<!-- 019: 클로징 -->
+<section class="slide cover" id="s19" data-n="19">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+  <div class="cover-wrap">
+    <div class="eyebrow coral">CLOSING</div>
+    <h1 class="cover-title end">Element Plus로<br><span class="coral-t">생산성 높은 개발</span>을 시작하세요</h1>
+    <svg class="motif" viewBox="0 0 420 60">
+      <defs><linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff8a6b"/><stop offset="100%" stop-color="#d4604a"/></linearGradient></defs>
+      <rect x="0" y="28" width="420" height="4" rx="2" fill="url(#g4)" opacity=".4"/>
+      <circle cx="40" cy="30" r="8" fill="#ff8a6b"/><circle cx="210" cy="30" r="8" fill="#ff8a6b"/><circle cx="380" cy="30" r="8" fill="#ff8a6b"/>
+    </svg>
+    <p class="cover-quote">"올바른 도구 선택이 프로젝트의 절반을 결정한다"</p>
+    <p class="cover-by">— 공식 문서: element-plus.org</p>
+    <div class="cover-meta"><span>감사합니다</span><span class="mono">Q&amp;A</span></div>
+  </div>
+  <div class="page-num mono">019 / 019</div>
+  <div class="page-section mono">CLOSING / 01</div>
+  <div class="page-footer"><span>Element Plus 소개</span><span>nchime.github.io</span></div>
+</section>
+
+</main>
+<script>
+const slides=[...document.querySelectorAll('.slide')],fill=document.getElementById('progress');let cur=0;
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){cur=slides.indexOf(e.target);
+fill.style.width=((cur+1)/slides.length*100)+'%';}}),{threshold:.55});slides.forEach(s=>io.observe(s));
+function go(i){i=Math.max(0,Math.min(slides.length-1,i));slides[i].scrollIntoView({behavior:'smooth',block:'start'});}
+addEventListener('keydown',e=>{if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(cur+1);}
+if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1);}
+if(e.key==='Home'){e.preventDefault();go(0);}if(e.key==='End'){e.preventDefault();go(slides.length-1);}});
+</script>
+</body>
+</html>
