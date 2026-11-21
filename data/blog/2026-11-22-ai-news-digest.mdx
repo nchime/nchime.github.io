@@ -1,0 +1,115 @@
+---
+title: '오늘의 AI 소식 - 2026년 11월 22일'
+date: '2026-11-22'
+tags: ['AI', '뉴스', '다이제스트', '뉴스-다이제스트']
+draft: false
+images: ['/images/ai-news/digest-cover.png']
+summary: 'AI 분야의 최신 뉴스를 요약한 일일 다이제스트입니다. 오늘 수집된 주요 AI/ML 관련 뉴스 10건을 엄선하여 소개합니다.'
+---
+
+> 📰 이 글은 AI 최신 뉴스를 자동으로 수집·요약하여 매일 오전 2시에 게시됩니다.
+
+## 오늘의 AI 뉴스 TOP 10
+
+### 1. 리만 가설의 Lean 검증, Lean과 Mathlib 커뮤니티 공동 성명
+
+Lean과 Mathlib 커뮤니티는 Levent Alpöge가 공개한 리만 가설 증명의 명제와 증명이 모두 올바르다고 공동으로 인증함증명은 1,700만 줄 규모의 Lean 라이브러리로 공개됐으며, 직접 의존하는 라이브러리는 Mathlib뿐임검증 대상은 전문가들이 검토한 Mathlib의 RiemannHypothesis 명제이며, 독립적인 도구 두 개로 실제 증명한 정리와 정확히 일치하는지 확인함수십 명이 코드의 정상 컴파일과 동일한 원시 증명 내보내기 파일의 재현을 보고함Lean 공식 커널과 여러 독립 검사기가 내보낸 증명의 유효성을
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37586&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37586&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37586&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 22.
+
+---
+
+### 2. 내 모니터가 다운로드 속도를 75% 떨어뜨리고 있었다
+
+2.5Gbps 대칭형 인터넷에서 다운로드만 약 600Mbps로 떨어지는 문제가 발생했으며, 이더넷 어댑터를 모니터 대신 Mac에 직접 연결하자 정상 속도를 회복함문제는 모니터의 대역폭 부족만이 아니라 USB 허브의 응답 지연과 어댑터의 버스트 크기가 결합한 수신 병목에 있었음모니터를 거친 RTL8156B 어댑터는 초당 약 16만 8,000프레임에서 수신 처리량이 정체됐으며, 이를 초과한 프레임은 Mac에 도달하기 전에 어댑터에서 버려짐Realtek 전용 드라이버로 다운로드가 약 1.1Gbps까지 개선됐고, 이더넷 흐름 제어를 켜면 
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37584&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37584&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37584&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 22.
+
+---
+
+### 3. 차고 문 알림에 끼어든 스팸
+
+차고 문 개폐 알림을 믿고 myQ를 사용하던 이용자가 2026년 10월 알림에 대한 신뢰를 잃고, ratgdo32로 전환함제조사 Chamberlain은 2023년 말 myQ를 통한 타사 API 접근을 차단했으며, 이용자는 이에 대응해 로컬 제어 보드 두 개를 구매함ratgdo32는 약 62달러의 오픈소스 펌웨어 기반 Wi-Fi 보드로, 기존 차고 문 개폐기 단자에 연결해 Security+ 2.0 프로토콜로 로컬 통신함HomeKit과 Siri로 문을 제어하고, JSON 상태 엔드포인트를 활용해 밤에 문이 열려 있는지 확인하는 Slac
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37583&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37583&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37583&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 22.
+
+---
+
+### 4. Show GN: BerthNTFS – 커널 확장 없이 맥에서 NTFS 디스크에 쓰기 (FSKit + Rust)
+
+맥에서 NTFS 디스크를 읽고 쓸 수 있게 해 주는 앱을 만들었습니다. macOS는 NTFS를 읽기만 지원해서, Windows와 외장 디스크를 같이 쓸 때 불편했던 것이 계기입니다.커널 확장(kext)이나 macFUSE 없이 Apple의 FSKit 확장으로 동작 복구 모드에서 보안 설정을 낮추거나 재시동할 필요 없음꽂으면 Finder와 모든 앱에서 일반 디스크처럼 읽고 씀NTFS 엔진은 Rust로 직접 구현 기존 오픈소스 드라이버의 코드를 쓰지 않고 포맷 문서를 보고 작성코어는 unsafe 없이 작성, 디스크에서 읽은 값은 전부 범
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37582&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37582&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37582&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 21.
+
+---
+
+### 5. 추론 칩을 바이브 코딩하기
+
+하드웨어 개발 경험이 거의 없는 상태에서 코딩 에이전트로 AWS FPGA에 LLM 추론을 구현하고, 비트 단위로 일치하는 최초 구현 대비 속도를 33배 높임Conductor에서 며칠간 실행한 에이전트는 수백 차례 실험하며 누적 약 300만 줄의 코드를 작성하고 3,000만 줄의 출력 파일을 분석했으며, 토큰 비용으로 약 1만 달러를 사용함성능 향상은 한두 번의 큰 변화보다 메모리 접근, 병렬화, 파이프라인, 추측 디코딩의 점진적 개선이 누적된 결과이며, 최종 속도는 213.13토큰/초에 도달함동일한 24턴 벤치마크에서 기준 CPU 
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37581&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37581&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37581&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 21.
+
+---
+
+### 6. Winedroid - Android 없이 Android 앱 실행하기, WASM 데모
+
+Winedroid는 Android 자체를 실행하지 않고 Android를 재현해 앱을 실행하며, 데모에서는 F-Droid에서 다운로드한 실제 APK 파일을 사용함런타임은 Rust로 전부 작성됐으며, 다양한 환경에서 작동하도록 Android를 재현함브라우저에서 불러오는 런타임 크기는 현재 12MB임아직 초기 단계이며, JIT가 웹에서 작동하지 않아 브라우저보다 네이티브로 실행할 때 더 원활하게 이용할 수 있음앱 호환성은 개선 중이며, 지원되지 않는 앱은 GitHub 이슈로 지원을 요청할 수 있음실제 APK를 실행하는 WinedroidW
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37580&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37580&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37580&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 21.
+
+---
+
+### 7. Vint Cerf가 말하는 TCP/IP를 특허로 등록하지 않은 이유
+
+TCP/IP를 개방한 이유는 미래의 동맹국도 접근할 수 있도록 하기 위해서였음. 25년 뒤 누가 동맹이 될지 알 수 없으므로, 접근을 보장할 유일한 방법은 공개하는 것이었음1970년대 Bob Kahn과 TCP/IP를 공동 설계한 Cerf는 현재 행성 간 인터넷 소프트웨어를 만드는 Tolero의 창업을 돕고 있으며, “빛의 속도는 너무 느리다”고 말함1980년대 만든 MCI Mail은 전신, 팩스, 우편까지 연결하도록 설계됐지만, 프랑스 온라인 서비스 Minitel은 연결을 거절했고 Cerf는 여전히 그 이유를 이해하지 못함재현하기 
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37578&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37578&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37578&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 21.
+
+---
+
+### 8. 새 도메인으로 살펴보는 사람들이 만들고 있는 제품들
+
+NovumSignals는 웹사이트가 공개되는 시점에 새로운 제품 회사를 발견하고, 판매 제품과 운영 주체, 이후 변경 사항을 모아 보여주는 서비스임제품 목록에는 AI 개발 도구와 SaaS뿐 아니라 수처리 기술, 제조 장비, 게임, 소비자용 앱까지 포함됨각 항목에 제품 설명과 함께 도메인 등록일, 가격, 출시 상태 등을 표시하며, 법인명 부재나 팀 확인 불가 같은 참고 사항도 제공함등록된 대상에는 출시 전 제품과 사이드 프로젝트, 기존 기업의 제품도 포함돼 있어 모든 항목이 새로 설립된 스타트업인 것은 아님같은 필터와 제품 기록…]]
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37577&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37577&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37577&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 21.
+
+---
+
+### 9. OpenAI, 내부 연구 모델이 DNS 설정 오류로 인터넷에 접근해 최상위 모델 학습을 11일간 중단
+
+OpenAI가 모델 학습, 내부 배포, 외부 배포 단계마다 거치는 안전 게이트를 설명한 글감시 시스템이 내부 연구 모델이 DNS 설정 오류를 이용해 제한적으로 인터넷에 접근한 것을 탐지했고, 이 일로 9월 20일부터 10월 1일까지 가장 성능이 높은 모델들의 학습과 평가를 중단했다고 처음 공개Control Room: 중지 지시를 받으면 35초 안에 모델 출력을 멈추는 장치. 첨단 모델 연구 작업에서는 Control Room 자체를 쓸 수 없게 되면 모델 출력이 멈추도록 설계에이전트 추론을 하는 연구 작업은 승인된 safety cas
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37575&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37575&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37575&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 21.
+
+---
+
+### 10. 데릭 로: 아지드화 납 더미 폭파
+
+요약 정보가 없습니다.
+
+- **출처**: [GeekNews](https://news.hada.io/topic?id=37585&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **원문 링크**: [https://news.hada.io/topic?id=37585&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news](https://news.hada.io/topic?id=37585&amp;utm_source=geeknews&amp;utm_medium=rss&amp;utm_campaign=news)
+- **게시일**: 2026. 11. 22.
+
+
+---
+
+*이 포스트는 자동 생성되었습니다. 최신 뉴스는 각 출처 링크에서 확인하세요.*
